@@ -32,7 +32,7 @@
             </li>
         </ul>
     </div>
-    <div class="mx-4">
+    <div class="mx-4 flex-grow-1">
         <div id="menu-top-slider" class="carousel slide custom-carousel" data-ride="carousel">
             <ol class="carousel-indicators custom-indicator">
                 <li data-target="#menu-top-slider" data-slide-to="0" class="active"></li>
