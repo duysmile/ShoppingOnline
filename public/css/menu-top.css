@@ -1,0 +1,36 @@
+#menu-top {
+    max-height: 420px;
+}
+#menu-top h3 {
+    font-size: 20px;
+    font-weight: normal;
+}
+.menu-top-market li {
+    position: relative;
+}
+.menu-top-market li::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 2px;
+    margin-top: -2px;
+    width: 4px;
+    height: 4px;
+    background: #ccc;
+    border-radius: 50%;
+}
+.menu-market{
+    min-width: 200px;
+}
+
+.menu-popular {
+    min-width: 250px;
+}
+
+.menu-popular .custom-badge-menu {
+    height: 20px;
+}
+
+.menu-popular .img-menu-popular {
+    width: 120px;
+}
