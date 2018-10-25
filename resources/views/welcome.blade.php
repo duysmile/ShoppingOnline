@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="{{asset('css/header.css')}}">
     <link rel="stylesheet" href="{{asset('css/menu-top.css')}}">
     <link rel="stylesheet" href="{{asset('css/categories.css')}}">
+    <link rel="stylesheet" href="{{asset('css/footer.css')}}">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
     <style>
         /*common*/
@@ -36,6 +37,10 @@
         <!-- Top Categories -->
         @include('layout_user.categories')
     <!-- End Content -->
+
+    <!-- Footer -->
+    @include('layout_user.footer')
+    <!-- End Footer -->
 
     <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>

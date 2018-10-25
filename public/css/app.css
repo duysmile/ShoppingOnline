@@ -15,6 +15,7 @@ a:hover {
 
 .bg-common {
     background: #ff6a00;
+    font-size: 15px !important;
 }
 
 .btn-common {
@@ -37,6 +38,7 @@ a:hover {
 }
 
 .custom-carousel {
+    height: 400px;
     overflow: hidden;
     position: relative;
 }
@@ -76,6 +78,10 @@ a:hover {
 
 .custom-carousel:hover .carousel-control-next {
     right: 0;
+}
+.custom-carousel .carousel-item img{
+    height: 400px;
+    width: 100%;
 }
 
 .title-product {

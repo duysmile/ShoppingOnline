@@ -1,6 +1,6 @@
 <!-- Header -->
-<header class="container-fluid main-header--height d-flex justify-content-between align-items-center bg-white">
-    <div class="h-100 mr-3">
+<header class="container-fluid main-header--height d-flex justify-content-start align-items-center bg-white">
+    <div class="h-100 pr-4 mr-5 ml-1 pl-5">
         <img class="h-100" src="{{asset('images/logo.jpg')}}" alt="Logo here">
     </div>
     <nav class="navbar navbar-expand-sm">
@@ -18,7 +18,7 @@
 </header>
 
 <!-- Navbar -->
-<nav class="navbar navbar-expand-sm navbar-light sticky-top bg-white nav__menu--box-shadow">
+<nav class="navbar navbar-expand-sm navbar-light sticky-top bg-white nav__menu--box-shadow pt-0 mt-0">
     <button class="navbar-toggler border bg-light" type="button" data-toggle="collapse" data-target="#navMenu">
         <span class="navbar-toggler-icon "></span>
     </button>

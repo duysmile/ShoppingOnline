@@ -41,13 +41,13 @@
             </ol>
             <div class="carousel-inner">
                 <div class="carousel-item active">
-                    <img src="{{asset('images/logo.jpg')}}" alt="">
+                    <img src="{{asset('images/dellg.jpg')}}" alt="">
                 </div>
                 <div class="carousel-item">
-                    <img src="{{asset('images/logo.jpg')}}" alt="">
+                    <img src="{{asset('images/dellw.jpg')}}" alt="">
                 </div>
                 <div class="carousel-item">
-                    <img src="{{asset('images/logo.jpg')}}" alt="">
+                    <img src="{{asset('images/dell2.jpg')}}" alt="">
                 </div>
             </div>
             <a href="#menu-top-slider" class="carousel-control-prev custom-control-slider" role="button" data-slide="prev">

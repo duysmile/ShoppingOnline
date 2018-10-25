@@ -20,5 +20,9 @@
     border-right: 1px solid #ccc;
 }
 header.main-header--height{
-    height: 20vh;
+    height: 10vh;
+}
+
+a.nav-link {
+    font-size: 15px !important;
 }
