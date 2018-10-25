@@ -1,4 +1,4 @@
-<div class="container mt-4 border bg-white p-3 d-flex" id="menu-top">
+<section class="container mt-4 border bg-white p-3 d-flex" id="menu-top">
     <div class="menu-market">
         <h3>
             <i class="fa fa-list-ul"></i>
@@ -108,4 +108,4 @@
             </a>
         </div>
     </div>
-</div>
+</section>
