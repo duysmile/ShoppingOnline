@@ -13,6 +13,32 @@ a:hover {
     text-decoration: none;
 }
 
+.img-stretch {
+    width: 100%;
+    height: auto;
+}
+
+.text-common {
+    color: #ff6a00;
+    font-size: 30px;
+}
+
+.text-common-md {
+    font-size: 20px;
+}
+
+.text-common-sm {
+    font-size: 15px;
+}
+
+.color-common {
+    color: #ff6a00;
+}
+
+.b-color-common {
+    background: #ff6a00;
+}
+
 .bg-common {
     background: #ff6a00;
     font-size: 15px !important;
@@ -35,6 +61,10 @@ a:hover {
 
 .border-common-lg {
     border: 2px solid #ff6a00;
+}
+
+.border-common {
+    border: 1px solid #ff6a00;
 }
 
 .custom-carousel {
@@ -80,7 +110,7 @@ a:hover {
     right: 0;
 }
 .custom-carousel .carousel-item img{
-    height: 400px;
+    height: 350px;
     width: 100%;
 }
 
