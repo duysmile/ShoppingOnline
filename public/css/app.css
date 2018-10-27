@@ -118,3 +118,60 @@ a:hover {
     font-weight: bold;
     color: #1d2124;
 }
+
+input[type='number'] {
+    width: 80px;
+}
+
+.custom-checkbox {
+    position: relative;
+    display: block;
+    cursor: pointer;
+    margin-bottom: 15px;
+}
+
+.custom-checkbox input {
+    position: absolute;
+    opacity: 0;
+    height: 0;
+    width: 0;
+}
+
+.checkbox-box {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 18px;
+    width: 18px;
+    background-color: #eee;
+    border: 1px solid #ccc;
+}
+
+.custom-checkbox:hover input ~.checkbox-box {
+    background-color: #ccc;
+}
+
+.custom-checkbox input:checked ~ .checkbox-box {
+    border-color: #ff6a00;
+    background-color: #ff6a00;
+}
+
+.checkbox-box:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+.custom-checkbox input:checked ~ .checkbox-box:after {
+    display: block;
+}
+
+.custom-checkbox .checkbox-box:after {
+    left: 5px;
+    top: 1px;
+    width: 6px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}

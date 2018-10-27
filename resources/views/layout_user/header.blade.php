@@ -24,11 +24,61 @@
     </button>
     <div class="collapse navbar-collapse w-100" id="navMenu">
         <div class="d-flex flex-md-row flex-column justify-content-md-around align-items-md-center w-100">
-            <div class="nav__button nav__categories--padding">
+            <div class="nav__button position-relative custom-dropdown-block">
                 <h4>
-                    <i class="fa fa-list pr-2"></i>
+                    <i class="fa fa-list pr-2 color-common"></i>
                     <a class="text-dark" href="#">Categories</a>
                 </h4>
+                <div class="custom-dropdown-menu">
+                    <ul>
+                        <li>
+                            <a href="">Laptop</a>
+                            <i class="fa fa-chevron-right color-common"></i>
+                            <div class="custom-child-dropdown-menu">
+                                <ul>
+                                    <li>
+                                        <a href="">Gaming</a>
+                                    </li>
+                                    <li>
+                                        <a href="">Mac</a>
+                                    </li>
+                                    <li>
+                                        <a href="">Alienware</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <a href="">Mobile</a>
+                            <i class="fa fa-chevron-right color-common"></i>
+                            <div class="custom-child-dropdown-menu">
+                                <ul>
+                                    <li>
+                                        <a href="">Iphone</a>
+                                    </li>
+                                    <li>
+                                        <a href="">Asus</a>
+                                    </li>
+                                    <li>
+                                        <a href="">Xiaomi</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <a href="">Smart TV</a>
+                            <i class="fa fa-chevron-right color-common"></i>
+                        </li>
+                        <li>
+                            <a href="">PC</a>
+                            <i class="fa fa-chevron-right color-common"></i>
+                        </li>
+                        <li>
+                            <a href="">Stereo</a>
+                            <i class="fa fa-chevron-right color-common"></i>
+                        </li>
+                    </ul>
+                </div>
             </div>
             <div class="w-50">
                 <form action="" class="form-inline w-100">
@@ -45,13 +95,13 @@
             </div>
             <div class="d-flex">
                 <div class="nav__button p-2">
-                    <i class="fa fa-user p-2"></i>
+                    <i class="fa fa-user p-2 color-common"></i>
                     <a href="">
                         Login <span style="color:#ccc">|</span> Sign up free
                     </a>
                 </div>
                 <div class="nav__button p-2">
-                    <i class="fa fa-shopping-cart p-2"></i>
+                    <i class="fa fa-shopping-cart p-2 color-common"></i>
                     <a href="">
                         Cart
                     </a>
