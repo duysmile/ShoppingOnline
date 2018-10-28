@@ -1,3 +1,19 @@
+body {
+    font-size: 14px !important;
+}
+
+h4.font-size-md {
+    font-size: 16px !important;
+}
+
+.font-size-md {
+    font-size: 14px !important;
+}
+
+.font-size-sm {
+    font-size: 12px !important;
+}
+
 ul {
     list-style: none;
     padding: 0;
@@ -109,7 +125,8 @@ a:hover {
 .custom-carousel:hover .carousel-control-next {
     right: 0;
 }
-.custom-carousel .carousel-item img{
+
+.custom-carousel .carousel-item img {
     height: 350px;
     width: 100%;
 }
@@ -147,7 +164,7 @@ input[type='number'] {
     border: 1px solid #ccc;
 }
 
-.custom-checkbox:hover input ~.checkbox-box {
+.custom-checkbox:hover input ~ .checkbox-box {
     background-color: #ccc;
 }
 

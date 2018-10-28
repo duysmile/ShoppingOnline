@@ -25,9 +25,9 @@
     <div class="collapse navbar-collapse w-100" id="navMenu">
         <div class="d-flex flex-md-row flex-column justify-content-md-around align-items-md-center w-100">
             <div class="nav__button position-relative custom-dropdown-block">
-                <h4>
+                <h4 class="font-size-md pb-3">
                     <i class="fa fa-list pr-2 color-common"></i>
-                    <a class="text-dark" href="#">Categories</a>
+                    <a class="text-dark" href="#">Danh mục</a>
                 </h4>
                 <div class="custom-dropdown-menu">
                     <ul>
@@ -83,11 +83,13 @@
             <div class="w-50">
                 <form action="" class="form-inline w-100">
                     <div class="input-group w-100 border-common-lg">
-                        <input type="text" class="form-control border-0 nav__input-search" placeholder="What are you looking for ... ">
+                        <input type="text" class="form-control border-0 nav__input-search font-size-md" placeholder="What are you looking for ... ">
                         <div class="input-group-prepend">
                                 <span class="input-group-text bg-common text-white border-0">
                                     <i class="fa fa-search pr-2 text-white"></i>
-                                    Search
+                                    <a href="" class="text-white">
+                                        Search
+                                    </a>
                                 </span>
                         </div>
                     </div>
@@ -96,8 +98,12 @@
             <div class="d-flex">
                 <div class="nav__button p-2">
                     <i class="fa fa-user p-2 color-common"></i>
-                    <a href="">
-                        Login <span style="color:#ccc">|</span> Sign up free
+                    <a href="" data-toggle="modal" data-target="#login-dialog">
+                        Login
+                    </a>
+                    <span style="color:#ccc">|</span>
+                    <a href="" data-toggle="modal" data-target="#signup-dialog">
+                        Signup for free
                     </a>
                 </div>
                 <div class="nav__button p-2">

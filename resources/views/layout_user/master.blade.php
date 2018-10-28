@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="{{asset('css/categories.css')}}">
     <link rel="stylesheet" href="{{asset('css/footer.css')}}">
     <link rel="stylesheet" href="{{asset('css/cart.css')}}">
+    <link rel="stylesheet" href="{{asset('css/profile.css')}}">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
 </head>
 <body class="bg-light">
@@ -30,6 +31,14 @@
 <!-- Footer -->
 @include('layout_user.footer')
 <!-- End Footer -->
+
+<!-- Dialog Login -->
+@include('layout_user.login')
+<!-- End Login -->
+
+<!-- Dialog Signup -->
+@include('layout_user.signup')
+<!-- End Signup -->
 
 <!-- Scripts -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
