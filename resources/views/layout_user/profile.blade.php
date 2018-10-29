@@ -7,7 +7,7 @@
         </div>
         <ul class="nav nav-tabs d-flex flex-column">
             <li class="nav-item">
-                <a class="nav-link active font-size-sm" data-toggle="tab" href="#profile">Tài khoản của tôi</a>
+                <a class="nav-link active font-size-sm" data-toggle="tab" href="#profile-detail">Tài khoản của tôi</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link font-size-sm" data-toggle="tab" href="#invoice">Đơn hàng</a>
@@ -18,7 +18,7 @@
         </ul>
     </div>
     <div class="detail-profile w-75 tab-content bg-white pb-2">
-        <div class="tab-pane container active" id="profile">
+        <div class="tab-pane container active" id="profile-detail">
             <div class="header border-bottom color-common py-2">
                 <h4 class="font-size-md pb-0 mb-0">
                     Tài khoản của tôi

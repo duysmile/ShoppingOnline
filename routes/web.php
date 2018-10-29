@@ -30,3 +30,19 @@ Route::get('/cart', function() {
 Route::get('/profile', function() {
     return view('profile');
 });
+
+Route::get('/admin', function() {
+    return view('admin');
+});
+
+Route::prefix('admin')->group(function() {
+//    Route::resource('products', 'ProductsController');
+//    Route::resource('invoices', 'InvoicesController');
+//    Route::resource('Users', 'UsersController');
+    Route::get('/products', function () {
+        return view('admin.products.show');
+    });
+    Route::get('/products/create', function () {
+        return view('admin.products.add');
+    });
+});

@@ -1,5 +1,5 @@
 <!-- Header -->
-<header class="container-fluid main-header--height d-flex justify-content-start align-items-center bg-white">
+<header class="container-fluid main-header--height d-flex justify-content-between align-items-center bg-white">
     <div class="h-100 pr-4 mr-5 ml-1 pl-5">
         <img class="h-100" src="{{asset('images/logo.jpg')}}" alt="Logo here">
     </div>
