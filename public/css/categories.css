@@ -56,7 +56,11 @@
     position: relative;
 }
 
-.right-box-item:first-child {
+.right-box-item:last-child {
+    border-right: none;
+}
+
+.right-box-item {
     border-right: 1px solid #dee2e6;
 }
 
@@ -76,6 +80,6 @@
     width: calc(90% + 5px);
 }
 
-.list-products div.w-20>div:hover{
+.list-products div.w-20>a:hover div{
     box-shadow: 1px 1px 10px #ccc;
 }

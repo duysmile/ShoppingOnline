@@ -8,14 +8,27 @@
                 </a>
             </div>
             <div class="modal-body">
-                <form action="">
+                <form action="{{route('login')}}" method="post" id="login-form">
+                    @csrf
                     <div class="form-group">
-                        <input type="text" class="form-control rounded-0 font-size-md" placeholder="Email/Tên đăng nhập">
+                        <input type="text" name="id_login" class="form-control rounded-0 font-size-md" placeholder="{{__('Email/Tên đăng nhập')}}">
+                        <span class="text-danger" data-bind="id_login"></span>
                     </div>
                     <div class="form-group">
-                        <input type="password" class="form-control rounded-0 font-size-md" placeholder="Mật khẩu">
+                        <input type="password" name="pass_login" class="form-control rounded-0 font-size-md" placeholder="{{__('Mật khẩu')}}">
+                        <span class="text-danger" data-bind="pass_login"></span>
                     </div>
-                    <div class="d-flex justify-content-end">
+                    <span class="text-danger" data-bind="server"></span>
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <label class="custom-checkbox d-inline">
+                                <input type="checkbox" name="remember_me">
+                                <div class="checkbox-box"></div>
+                            </label>
+                            <label for="" style="margin-left: 24px">
+                                Duy trì đăng nhập
+                            </label>
+                        </div>
                         <a href="" class="color-common">
                             Quên mật khẩu
                         </a>
@@ -24,9 +37,7 @@
                         <a href="" class="btn bg-light mr-2 rounded-0 font-size-md border" data-dismiss="modal">
                             Trở lại
                         </a>
-                        <a href="" class="b-color-common btn text-white rounded-0 font-size-md">
-                            Đăng nhập
-                        </a>
+                        <input type="submit" value="{{__('Đăng nhập')}}" class="b-color-common btn text-white rounded-0 font-size-md"/>
                     </div>
                 </form>
             </div>

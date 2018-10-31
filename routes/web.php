@@ -29,7 +29,7 @@ Route::get('/cart', function() {
 
 Route::get('/profile', function() {
     return view('profile');
-});
+})->name('profile-user');
 
 Route::get('/admin', function() {
     return view('admin');
@@ -38,7 +38,7 @@ Route::get('/admin', function() {
 Route::prefix('admin')->group(function() {
 //    Route::resource('products', 'ProductsController');
 //    Route::resource('invoices', 'InvoicesController');
-//    Route::resource('Users', 'UsersController');
+//    Route::resource('users', 'UsersController');
     Route::get('/products', function () {
         return view('admin.products.show');
     });
@@ -46,3 +46,11 @@ Route::prefix('admin')->group(function() {
         return view('admin.products.add');
     });
 });
+
+Route::get('test', 'TestController@index');
+
+Route::get('/home', 'HomeController@index')->name('home');
+
+Route::post('/login', 'LoginController@postLogin')->name('login');
+
+Route::get('/logout', 'LoginController@logout')->name('logout');

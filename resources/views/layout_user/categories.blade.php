@@ -37,6 +37,16 @@
                             </div>
                         </a>
                     </div>
+                    <div class="right-box-item">
+                        <a href="">
+                            <h2>
+                                Business
+                            </h2>
+                            <div class="d-flex justify-content-end align-items-center h-75 mr-4">
+                                <img src="{{asset('images/mac.jpg')}}" alt="">
+                            </div>
+                        </a>
+                    </div>
                 </div>
                 <div class="d-flex h-50">
                     <div class="right-box-item">
@@ -46,6 +56,16 @@
                             </h2>
                             <div class="d-flex justify-content-end align-items-center h-75 mr-4">
                                 <img src="{{asset('images/lenovo.png')}}" alt="">
+                            </div>
+                        </a>
+                    </div>
+                    <div class="right-box-item">
+                        <a href="">
+                            <h2>
+                                Workstation
+                            </h2>
+                            <div class="d-flex justify-content-end align-items-center h-75 mr-4">
+                                <img src="{{asset('images/dellw.jpg')}}" alt="">
                             </div>
                         </a>
                     </div>
@@ -102,6 +122,16 @@
                             </div>
                         </a>
                     </div>
+                    <div class="right-box-item">
+                        <a href="">
+                            <h2>
+                                Business
+                            </h2>
+                            <div class="d-flex justify-content-end align-items-center h-75 mr-4">
+                                <img src="{{asset('images/mac.jpg')}}" alt="">
+                            </div>
+                        </a>
+                    </div>
                 </div>
                 <div class="d-flex h-50">
                     <div class="right-box-item">
@@ -111,6 +141,16 @@
                             </h2>
                             <div class="d-flex justify-content-end align-items-center h-75 mr-4">
                                 <img src="{{asset('images/lenovo.png')}}" alt="">
+                            </div>
+                        </a>
+                    </div>
+                    <div class="right-box-item">
+                        <a href="">
+                            <h2>
+                                Workstation
+                            </h2>
+                            <div class="d-flex justify-content-end align-items-center h-75 mr-4">
+                                <img src="{{asset('images/dellw.jpg')}}" alt="">
                             </div>
                         </a>
                     </div>

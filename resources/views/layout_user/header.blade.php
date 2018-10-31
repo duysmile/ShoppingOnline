@@ -1,7 +1,9 @@
 <!-- Header -->
 <header class="container-fluid main-header--height d-flex justify-content-between align-items-center bg-white">
     <div class="h-100 pr-4 mr-5 ml-1 pl-5">
-        <img class="h-100" src="{{asset('images/logo.jpg')}}" alt="Logo here">
+        <a href="/">
+            <img class="h-100" src="{{asset('images/logo.jpg')}}" alt="Logo here">
+        </a>
     </div>
     <nav class="navbar navbar-expand-sm">
         <div class="collapse navbar-collapse" id="nav-menu">
@@ -96,6 +98,7 @@
                 </form>
             </div>
             <div class="d-flex">
+                @if(!Auth::check())
                 <div class="nav__button p-2">
                     <i class="fa fa-user p-2 color-common"></i>
                     <a href="" data-toggle="modal" data-target="#login-dialog">
@@ -106,9 +109,27 @@
                         Signup for free
                     </a>
                 </div>
+                @else
+                    <div class="nav__button position-relative custom-dropdown-block pt-2">
+                        <i class="fa fa-user p-2 color-common"></i>
+                        <a href="{{route('profile-user')}}">
+                            {{Auth::user()->name}}
+                        </a>
+                        <div class="custom-dropdown-menu custom-dropdown-menu-right">
+                            <ul>
+                                <li>
+                                    <a href="{{route('profile-user')}}" class="text-white">Tài khoản của tôi</a>
+                                </li>
+                                <li>
+                                    <a href="{{route('logout')}}" class="text-white">Đăng xuất</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                @endif
                 <div class="nav__button p-2">
                     <i class="fa fa-shopping-cart p-2 color-common"></i>
-                    <a href="">
+                    <a href="/cart">
                         Cart
                     </a>
                 </div>

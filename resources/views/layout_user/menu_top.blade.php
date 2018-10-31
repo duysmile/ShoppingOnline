@@ -6,7 +6,7 @@
         </h3>
         <ul class="menu-top-market">
             <li class="border-bottom py-2 pl-3">
-                <a href="">
+                <a href="/list">
                     Laptop
                 </a>
             </li>

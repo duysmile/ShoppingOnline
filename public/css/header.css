@@ -95,3 +95,29 @@ a.nav-link {
     top: 0;
     left: 100%;
 }
+
+.custom-dropdown-menu-right{
+    left: -30px;
+    background-color: #ff6a00;
+    min-width: 150px;
+    min-height: 50px;
+    border: none;
+}
+
+.custom-dropdown-menu-right:after{
+    content: "";
+    position: absolute;
+    top: -5px;
+    left: 40%;
+    border: 10px solid #ff6a00;
+    transform: rotate(45deg);
+}
+
+.custom-dropdown-menu-right li:hover>a {
+    color: #fff;
+    font-weight: bold;
+}
+
+.custom-dropdown-menu-right li:hover{
+    background-color: #ff6a00;
+}
