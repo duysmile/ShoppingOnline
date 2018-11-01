@@ -9,18 +9,22 @@
                 </a>
             </div>
             <div class="modal-body">
-                <form action="">
+                <form id="signup-form" action="{{route('signup')}}" method="post">
+                    @csrf
                     <div class="form-group">
-                        <input type="text" class="form-control rounded-0 font-size-md" placeholder="Tên đăng nhập">
+                        <input name="username" type="text" class="form-control rounded-0 font-size-md" placeholder="Tên đăng nhập">
                     </div>
                     <div class="form-group">
-                        <input type="password" class="form-control rounded-0 font-size-md" placeholder="Mật khẩu">
+                        <input name="email" type="email" class="form-control rounded-0 font-size-md" placeholder="Email">
                     </div>
                     <div class="form-group">
-                        <input type="password" class="form-control rounded-0 font-size-md" placeholder="Xác nhận mật khẩu">
+                        <input name="password" type="password" class="form-control rounded-0 font-size-md" placeholder="Mật khẩu">
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control rounded-0 font-size-md" placeholder="Số điện thoại">
+                        <input name="confirm-password" type="password" class="form-control rounded-0 font-size-md" placeholder="Xác nhận mật khẩu">
+                    </div>
+                    <div class="form-group">
+                        <input name="tel" type="text" class="form-control rounded-0 font-size-md" placeholder="Số điện thoại">
                     </div>
                     <div class="d-flex justify-content-center">
                         <div class="text-center font-size-sm">
@@ -33,9 +37,7 @@
                         <a href="" class="btn bg-light mr-2 rounded-0 font-size-md border" data-dismiss="modal">
                             Trở lại
                         </a>
-                        <a href="" class="b-color-common btn text-white rounded-0 font-size-md">
-                            Đăng kí
-                        </a>
+                        <input type="submit" value="Đăng kí" href="" class="b-color-common btn text-white rounded-0 font-size-md"/>
                     </div>
                 </form>
             </div>

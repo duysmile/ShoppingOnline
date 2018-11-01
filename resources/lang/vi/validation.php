@@ -15,4 +15,7 @@ return [
         'array'   => ':attribute nhiều nhất :max items.',
     ],
     'boolean' => ':attribute phải có giá trị là true hoặc false.',
+    'confirmed' => ':attribute không trùng khớp.',
+    'unique' => ':attribute đã tồn tại.',
+    'email' => ':attribute không hợp lệ.'
 ];

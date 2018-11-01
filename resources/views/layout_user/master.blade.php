@@ -48,6 +48,7 @@
 <script type="text/javascript" src="{{asset('js/bootstrap/bootstrap.min.js')}}"></script>
 
 <script src="{{asset('js/user/login.js')}}"></script>
+<script src="{{asset('js/user/signup.js')}}"></script>
 
 </body>
 </html>
