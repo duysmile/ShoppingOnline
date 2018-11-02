@@ -1,4 +1,24 @@
 $(document).ready(function() {
+    //change dialog
+    $(document).on('click', '[data-open]', function (e) {
+        e.preventDefault();
+        var tab = $(this).attr('data-open');
+        if (tab == 'signup') {
+            $('#signup-dialog-header').show();
+            $('#login-dialog-header').hide();
+            $('#signup-dialog-content').show();
+            $('#login-dialog-content').hide();
+        } else {
+            $('#signup-dialog-header').hide();
+            $('#login-dialog-header').show();
+            $('#signup-dialog-content').hide();
+            $('#login-dialog-content').show();
+        }
+    })
+
+    $(document).on('focus', 'form#login-form input', function () {
+        $('span[data-bind]').text("");
+    })
     $(document).on('submit', 'form#login-form', function (e) {
         e.preventDefault();
         var id_login = $('input[name="id_login"]').val();

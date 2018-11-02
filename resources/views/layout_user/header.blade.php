@@ -101,11 +101,11 @@
                 @if(!Auth::check())
                 <div class="nav__button p-2">
                     <i class="fa fa-user p-2 color-common"></i>
-                    <a href="" data-toggle="modal" data-target="#login-dialog">
+                    <a href="" data-toggle="modal" data-target="#login-register-dialog" data-open="login">
                         Login
                     </a>
                     <span style="color:#ccc">|</span>
-                    <a href="" data-toggle="modal" data-target="#signup-dialog">
+                    <a href="" data-toggle="modal" data-target="#login-register-dialog" data-open="signup">
                         Signup for free
                     </a>
                 </div>

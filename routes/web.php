@@ -56,3 +56,5 @@ Route::post('/login', 'LoginController@postLogin')->name('login');
 Route::get('/logout', 'LoginController@logout')->name('logout');
 
 Route::post('/signup', 'SignUpController@postSignup')->name('signup');
+
+Route::get('/user/verify/{token}', 'SignUpController@verifyEmail')->name('verify_email');

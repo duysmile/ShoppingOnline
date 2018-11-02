@@ -1,4 +1,7 @@
 $(document).ready(function () {
+    $(document).on('focus', 'form#signup-form input', function () {
+        $(this).next('span').text("");
+    })
     $(document).on('submit', 'form#signup-form', function (e) {
         e.preventDefault();
         var username = $('input[name="username"]').val();
@@ -7,7 +10,8 @@ $(document).ready(function () {
         var tel = $('input[name="tel"]').val();
         var email = $('input[name="email"]').val();
         var CSRF_TOKEN = $('input[name="_token"]').val();
-
+        $('span[data-bind]').text("");
+        $("#login-register-dialog input").attr("disabled", true);
         var _this = $(this);
 
         $.ajax({
@@ -24,10 +28,25 @@ $(document).ready(function () {
                 email: email
             }),
             success: function (response) {
-                console.log(response)
+                if (!response.success) {
+                    var key = Object.keys(response.message)[0];
+                    $('span[data-bind="'+ key +'"]').text(response.message[key]);
+                    Object.keys(response.data).forEach(function(item) {
+                        $('input[name="'+ item +'"]').val(response.data[item]);
+                    })
+                } else {
+                    alert(response.message);
+                    window.location.href = "/";
+                }
             },
             error: function (error) {
-                console.log(error)
+                $("#login-register-dialog input").attr("disabled", false);
+                var errors = error.responseJSON;
+                if (errors.errors != null){
+                    Object.keys(errors.errors).forEach(function(item) {
+                        $('span[data-bind="'+ item +'"]').text(errors.errors[item]);
+                    })
+                }
             }
         })
     })

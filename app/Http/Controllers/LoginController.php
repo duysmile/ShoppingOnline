@@ -22,6 +22,14 @@ class LoginController extends Controller
         $user = $this->user->where('email', $credentials['id_login'])
             ->orWhere('name', $credentials['id_login'])
             ->first();
+        if ($user->email_verified_at == null){
+            return response()->json([
+                'success' => false,
+                'message' => [
+                    'server' => 'Vui lòng xác thực email của bạn để đăng nhập.'
+                ]
+            ]);
+        }
 
         try {
             if ($user === null) {

@@ -26,6 +26,17 @@
 @include('layout_user.header')
 <!-- End Header -->
 
+@if(session('success'))
+    <div class="alert alert-success text-center">
+        {{session('success')}}
+    </div>
+@endif
+@if(session('error'))
+    <div class="alert alert-danger text-center">
+        {{session('error')}}
+    </div>
+@endif
+
 <!-- Content -->
 @yield('content')
 <!-- End Content -->
@@ -34,13 +45,10 @@
 @include('layout_user.footer')
 <!-- End Footer -->
 
-<!-- Dialog Login -->
-@include('layout_user.login')
+<!-- Dialog Login/Dialog -->
+@include('layout_user.dialog')
 <!-- End Login -->
 
-<!-- Dialog Signup -->
-@include('layout_user.signup')
-<!-- End Signup -->
 
 <!-- Scripts -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
