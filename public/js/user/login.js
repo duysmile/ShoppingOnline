@@ -21,6 +21,7 @@ $(document).ready(function() {
     })
     $(document).on('submit', 'form#login-form', function (e) {
         e.preventDefault();
+        var url_current = window.location.pathname;
         var id_login = $('input[name="id_login"]').val();
         var pass_login = $('input[name="pass_login"]').val();
         var remember_me = $('input[name="remember_me"]').is(":checked");
@@ -47,7 +48,7 @@ $(document).ready(function() {
                         $('input[name="'+ item +'"]').val(response.data[item]);
                     })
                 } else {
-                    window.location.href = "/";
+                    window.location.href = url_current;
                 }
             },
             error: function (error) {

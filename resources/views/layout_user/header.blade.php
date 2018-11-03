@@ -117,7 +117,7 @@
                         </a>
                         <div class="custom-dropdown-menu custom-dropdown-menu-right">
                             <ul>
-                                <li>
+                                <li class="border-bottom">
                                     <a href="{{route('profile-user')}}" class="text-white">Tài khoản của tôi</a>
                                 </li>
                                 <li>

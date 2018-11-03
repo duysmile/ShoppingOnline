@@ -58,3 +58,6 @@ Route::get('/logout', 'LoginController@logout')->name('logout');
 Route::post('/signup', 'SignUpController@postSignup')->name('signup');
 
 Route::get('/user/verify/{token}', 'SignUpController@verifyEmail')->name('verify_email');
+
+Route::get('/redirect/{social}', 'SocialAuthController@redirect')->name('login_social');
+Route::get('/callback/{social}', 'SocialAuthController@callback');

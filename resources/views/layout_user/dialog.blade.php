@@ -64,7 +64,7 @@
                         <i class="fab fa-google"></i>
                         Tiếp tục với gmail
                     </a>
-                    <a href="" class="p-2 flex-grow-1 text-white text-center" style="background-color: rgb(58, 89, 152)">
+                    <a href="{{route('login_social', 'facebook')}}" class="p-2 flex-grow-1 text-white text-center" style="background-color: rgb(58, 89, 152)">
                         <i class="fab fa-facebook-square"></i>
                         Tiếp tục với facebook
                     </a>
@@ -110,7 +110,7 @@
                         <i class="fab fa-google"></i>
                         Đăng nhập bằng gmail
                     </a>
-                    <a href="" class="p-2 flex-grow-1 text-white text-center" style="background-color: rgb(58, 89, 152)">
+                    <a href="{{route('login_social', 'facebook')}}" class="p-2 flex-grow-1 text-white text-center" style="background-color: rgb(58, 89, 152)">
                         <i class="fab fa-facebook-square"></i>
                         Đăng nhập bằng facebook
                     </a>
