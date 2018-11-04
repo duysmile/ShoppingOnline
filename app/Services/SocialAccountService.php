@@ -21,16 +21,27 @@ class SocialAccountService
         if($account) {
             return $account->user;
         } else {
-            $email = $providerUser->getEmail() ?? $providerUser->getNickname();
-            $account = new SocialAccount([
-                'provider_user_id' => $providerUser->getId(),
-                'provider' => $social
-            ]);
+            if($social === 'facebook') {
+                $email = $providerUser->getEmail() ?? $providerUser->getNickname();
+                $name = $providerUser->getName();
+                $account = new SocialAccount([
+                    'provider_user_id' => $providerUser->getId(),
+                    'provider' => $social
+                ]);
+
+            } else if ($social === 'google') {
+                $email = $providerUser->email;
+                $name = $providerUser->name;
+                $account = new SocialAccount([
+                    'provider_user_id' => $providerUser->id,
+                    'provider' => $social
+                ]);
+            }
             $user = User::whereEmail($email)->first();
             if(!$user) {
                 $user = User::create([
                     'email' => $email,
-                    'name' => $providerUser->getName(),
+                    'name' => $name,
                     'email_verified_at' => date('Y-m-d H:i:s', time()),
                 ]);
             }
