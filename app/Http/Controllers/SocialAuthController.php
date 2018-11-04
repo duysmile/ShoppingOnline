@@ -8,8 +8,9 @@ use Laravel\Socialite\Facades\Socialite;
 
 class SocialAuthController extends Controller
 {
-    public function redirect($social)
+    public function redirect($social, Request $request)
     {
+        session(['redirect_url' => $request['_url']]);
         return Socialite::driver($social)->redirect();
     }
 
@@ -17,7 +18,8 @@ class SocialAuthController extends Controller
     {
         $user = SocialAccountService::createOrGetUser(Socialite::driver($social)->user(), $social);
         auth()->login($user);
-
-        return redirect()->to('/');
+        $url = session()->get('redirect_url');
+        session()->forget('redirect_url');
+        return redirect()->to($url);
     }
 }

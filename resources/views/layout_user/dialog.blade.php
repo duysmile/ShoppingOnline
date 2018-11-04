@@ -60,14 +60,22 @@
                     </form>
                 </div>
                 <div class="modal-footer bg-light d-flex justify-content-around px-2">
-                    <a href="{{route('login_social', 'google')}}" class="bg-danger p-2 flex-grow-1 text-white text-center" style="background-color: #DB483B">
-                        <i class="fab fa-google"></i>
-                        Tiếp tục với google
-                    </a>
-                    <a href="{{route('login_social', 'facebook')}}" class="p-2 flex-grow-1 text-white text-center" style="background-color: rgb(58, 89, 152)">
-                        <i class="fab fa-facebook-square"></i>
-                        Tiếp tục với facebook
-                    </a>
+                    <form action="{{route('login_social', 'google')}}" method="get" class="w-50">
+                        @csrf
+                        <input type="hidden" name="_url" value="{{Request::url()}}">
+                        <button type="submit" class=" rounded-0 btn bg-danger p-2 flex-grow-1 text-white text-center font-size-md w-100" style="background-color: #DB483B">
+                            <i class="fab fa-google"></i>
+                            Tiếp tục với google
+                        </button>
+                    </form>
+                    <form action="{{route('login_social', 'facebook')}}" method="get" class="w-50">
+                        @csrf
+                        <input type="hidden" name="_url" value="{{Request::url()}}">
+                        <button type="submit" class="btn rounded-0 p-2 flex-grow-1 text-white text-center font-size-md w-100" style="background-color: rgb(58, 89, 152)">
+                            <i class="fab fa-facebook-square"></i>
+                            Tiếp tục với facebook
+                        </button>
+                    </form>
                 </div>
             </div>
             <div id="login-dialog-content">
@@ -106,14 +114,22 @@
                     </form>
                 </div>
                 <div class="modal-footer bg-light d-flex justify-content-around px-2">
-                    <a href="{{route('login_social', 'google')}}" class="bg-danger p-2 flex-grow-1 text-white text-center" style="background-color: #DB483B">
-                        <i class="fab fa-google"></i>
-                        Đăng nhập bằng google
-                    </a>
-                    <a href="{{route('login_social', 'facebook')}}" class="p-2 flex-grow-1 text-white text-center" style="background-color: rgb(58, 89, 152)">
-                        <i class="fab fa-facebook-square"></i>
-                        Đăng nhập bằng facebook
-                    </a>
+                    <form action="{{route('login_social', 'google')}}" method="get" class="w-50">
+                        @csrf
+                        <input type="hidden" name="_url" value="{{Request::url()}}">
+                        <button type="submit" class=" btn rounded-0 bg-danger p-2 flex-grow-1 text-white text-center font-size-md w-100" style="background-color: #DB483B">
+                            <i class="fab fa-google"></i>
+                            Đăng nhập bằng google
+                        </button>
+                    </form>
+                    <form action="{{route('login_social', 'facebook')}}" method="get" class="w-50">
+                        @csrf
+                        <input type="hidden" name="_url" value="{{Request::url()}}">
+                        <button type="submit" class="btn rounded-0 p-2 flex-grow-1 text-white text-center font-size-md w-100" style="background-color: rgb(58, 89, 152)">
+                            <i class="fab fa-facebook-square"></i>
+                            Đăng nhập bằng facebook
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>
