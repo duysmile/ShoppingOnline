@@ -28,7 +28,15 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    public function socialAccount() {
+        return $this->hasOne('App\SocialAccount');
+    }
+
     public function verifyUser() {
         return $this->hasOne('App\VerifyUser');
+    }
+
+    public function passwordReset() {
+        return $this->hasOne('App\PasswordReset');
     }
 }

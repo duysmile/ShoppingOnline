@@ -18,6 +18,11 @@
                         </a>
                     </div>
                 </div>
+                <div id="reset-dialog-header" class="w-100">
+                    <div class="d-flex align-items-center justify-content-between w-100">
+                        <h5 class="modal-title" id="exampleModalLabel">{{__('Đặt lại mật khẩu')}}</h5>
+                    </div>
+                </div>
             </div>
             <div id="signup-dialog-content">
                 <div class="modal-body">
@@ -101,7 +106,7 @@
                                     Duy trì đăng nhập
                                 </label>
                             </div>
-                            <a href="" class="color-common">
+                            <a href="" class="color-common" data-open="reset">
                                 Quên mật khẩu
                             </a>
                         </div>
@@ -130,6 +135,39 @@
                             Đăng nhập bằng facebook
                         </button>
                     </form>
+                </div>
+            </div>
+            <div id="reset-dialog-content">
+                <div class="modal-body">
+                    <form action="{{route('password-reset-send')}}" method="post" id="reset-form">
+                        @csrf
+                        <div class="pb-2">
+                            Vui lòng nhập địa chỉ email để đặt lại mật khẩu.
+                        </div>
+                        <div class="form-group">
+                            <input type="email" name="email_reset" class="form-control rounded-0 font-size-md" placeholder="{{__('Email')}}">
+                            <span class="text-danger" data-bind="email_reset"></span>
+                        </div>
+                        <div class="d-flex justify-content-end">
+                            <a href="" class="btn bg-light mr-2 rounded-0 font-size-md border" data-dismiss="modal">
+                                Trở lại
+                            </a>
+                            <input type="submit" value="{{__('Tiếp tục')}}" class="b-color-common btn text-white rounded-0 font-size-md"/>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div id="reset-confirm">
+                <div class="modal-body">
+                    <div class="pb-2 border-bottom mb-2">
+                        {{__('Vui lòng nhấn vào link đã gửi vào email của bạn. Bạn có thể đăng nhập email')}}
+                        <a class="color-common" href="https://gmail.com">{{__('ở đây')}}</a>
+                    </div>
+                    <div class="d-flex justify-content-end">
+                        <a href="" class="btn bg-light mr-2 rounded-0 font-size-md border" data-dismiss="modal">
+                            Trở lại
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>

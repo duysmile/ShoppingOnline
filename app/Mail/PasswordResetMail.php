@@ -7,10 +7,10 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class VerifyEmail extends Mailable
+class PasswordResetMail extends Mailable
 {
     use Queueable, SerializesModels;
-    public $user;
+    private $user;
 
     /**
      * Create a new message instance.
@@ -29,7 +29,7 @@ class VerifyEmail extends Mailable
      */
     public function build()
     {
-        return $this->view('emails.verify_user')
-            ->subject("SHOPPING ONLINE - KÍCH HOẠT TÀI KHOẢN");
+        return $this->view('emails.password_reset', ['user' => $this->user])
+            ->subject("SHOPPING ONLINE - ĐẶT LẠI MẬT KHẨU");
     }
 }

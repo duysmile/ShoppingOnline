@@ -6,13 +6,27 @@ $(document).ready(function() {
         if (tab == 'signup') {
             $('#signup-dialog-header').show();
             $('#login-dialog-header').hide();
+            $('#reset-dialog-header').hide();
             $('#signup-dialog-content').show();
             $('#login-dialog-content').hide();
-        } else {
+            $('#reset-dialog-content').hide();
+            $('#reset-confirm').hide();
+        } else if(tab == 'login') {
             $('#signup-dialog-header').hide();
             $('#login-dialog-header').show();
+            $('#reset-dialog-header').hide();
             $('#signup-dialog-content').hide();
             $('#login-dialog-content').show();
+            $('#reset-dialog-content').hide();
+            $('#reset-confirm').hide();
+        } else {
+            $('#signup-dialog-header').hide();
+            $('#login-dialog-header').hide();
+            $('#reset-dialog-header').show();
+            $('#signup-dialog-content').hide();
+            $('#login-dialog-content').hide();
+            $('#reset-dialog-content').show();
+            $('#reset-confirm').hide();
         }
     })
 
@@ -22,10 +36,10 @@ $(document).ready(function() {
     $(document).on('submit', 'form#login-form', function (e) {
         e.preventDefault();
         var url_current = window.location.pathname;
-        var id_login = $('input[name="id_login"]').val();
-        var pass_login = $('input[name="pass_login"]').val();
-        var remember_me = $('input[name="remember_me"]').is(":checked");
-        var CSRF_TOKEN = $('input[name="_token"]').val();
+        var id_login = $(this).find('input[name="id_login"]').val();
+        var pass_login = $(this).find('input[name="pass_login"]').val();
+        var remember_me = $(this).find('input[name="remember_me"]').is(":checked");
+        var CSRF_TOKEN = $(this).find('input[name="_token"]').val();
         var _this = $(this);
         $('span[data-bind]').text("");
 

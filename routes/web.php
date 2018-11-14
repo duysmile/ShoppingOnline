@@ -56,8 +56,11 @@ Route::post('/login', 'LoginController@postLogin')->name('login');
 Route::get('/logout', 'LoginController@logout')->name('logout');
 
 Route::post('/signup', 'SignUpController@postSignup')->name('signup');
+Route::post('/password-reset', 'PasswordResetController@postToken')->name('password-reset-send');
 
 Route::get('/user/verify/{token}', 'SignUpController@verifyEmail')->name('verify_email');
+Route::get('/user/forgot-password/{token}', 'PasswordResetController@reset');
+Route::post('/user/forgot-password', 'PasswordResetController@storeNewPass')->name('reset_password');
 
 Route::get('/redirect/{social}', 'SocialAuthController@redirect')->name('login_social');
 Route::get('/callback/{social}', 'SocialAuthController@callback');

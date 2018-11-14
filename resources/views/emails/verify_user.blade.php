@@ -1,15 +1,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Welcome Email</title>
+    <title>Shopping online - kích hoạt tài khoản</title>
 </head>
 
 <body>
-<h2>Welcome to the site {{$user['name']}}</h2>
+<h2>Chào mừng {{$user['name']}} đến với Shopping Online,</h2>
 <br/>
-Your registered email-id is {{$user['email']}} , Please click on the below link to verify your email account
+Bạn đã dùng email {{$user['email']}} để đăng kí tài khoản. Vui lòng click vào link bên dưới để xác nhận tài khoản.
 <br/>
-<a href="{{url('user/verify', $user->verifyUser->token)}}">Verify Email</a>
+<a href="{{url('user/verify', $user->verifyUser->token)}}">Kích hoạt tài khoản</a>
+<p>
+    Thân.
+</p>
 </body>
 
 </html>

@@ -49,14 +49,16 @@
 @include('layout_user.dialog')
 <!-- End Login -->
 
+<!-- Dialog -->
+@yield('dialog')
+<!-- End Dialog -->
 
 <!-- Scripts -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
 <script type="text/javascript" src="{{asset('js/jquery/jquery.min.js')}}"></script>
 <script type="text/javascript" src="{{asset('js/bootstrap/bootstrap.min.js')}}"></script>
 
-<script src="{{asset('js/user/login.js')}}"></script>
-<script src="{{asset('js/user/signup.js')}}"></script>
+@yield('script')
 
 </body>
 </html>

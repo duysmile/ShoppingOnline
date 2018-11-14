@@ -4,9 +4,10 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class VerifyUser extends Model
+class PasswordReset extends Model
 {
     protected $guarded = [];
+    public $primaryKey = 'user_id';
 
     public function user()
     {
