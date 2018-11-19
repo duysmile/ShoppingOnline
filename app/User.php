@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Permission\HasPermissionsTrait;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -9,6 +10,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class User extends Authenticatable
 {
     use Notifiable;
+    use HasPermissionsTrait;
 
     /**
      * The attributes that are mass assignable.
@@ -28,15 +30,18 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function socialAccount() {
+    public function socialAccount()
+    {
         return $this->hasOne('App\SocialAccount');
     }
 
-    public function verifyUser() {
+    public function verifyUser()
+    {
         return $this->hasOne('App\VerifyUser');
     }
 
-    public function passwordReset() {
+    public function passwordReset()
+    {
         return $this->hasOne('App\PasswordReset');
     }
 }
