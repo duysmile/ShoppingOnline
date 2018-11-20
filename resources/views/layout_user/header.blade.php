@@ -117,11 +117,16 @@
                         </a>
                         <div class="custom-dropdown-menu custom-dropdown-menu-right">
                             <ul>
+                                @role('admin')
                                 <li class="border-bottom">
-                                    <a href="{{route('profile-user')}}" class="text-white">Tài khoản của tôi</a>
+                                    <a href="{{route('admin')}}" class="text-white">{{__('Đến trang quản trị')}}</a>
+                                </li>
+                                @endrole
+                                <li class="border-bottom">
+                                    <a href="{{route('profile-user')}}" class="text-white">{{__('Tài khoản của tôi')}}</a>
                                 </li>
                                 <li>
-                                    <a href="{{route('logout')}}" class="text-white">Đăng xuất</a>
+                                    <a href="{{route('logout')}}" class="text-white">{{__('Đăng xuất')}}</a>
                                 </li>
                             </ul>
                         </div>

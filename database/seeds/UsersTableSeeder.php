@@ -29,6 +29,7 @@ class UsersTableSeeder extends Seeder
         $admin->name = 'Bin';
         $admin->email = 'bin210697@gmail.com';
         $admin->password = bcrypt('12345678');
+        $admin->email_verified_at = date("Y-m-d",time());
         $admin->save();
         $admin->roles()->attach($admin_role);
         $admin->permissions()->attach($admin_permission);
