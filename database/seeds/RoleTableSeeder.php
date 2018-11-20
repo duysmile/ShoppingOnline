@@ -25,5 +25,10 @@ class RoleTableSeeder extends Seeder
         $admin_role->name = 'Manager of Shopping Online';
         $admin_role->save();
         $admin_role->permissions()->attach($admin_permission);
+
+        $user_role = new \App\Role();
+        $user_role->slug = 'user';
+        $user_role->name = 'Customer';
+        $user_role->save();
     }
 }

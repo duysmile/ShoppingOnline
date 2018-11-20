@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\SignUpRequest;
 use App\Mail\VerifyEmail;
+use App\Role;
 use App\User;
 use App\VerifyUser;
 use Illuminate\Support\Facades\DB;
@@ -33,10 +34,12 @@ class SignUpController extends Controller
                 "user_id" => $user_created->id,
                 "token" => $user_created->id . str_random(30) . time()
             ]);
-            DB::commit();
+            $user_role = Role::where('slug', 'user')->first();
+            $user_created->roles()->attach($user_role);
 
             Mail::to($user_created->email)->send(new VerifyEmail($user_created));
 
+            DB::commit();
             return response()->json([
                 "success" => true,
                 "message" => "Chúng tôi đã gửi email xác thực. Kiểm tra email và xác nhận."
