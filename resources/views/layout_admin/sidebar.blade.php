@@ -2,13 +2,17 @@
     <li class="nav-item active">
         <a class="nav-link" href="/admin">
             <i class="fas fa-fw fa-tachometer-alt"></i>
-            <span>Dashboard</span>
+            <span>{{__('Dashboard')}}</span>
         </a>
     </li>
     <li class="nav-item">
+        <a class="nav-link" href="{{route('categories.index')}}">
+            <i class="fas fa-list"></i>
+            <span>{{__('Quản lí danh mục')}}</span>
+        </a>
         <a class="nav-link" href="/admin/products">
             <i class="fas fa-shopping-bag"></i>
-            <span>Quản lí sản phẩm</span>
+            <span>{{__('Quản lí sản phẩm')}}</span>
         </a>
         {{--<div class="collapse bg-light" id="pagesDropdown">--}}
             {{--<h6 class="dropdown-header">Login Screens:</h6>--}}
@@ -24,11 +28,11 @@
     <li class="nav-item">
         <a class="nav-link" href="charts.html">
             <i class="fas fa-users"></i>
-            <span>Quản lí user</span></a>
+            <span>{{__('Quản lí user')}}</span></a>
     </li>
     <li class="nav-item">
         <a class="nav-link" href="tables.html">
             <i class="fas fa-shipping-fast"></i>
-            <span>Quản lí đơn hàng</span></a>
+            <span>{{__('Quản lí đơn hàng')}}</span></a>
     </li>
 </ul>

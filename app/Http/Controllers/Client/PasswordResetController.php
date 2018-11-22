@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Client;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\NewPassword;
 use App\Http\Requests\PasswordRequest;
 use App\Mail\PasswordResetMail;
-use App\PasswordReset;
-use App\User;
+use App\Model\PasswordReset;
+use App\Model\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 

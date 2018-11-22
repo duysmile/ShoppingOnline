@@ -25,16 +25,16 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::group([
     'middleware' => 'guest'
 ], function () {
-    Route::post('/login', 'LoginController@postLogin')->name('login');
-    Route::post('/signup', 'SignUpController@postSignup')->name('signup');
-    Route::post('/password-reset', 'PasswordResetController@postToken')->name('password-reset-send');
+    Route::post('/login', 'Client\LoginController@postLogin')->name('login');
+    Route::post('/signup', 'Client\SignUpController@postSignup')->name('signup');
+    Route::post('/password-reset', 'Client\PasswordResetController@postToken')->name('password-reset-send');
 
-    Route::get('/user/verify/{token}', 'SignUpController@verifyEmail')->name('verify_email');
-    Route::get('/user/forgot-password/{token}', 'PasswordResetController@reset');
-    Route::post('/user/forgot-password', 'PasswordResetController@storeNewPass')->name('reset_password');
+    Route::get('/user/verify/{token}', 'Client\SignUpController@verifyEmail')->name('verify_email');
+    Route::get('/user/forgot-password/{token}', 'Client\PasswordResetController@reset');
+    Route::post('/user/forgot-password', 'Client\PasswordResetController@storeNewPass')->name('reset_password');
 
-    Route::get('/redirect/{social}', 'SocialAuthController@redirect')->name('login_social');
-    Route::get('/callback/{social}', 'SocialAuthController@callback');
+    Route::get('/redirect/{social}', 'Client\SocialAuthController@redirect')->name('login_social');
+    Route::get('/callback/{social}', 'Client\SocialAuthController@callback');
 });
 
 Route::group([
@@ -48,7 +48,7 @@ Route::group([
         return view('profile');
     })->name('profile-user');
 
-    Route::get('/logout', 'LoginController@logout')->name('logout');
+    Route::get('/logout', 'Client\LoginController@logout')->name('logout');
 });
 
 Route::group([
@@ -58,6 +58,7 @@ Route::group([
 //    Route::resource('products', 'ProductsController');
 //    Route::resource('invoices', 'InvoicesController');
 //    Route::resource('users', 'UsersController');
+    Route::resource('categories', 'Admin\CategoryController');
     Route::get('/', function (){
        return view('admin');
     })->name('admin');

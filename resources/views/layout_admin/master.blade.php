@@ -19,6 +19,13 @@
 
     <!-- Custom styles for this template-->
     <link href="{{asset('css/admin/sb-admin.min.css')}}" rel="stylesheet">
+    <link href="{{asset('css/app.css')}}" rel="stylesheet">
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="{{asset('js/jquery/jquery.min.js')}}"></script>
+    <script src="{{asset('js/bootstrap/bootstrap.min.js')}}"></script>
+    <script src="{{asset('js/admin/Chart.min.js')}}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
 
 </head>
 
@@ -71,14 +78,8 @@
     </div>
 </div>
 
-<!-- Bootstrap core JavaScript-->
-<script src="{{asset('js/jquery/jquery.min.js')}}"></script>
-<script src="{{asset('js/bootstrap/bootstrap.min.js')}}"></script>
-
 <!-- Custom scripts for all pages-->
 <script src="{{asset('js/admin/sb-admin.min.js')}}"></script>
-<script src="{{asset('js/admin/Chart.min.js')}}"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
 @yield('js')
 
 </body>

@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
-use App\User;
+namespace App\Http\Controllers\Client;
+use App\Http\Controllers\Controller;
+use App\Model\User;
 use App\Http\Requests\LoginRequest;
 use http\Env\Response;
 use Illuminate\Auth\AuthenticationException;
@@ -22,14 +23,6 @@ class LoginController extends Controller
         $user = $this->user->where('email', $credentials['id_login'])
             ->orWhere('name', $credentials['id_login'])
             ->first();
-        if ($user->email_verified_at == null){
-            return response()->json([
-                'success' => false,
-                'message' => [
-                    'server' => 'Vui lòng xác thực email của bạn để đăng nhập.'
-                ]
-            ]);
-        }
 
         try {
             if ($user === null) {
@@ -44,6 +37,14 @@ class LoginController extends Controller
                     ]
                 ]);
             } else if (!password_verify($credentials['pass_login'], $user['password'])) {
+                if ($user->email_verified_at == null){
+                    return response()->json([
+                        'success' => false,
+                        'message' => [
+                            'server' => 'Vui lòng xác thực email của bạn để đăng nhập.'
+                        ]
+                    ]);
+                }
                 return response()->json([
                     'success' => false,
                     'message' => [

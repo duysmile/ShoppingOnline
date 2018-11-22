@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Client;
 
 use App\Http\Requests\SignUpRequest;
 use App\Mail\VerifyEmail;
-use App\Role;
-use App\User;
-use App\VerifyUser;
+use App\Model\Role;
+use App\Model\User;
+use App\Model\VerifyUser;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;

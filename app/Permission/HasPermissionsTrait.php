@@ -8,8 +8,8 @@
 
 namespace App\Permission;
 
-use App\Permission;
-use App\Role;
+use App\Model\Permission;
+use App\Model\Role;
 
 trait HasPermissionsTrait
 {

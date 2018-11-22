@@ -1,16 +1,20 @@
 <?php
 
-namespace App;
+namespace App\Model;
 
 use App\Permission\HasPermissionsTrait;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
     use Notifiable;
     use HasPermissionsTrait;
+    use SoftDeletes;
+
+    protected $dates = ['is_blocked'];
+    const DELETED_AT = 'is_blocked';
 
     /**
      * The attributes that are mass assignable.
@@ -32,16 +36,16 @@ class User extends Authenticatable
 
     public function socialAccount()
     {
-        return $this->hasOne('App\SocialAccount');
+        return $this->hasOne('App\Model\SocialAccount');
     }
 
     public function verifyUser()
     {
-        return $this->hasOne('App\VerifyUser');
+        return $this->hasOne('App\Model\VerifyUser');
     }
 
     public function passwordReset()
     {
-        return $this->hasOne('App\PasswordReset');
+        return $this->hasOne('App\Model\PasswordReset');
     }
 }

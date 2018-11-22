@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateRolesTable extends Migration
+class CreateCategoriesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,16 @@ class CreateRolesTable extends Migration
      */
     public function up()
     {
-        Schema::create('roles', function (Blueprint $table) {
+        Schema::create('categories', function (Blueprint $table) {
             $table->increments('id');
+            $table->unsignedInteger('parent_id')->nullable();
             $table->string('name');
-            $table->string('slug');
+            $table->boolean('top')->default(false);
+            $table->integer('created_user')->unsigned();
             $table->softDeletes();
+
+            $table->foreign('parent_id')->references('id')->on('categories')->onDelete('cascade');
+            $table->foreign('created_user')->references('id')->on('users');
             $table->timestamps();
         });
     }
@@ -29,6 +34,6 @@ class CreateRolesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('roles');
+        Schema::dropIfExists('categories');
     }
 }
