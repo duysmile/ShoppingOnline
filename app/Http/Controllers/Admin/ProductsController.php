@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreProductRequest;
+use App\Model\Product;
 use Illuminate\Http\Request;
 
 class ProductsController extends Controller
@@ -14,7 +16,7 @@ class ProductsController extends Controller
      */
     public function index()
     {
-        //
+        return view('admin.products.index');
     }
 
     /**
@@ -24,7 +26,7 @@ class ProductsController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.products.add');
     }
 
     /**
@@ -33,9 +35,12 @@ class ProductsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreProductRequest $request)
     {
-        //
+        if(Product::saveProduct($request)){
+            return redirect('admin/products')->with('success', 'Thêm sản phẩm thành công.');
+        }
+        return redirect('admin/products/create')->with('error', 'Đã xảy ra lỗi. Vui lòng thử lại.');
     }
 
     /**

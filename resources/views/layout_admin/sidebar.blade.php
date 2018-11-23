@@ -10,7 +10,7 @@
             <i class="fas fa-list"></i>
             <span>{{__('Quản lí danh mục')}}</span>
         </a>
-        <a class="nav-link" href="/admin/products">
+        <a class="nav-link" href="{{route('products.index')}}">
             <i class="fas fa-shopping-bag"></i>
             <span>{{__('Quản lí sản phẩm')}}</span>
         </a>

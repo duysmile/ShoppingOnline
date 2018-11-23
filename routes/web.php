@@ -55,17 +55,11 @@ Route::group([
     'middleware' => 'role:admin',
     'prefix' => 'admin'
 ], function () {
-//    Route::resource('products', 'ProductsController');
+    Route::resource('products', 'Admin\ProductsController');
 //    Route::resource('invoices', 'InvoicesController');
 //    Route::resource('users', 'UsersController');
     Route::resource('categories', 'Admin\CategoryController');
     Route::get('/', function (){
        return view('admin');
     })->name('admin');
-    Route::get('/products', function () {
-        return view('admin.products.show');
-    });
-    Route::get('/products/create', function () {
-        return view('admin.products.add');
-    });
 });
