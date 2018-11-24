@@ -16,10 +16,13 @@ class RoleMiddleware
      */
     public function handle($request, Closure $next, $role, $permission = null)
     {
+        if (Auth::check() || $request->user()->hasRole('admin')){
+            return $next($request);
+        }
         if(!Auth::check() || !$request->user()->hasRole($role)) {
             abort(404);
         }
-        if(!Auth::check() || $permission != null && !$request-user()->can($permission)) {
+        if(!Auth::check() || $permission != null && !Auth::user()->can($permission)) {
             abort(404);
         }
         return $next($request);

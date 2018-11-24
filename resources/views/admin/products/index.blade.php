@@ -28,7 +28,7 @@
 
     <div class="d-flex mb-3">
         <a href="{{route('products.create')}}" class="btn btn-primary">
-            Thêm sản phẩm
+            {{__('Thêm sản phẩm')}}
         </a>
     </div>
 
@@ -42,32 +42,42 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                     <tr>
-                        <th>Sản phẩm</th>
-                        <th>Số lượng</th>
-                        <th>Đơn giá</th>
-                        <th>Phân loại</th>
-                        <th>Ngày nhập</th>
-                        <th>Thao tác</th>
+                        <th>{{__('STT')}}</th>
+                        <th>{{__('Sản phẩm')}}</th>
+                        <th>{{__('Số lượng')}}</th>
+                        <th>{{__('Đơn giá(VNĐ)')}}</th>
+                        <th>{{__('Phân loại')}}</th>
+                        <th>{{__('Ngày nhập')}}</th>
+                        <th>{{__('Người tạo')}}</th>
+                        <th>{{__('Thao tác')}}</th>
                     </tr>
                     </thead>
                     <tfoot>
                     <tr>
-                        <th>Sản phẩm</th>
-                        <th>Số lượng</th>
-                        <th>Đơn giá</th>
-                        <th>Phân loại</th>
-                        <th>Ngày nhập</th>
-                        <th>Thao tác</th>
+                        <th>{{__('STT')}}</th>
+                        <th>{{__('Sản phẩm')}}</th>
+                        <th>{{__('Số lượng')}}</th>
+                        <th>{{__('Đơn giá(VNĐ)')}}</th>
+                        <th>{{__('Phân loại')}}</th>
+                        <th>{{__('Ngày nhập')}}</th>
+                        <th>{{__('Người tạo')}}</th>
+                        <th>{{__('Thao tác')}}</th>
                     </tr>
                     </tfoot>
                     <tbody>
+                    @foreach($products as $product)
                     <tr>
-                        <td>Dell Inspiron</td>
-                        <td>12</td>
-                        <td>1000000</td>
-                        <td>Laptop</td>
-                        <td>2011/04/25</td>
+                        <td>{{$loop->index + 1}}</td>
+                        <td>{{$product->name}}</td>
+                        <td>{{$product->quantity}}</td>
+                        <td>{{money($product->price . '000')}}</td>
+                        <td>{{$product->categories[0]->name}}</td>
+                        <td>{{$product->created_at}}</td>
+                        <td>{{$product->created_user}}</td>
                         <td>
+                            <a href="" class="btn btn-primary">
+                                <i class="fa fa-eye text-white"></i>
+                            </a>
                             <a href="" class="btn btn-success">
                                 <i class="fa fa-edit text-white"></i>
                             </a>
@@ -76,6 +86,7 @@
                             </a>
                         </td>
                     </tr>
+                    @endforeach
                     </tbody>
                 </table>
             </div>

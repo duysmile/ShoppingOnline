@@ -15,7 +15,7 @@
                     <li>{{ $error }}</li>
                 @endforeach
             </ul>
-        </div><br />
+        </div><br/>
     @endif
     @if($message = Session::get('error'))
         <div class="row pt-2 px-3">
@@ -31,7 +31,7 @@
             @csrf
             <div class="form-group">
                 <label for="">{{__('Tên sản phẩm')}}</label>
-                <input type="text" name="product_name" value="{{old('product_name')}}" class="form-control">
+                <input type="text" name="product_name" value="{{old('product_name')}}" class="form-control" required>
             </div>
             <div class="form-group">
                 <label for="">{{__('Mô tả')}}</label>
@@ -40,48 +40,57 @@
             <div class="d-flex">
                 <div class="form-group mr-2">
                     <label for="">{{__('Số lượng')}}</label>
-                    <input type="number" name="qty" value="{{old('qty')}}" class="form-control">
+                    <input type="number" min="0" name="qty" value="{{old('qty')}}" class="form-control" required>
                 </div>
                 <div class="form-group">
                     <label class="d-block">{{__('Giá sản phẩm')}}</label>
-                    <input type="number" name="price" value="{{old('price')}}" class="form-control d-inline-block"> .000
+                    <input type="number" min="0" name="price" value="{{old('price')}}" class="form-control d-inline-block input-number-long" required> .000
                 </div>
-                </div>
+            </div>
             <div class="form-group">
                 <label for="">
                     {{_('Phân loại')}}
                 </label>
-                <div class="form-check">
-                    <input data-type="parent"
-                           type="checkbox" class="form-check-input" name="categories">
-                    <label class="form-check-label" for="exampleCheck1">Laptop</label>
-                    <span data-toggle="collapse" data-target="#category1">
-                        &nbsp;<i class="fa fa-chevron-down"></i>
-                    </span>
-                </div>
-                <div class="collapse" id="category1">
-                    <div class="ml-3 form-check">
-                        <input data-type="child"
-                               type="checkbox" class="form-check-input" name="categories">
-                        <label class="form-check-label">Dell</label>
+                @foreach($categories as $category)
+                    <div class="form-check">
+                        <input data-type="parent" data-id="{{$category->id}}" value="{{$category->id}}"
+                               type="checkbox" class="form-check-input" name="categories[]">
+                        <label class="form-check-label">{{$category->name}}</label>
+                        @if($category->children->count() > 0)
+                            <span data-toggle="collapse" data-target="#category{{$category->id}}">
+                                &nbsp;<i class="fa fa-chevron-down"></i>
+                            </span>
+                        @endif
                     </div>
-                </div>
+                    @if($category->children->count() > 0)
+                        <div class="collapse" id="category{{$category->id}}">
+                            @foreach($category->children as $child)
+                                <div class="ml-3 form-check">
+                                    <input data-type="child" data-parent="{{$category->id}}" value="{{$child->id}}"
+                                           type="checkbox" class="form-check-input" name="categories[]">
+                                    <label class="form-check-label">{{$child->name}}</label>
+                                </div>
+                            @endforeach
+                        </div>
+                    @endif
+                @endforeach
             </div>
             <div class="form-group">
                 <label for="">Chi tiết sản phẩm</label>
-                <textarea id="content" name="content">{{old('content')}}</textarea>
+                <textarea id="content" name="desc">{{old('desc')}}</textarea>
             </div>
             <div class="form-group">
                 <label>{{__('Ảnh sản phẩm')}}</label>
-                <input type="file" name="images">
+                <input type="file" name="images[]" required multiple>
+            </div>
+            <div id="preview-images">
+
             </div>
             <div class="form-group">
-                <button class="btn btn-default">
+                <a href="{{route('products.index')}}" class="bg-light btn btn-default">
                     Trở lại
-                </button>
-                <button class="btn btn-primary">
-                    Lưu
-                </button>
+                </a>
+                <input value="{{__('Lưu')}}" type="submit" class="btn btn-primary">
             </div>
         </form>
     </div>

@@ -59,6 +59,7 @@ Route::group([
 //    Route::resource('invoices', 'InvoicesController');
 //    Route::resource('users', 'UsersController');
     Route::resource('categories', 'Admin\CategoryController');
+
     Route::get('/', function (){
        return view('admin');
     })->name('admin');

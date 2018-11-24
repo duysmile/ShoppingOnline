@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreProductRequest;
+use App\Model\Category;
 use App\Model\Product;
 use Illuminate\Http\Request;
 
@@ -16,7 +17,8 @@ class ProductsController extends Controller
      */
     public function index()
     {
-        return view('admin.products.index');
+        $products = Product::orderBy('created_at')->get();
+        return view('admin.products.index', compact('products'));
     }
 
     /**
@@ -26,7 +28,8 @@ class ProductsController extends Controller
      */
     public function create()
     {
-        return view('admin.products.add');
+        $categories = Category::getCategories();
+        return view('admin.products.add', compact('categories'));
     }
 
     /**

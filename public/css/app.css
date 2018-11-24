@@ -192,3 +192,14 @@ input[type='number'] {
     border-width: 0 2px 2px 0;
     transform: rotate(45deg);
 }
+
+.img-upload {
+    width: 150px;
+    height: 200px;
+    height: auto;
+}
+
+.input-number-long {
+    text-align: right;
+    min-width: 100px !important;
+}
