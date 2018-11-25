@@ -24,7 +24,7 @@ class CreateProductsTable extends Migration
             $table->integer('views')->default(0);
             $table->integer('discount')->default(0);
             $table->integer('display_order')->default(0);
-            $table->double('star')->default(0);
+            $table->double('star')->default(1);
             $table->boolean('is_approved')->default(false);
             $table->integer('created_user')->unsigned();
             $table->softDeletes();

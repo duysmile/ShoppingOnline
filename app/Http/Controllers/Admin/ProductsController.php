@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreProductRequest;
+use App\Http\Requests\UpdateProductRequest;
 use App\Model\Category;
 use App\Model\Product;
 use Illuminate\Http\Request;
@@ -54,7 +55,8 @@ class ProductsController extends Controller
      */
     public function show($id)
     {
-        //
+        $product = Product::getProduct($id);
+        return view('admin.products.show', compact('product'));
     }
 
     /**
@@ -65,7 +67,9 @@ class ProductsController extends Controller
      */
     public function edit($id)
     {
-        //
+        $categories = Category::getCategories();
+        $product = Product::getProduct($id);
+        return view('admin.products.edit', compact(['categories', 'product']));
     }
 
     /**
@@ -75,9 +79,12 @@ class ProductsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateProductRequest $request, $id)
     {
-        //
+        if(Product::updateProduct($request, $id)){
+            return redirect('admin/products')->with('success', 'Chỉnh sửa sản phẩm thành công.');
+        }
+        return redirect('admin/products/create')->with('error', 'Đã xảy ra lỗi. Vui lòng thử lại.');
     }
 
     /**
@@ -86,8 +93,13 @@ class ProductsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        $id = $request->only('del-id')['del-id'];
+        $product = Product::find($id);
+        if ($product->delete()) {
+            return redirect('admin/products')->with('success', 'Đã xóa sản phẩm thành công');
+        }
+        return redirect('admin/products')->with('error', 'Đã xảy ra lỗi. Vui lòng thử lại.');
     }
 }

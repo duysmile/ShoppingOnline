@@ -27,24 +27,27 @@
     @endif
 
     <div class="d-flex mb-3">
-        <form action="{{route('products.store')}}" method="post" class="w-100" enctype="multipart/form-data">
+        <form action="{{route('products.update', $product->id)}}" method="post" class="w-100" enctype="multipart/form-data">
             @csrf
+            <input type="hidden" value="PUT" name="_method">
             <div class="form-group">
                 <label for="">{{__('Tên sản phẩm')}}</label>
-                <input type="text" name="product_name" value="{{old('product_name')}}" class="form-control" required>
+                <input type="text" name="product_name" value="{{$product->name}}" class="form-control" required>
             </div>
             <div class="form-group">
                 <label for="">{{__('Mô tả')}}</label>
-                <input type="text" name="sum" value="{{old('sum')}}" class="form-control">
+                <input type="text" name="sum" value="{{$product->summary}}" class="form-control">
             </div>
             <div class="d-flex">
                 <div class="form-group mr-2">
                     <label for="">{{__('Số lượng')}}</label>
-                    <input type="number" min="0" name="qty" value="{{old('qty')}}" class="form-control" required>
+                    <input type="number" min="0" name="qty" value="{{$product->quantity}}" class="form-control"
+                           required>
                 </div>
                 <div class="form-group">
                     <label class="d-block">{{__('Giá sản phẩm')}}</label>
-                    <input type="number" min="0" name="price" value="{{old('price')}}" class="form-control d-inline-block input-number-long" required> .000
+                    <input type="number" min="0" name="price" value="{{$product->price}}"
+                           class="form-control d-inline-block input-number-long" required> .000
                 </div>
             </div>
             <div class="form-group">
@@ -54,7 +57,11 @@
                 @foreach($categories as $category)
                     <div class="form-check">
                         <input data-type="parent" data-id="{{$category->id}}" value="{{$category->id}}"
-                               type="checkbox" class="form-check-input" name="categories[]">
+                               type="checkbox" class="form-check-input" name="categories[]"
+                               @if($product->categories->contains('id', $category->id))
+                               checked
+                            @endif
+                        >
                         <label class="form-check-label">{{$category->name}}</label>
                         @if($category->children->count() > 0)
                             <span data-toggle="collapse" data-target="#category{{$category->id}}">
@@ -67,7 +74,11 @@
                             @foreach($category->children as $child)
                                 <div class="ml-3 form-check">
                                     <input data-type="child" data-parent="{{$category->id}}" value="{{$child->id}}"
-                                           type="checkbox" class="form-check-input" name="categories[]">
+                                           type="checkbox" class="form-check-input" name="categories[]"
+                                        @if($product->categories->contains('id', $child->id))
+                                           checked
+                                        @endif
+                                    >
                                     <label class="form-check-label">{{$child->name}}</label>
                                 </div>
                             @endforeach
@@ -77,14 +88,16 @@
             </div>
             <div class="form-group">
                 <label for="">Chi tiết sản phẩm</label>
-                <textarea rows="8" id="content" name="desc">{{old('desc')}}</textarea>
+                <textarea id="content" rows="8" name="desc">{{$product->description}}</textarea>
             </div>
             <div class="form-group">
                 <label>{{__('Ảnh sản phẩm')}}</label>
-                <input type="file" name="images[]" required multiple>
+                <input type="file" name="images[]" multiple>
             </div>
             <div id="preview-images">
-
+                @foreach($product->images as $image)
+                    <img class="border p-2 img-upload mx-2 mb-3" src="{{asset($image->url)}}" alt="Product image">
+                @endforeach
             </div>
             <div class="form-group">
                 <a href="{{route('products.index')}}" class="bg-light btn btn-default">

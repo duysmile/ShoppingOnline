@@ -12,7 +12,7 @@ class Product extends Model
     use SoftDeletes;
 
     protected $dates = ['deleted_at'];
-    protected $fillable = ['name', 'summary', 'quantity', 'description', 'price', 'slug'];
+    protected $fillable = ['name', 'summary', 'quantity', 'description', 'price', 'slug', 'created_user'];
     /**
      * attach categories to product
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
@@ -27,6 +27,14 @@ class Product extends Model
      */
     public function images() {
         return $this->hasMany(Image::class, 'product_id', 'id');
+    }
+
+    /**
+     * attach author make product
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function author() {
+        return $this->belongsTo(User::class, 'created_user','id');
     }
 
     /**
@@ -50,12 +58,12 @@ class Product extends Model
 
             foreach ($request->file('images') as $key => $image) {
                 $extension = $image->getClientOriginalExtension();
-                $name = 'thumbnail_' . $product->id . '_' . time() . '.' .$extension;
+                $name = 'thumbnail_' . $product->id . '_' . time() . $key  . '.' .$extension;
 
                 $uploadPath = public_path('images\\' . $product->id);
 
                 Image::create([
-                    'url' => $uploadPath . '\\' . $key . $name ,
+                    'url' =>  'images\\' . $product->id . '\\' . $name ,
                     'created_user' => Auth::user()->id,
                     'product_id' => $product->id
                 ]);
@@ -74,5 +82,61 @@ class Product extends Model
             return false;
         }
 
+    }
+
+    public static function updateProduct($request, $id) {
+        $data = $request->only(['product_name', 'sum', 'desc', 'qty', 'categories', 'price']);
+        DB::beginTransaction();
+        try{
+            $product = Product::find($id);
+
+            $product->name = $request['product_name'];
+            $product->summary = $request['sum'];
+            $product->description = $request['desc'];
+            $product->quantity = $request['qty'];
+            $product->price = $request['price'];
+
+            if(!empty($request->file('images'))){
+                $imageProduct = $product->images;
+                foreach($imageProduct as $image) {
+                    $image->delete();
+                }
+                foreach ($request->file('images') as $key => $image) {
+                    $extension = $image->getClientOriginalExtension();
+                    $name = 'thumbnail_' . $product->id . '_' . time() . $key  . '.' .$extension;
+
+                    $uploadPath = public_path('images\\' . $product->id);
+
+                    Image::create([
+                        'url' =>  'images\\' . $product->id . '\\' . $name ,
+                        'created_user' => Auth::user()->id,
+                        'product_id' => $product->id
+                    ]);
+
+                    $image->move($uploadPath, $name);
+                }
+            }
+            $product->categories()->detach();
+            if(!empty($data['categories'])){
+                $product->categories()->attach(Category::whereIn('id', $data['categories'])->get());
+            }
+            DB::commit();
+            return true;
+        } catch(\Exception $e) {
+            DB::rollBack();
+            dd($e);
+            return false;
+        }
+
+    }
+
+    /**
+     * get all info products
+     * @param $id
+     * @return mixed
+     */
+    public static function getProduct($id) {
+        $product = Product::find($id);
+        return $product;
     }
 }

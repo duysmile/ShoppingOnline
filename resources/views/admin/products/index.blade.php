@@ -36,7 +36,8 @@
     <div class="card mb-3">
         <div class="card-header">
             <i class="fas fa-table"></i>
-            Data Table Example</div>
+            {{__('Danh sách sản phẩm')}}
+        </div>
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -66,26 +67,27 @@
                     </tfoot>
                     <tbody>
                     @foreach($products as $product)
-                    <tr>
-                        <td>{{$loop->index + 1}}</td>
-                        <td>{{$product->name}}</td>
-                        <td>{{$product->quantity}}</td>
-                        <td>{{money($product->price . '000')}}</td>
-                        <td>{{$product->categories[0]->name}}</td>
-                        <td>{{$product->created_at}}</td>
-                        <td>{{$product->created_user}}</td>
-                        <td>
-                            <a href="" class="btn btn-primary">
-                                <i class="fa fa-eye text-white"></i>
-                            </a>
-                            <a href="" class="btn btn-success">
-                                <i class="fa fa-edit text-white"></i>
-                            </a>
-                            <a href="" class="btn btn-danger" data-toggle="modal" data-target="#dialog-del">
-                                <i class="fa fa-trash text-white"></i>
-                            </a>
-                        </td>
-                    </tr>
+                        <tr>
+                            <td>{{$loop->index + 1}}</td>
+                            <td>{{$product->name}}</td>
+                            <td>{{$product->quantity}}</td>
+                            <td>{{money($product->price . '000')}}</td>
+                            <td>{{$product->categories[0]->name}}</td>
+                            <td>{{$product->created_at}}</td>
+                            <td>{{$product->author->name}}</td>
+                            <td>
+                                <a href="{{route('products.show', $product->id)}}" class="btn btn-primary">
+                                    <i class="fa fa-eye text-white"></i>
+                                </a>
+                                <a href="{{route('products.edit', $product->id)}}" class="btn btn-success">
+                                    <i class="fa fa-edit text-white"></i>
+                                </a>
+                                <a href="" data-id="{{$product->id}}" class="btn btn-del btn-danger" data-toggle="modal"
+                                   data-target="#dialog-del">
+                                    <i class="fa fa-trash text-white"></i>
+                                </a>
+                            </td>
+                        </tr>
                     @endforeach
                     </tbody>
                 </table>
@@ -112,7 +114,12 @@
                 <!-- Modal footer -->
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Không</button>
-                    <button type="button" class="btn btn-success" data-dismiss="modal">Có</button>
+                    <form action="{{route('products.destroy', -1)}}" method="post">
+                        @csrf
+                        <input type="hidden" value="delete" name="_method">
+                        <input type="hidden" value="" name="del-id">
+                        <input type="submit" class="btn btn-success" value="{{__('Có')}}">
+                    </form>
                 </div>
 
             </div>
@@ -121,5 +128,5 @@
 @endsection
 
 @section('js')
-    <script src="{{asset('js/admin/chart-area-demo.js')}}"></script>
+    <script src="{{asset('js/admin/delete-dialog.js')}}"></script>
 @endsection
