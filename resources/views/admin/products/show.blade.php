@@ -26,9 +26,14 @@
         </div>
     @endif
 
-    <a href="{{route('products.index')}}" class="btn btn-primary mb-3">
-        {{__('Trở lại')}}
-    </a>
+    <div class="d-flex">
+        <a href="{{route('products.index')}}" class="btn btn-primary mb-3">
+            {{__('Trở lại')}}
+        </a>
+        <a href="{{route('products.edit', $product->id)}}" class="btn btn-success mb-3 ml-2">
+            {{__('Chỉnh sửa')}}
+        </a>
+    </div>
 
     <div class="pb-3">
         <div class="d-flex">

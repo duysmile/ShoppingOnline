@@ -14,17 +14,20 @@ class RoleMiddleware
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle($request, Closure $next, $role, $permission = null)
+    public function handle($request, Closure $next, ... $roles)
     {
         if (Auth::check() && $request->user()->hasRole('admin')){
             return $next($request);
         }
-        if(!Auth::check() || !$request->user()->hasRole($role)) {
-            abort(404);
+        foreach ($roles as $role) {
+            if(Auth::check() && $request->user()->hasRole($role)) {
+                return $next($request);
+            }
         }
-        if(!Auth::check() || $permission != null && !Auth::user()->can($permission)) {
-            abort(404);
-        }
+        abort(404);
+//        if(!Auth::check() || $permission != null && !Auth::user()->can($permission)) {
+//            abort(404);
+//        }
         return $next($request);
     }
 }

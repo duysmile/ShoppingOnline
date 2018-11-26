@@ -84,6 +84,12 @@ class Product extends Model
 
     }
 
+    /**
+     * Update product
+     * @param $request
+     * @param $id
+     * @return bool
+     */
     public static function updateProduct($request, $id) {
         $data = $request->only(['product_name', 'sum', 'desc', 'qty', 'categories', 'price']);
         DB::beginTransaction();
@@ -138,5 +144,60 @@ class Product extends Model
     public static function getProduct($id) {
         $product = Product::find($id);
         return $product;
+    }
+
+    /**
+     * approve product by id
+     * @param $id
+     * @return bool
+     */
+    public static function approveProduct($id) {
+        $products = Product::where(['id' => $id, 'is_approved' => false])->get();
+
+        if ($products->count() == 0) {
+            return false;
+        }
+        $product = $products[0];
+        $product->is_approved = true;
+        return $product->save();
+    }
+
+    /**
+     * get all approved products
+     * @return mixed
+     */
+    public static function getApprovedProduct() {
+        $products = Product::where('is_approved', true)->get();
+        return $products;
+    }
+
+    /**
+     * get all unapproved products api
+     * @return mixed
+     */
+    public static function getUnapprovedProductApi() {
+        $products = Product::where('is_approved', false)->get();
+        $result = [];
+        foreach($products as $key => $product) {
+            $result[] = [
+                'id' => $product->id,
+                'name' => $product->name,
+                'quantity' => $product->quantity,
+                'price' => $product->price,
+                'category' => $product->categories[0]->name,
+                'created_at' => $product->created_at,
+                'author' => $product->author->name
+            ];
+        }
+        return $result;
+    }
+
+    /**
+     * get all unapproved products
+     * @return mixed
+     */
+    public static function getUnapprovedProduct() {
+        $products = Product::where('is_approved', false)->get();
+        return $products;
     }
 }

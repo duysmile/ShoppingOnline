@@ -6,10 +6,16 @@
         </a>
     </li>
     <li class="nav-item">
+        @role('admin')
+        <a class="nav-link" href="{{route('approve.index')}}">
+            <i class="fas fa-clipboard-check"></i>
+            <span>{{__('Phê duyệt')}}</span>
+        </a>
         <a class="nav-link" href="{{route('categories.index')}}">
             <i class="fas fa-list"></i>
             <span>{{__('Quản lí danh mục')}}</span>
         </a>
+        @endrole
         <a class="nav-link" href="{{route('products.index')}}">
             <i class="fas fa-shopping-bag"></i>
             <span>{{__('Quản lí sản phẩm')}}</span>

@@ -52,15 +52,23 @@ Route::group([
 });
 
 Route::group([
-    'middleware' => 'role:admin',
+    'middleware' => ['role:staff,admin'],
     'prefix' => 'admin'
 ], function () {
     Route::resource('products', 'Admin\ProductsController');
 //    Route::resource('invoices', 'InvoicesController');
 //    Route::resource('users', 'UsersController');
-    Route::resource('categories', 'Admin\CategoryController');
 
-    Route::get('/', function (){
-       return view('admin');
+    Route::resource('categories', 'Admin\CategoryController')->middleware('role:admin');
+
+    Route::group([
+        'prefix' => 'approve',
+        'middleware' => 'role:admin'
+    ], function () {
+        Route::get('/', 'Admin\ApproveController@index')->name('approve.index');
+        Route::patch('/', 'Admin\ApproveController@approve')->name('approve.update');
+    });
+    Route::get('/', function () {
+        return view('admin');
     })->name('admin');
 });

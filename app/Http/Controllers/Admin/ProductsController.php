@@ -97,7 +97,13 @@ class ProductsController extends Controller
     {
         $id = $request->only('del-id')['del-id'];
         $product = Product::find($id);
-        if ($product->delete()) {
+        if ($request->only('type')['type'] == 'approve'){
+            if ($product->delete()) {
+                return redirect('admin/approve')->with('success', 'Đã xóa sản phẩm thành công');
+            }
+            return redirect('admin/approve')->with('error', 'Đã xảy ra lỗi. Vui lòng thử lại.');
+        }
+        else if ($product->delete()) {
             return redirect('admin/products')->with('success', 'Đã xóa sản phẩm thành công');
         }
         return redirect('admin/products')->with('error', 'Đã xảy ra lỗi. Vui lòng thử lại.');
