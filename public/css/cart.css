@@ -1,0 +1,30 @@
+.item-card {
+    border: 1px solid #ccc;
+    margin-top: 20px;
+    padding: 5px;
+    height: 100px;
+    background: #fff;
+}
+
+.item-card-header {
+    border: 1px solid #ccc;
+    margin-top: 20px;
+    padding: 5px;
+    height: 50px;
+    background-color: white;
+}
+
+.item-card p, .item-card-header p {
+    margin: 0;
+    width: 100%;
+    text-align: center;
+}
+
+.cart-img {
+    max-width: 200px;
+    height: auto;
+}
+
+.size-larger {
+    font-size: 25px;
+}
