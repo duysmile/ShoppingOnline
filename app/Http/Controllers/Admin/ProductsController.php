@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateProductRequest;
 use App\Model\Category;
 use App\Model\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Config;
 
 class ProductsController extends Controller
 {
@@ -18,7 +19,7 @@ class ProductsController extends Controller
      */
     public function index()
     {
-        $products = Product::orderBy('created_at')->get();
+        $products = Product::orderBy('created_at')->paginate(constants('paginate.products'));
         return view('admin.products.index', compact('products'));
     }
 

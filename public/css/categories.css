@@ -26,7 +26,7 @@
 .left-box-category {
     position: relative;
     background-color: #DDE5D3;
-    min-width: 250px;
+    width: 250px;
     height: 100%;
     overflow: hidden;
 }
@@ -37,6 +37,7 @@
     right: -5px;
     width: 90%;
     height: auto;
+    max-height: 30%;
     mix-blend-mode: multiply;
     transition: all 0.3s ease;
 }

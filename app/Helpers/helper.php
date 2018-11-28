@@ -6,11 +6,12 @@
  * Time: 2:14 AM
  */
 
-function money($price) {
+function money($price)
+{
     $result = [];
     $length = strlen($price);
     $tmpPrice = $price;
-    while($length - 3 > 0) {
+    while ($length - 3 > 0) {
         $result[] = substr($tmpPrice, $length - 4, 3);
         $tmpPrice = substr($tmpPrice, 0, $length - 3);
         $length -= 3;
@@ -18,4 +19,11 @@ function money($price) {
     $result[] = $tmpPrice;
     $result = array_reverse($result);
     return join('.', $result);
+}
+
+if (!function_exists('constants')) {
+    function constants($key)
+    {
+        return config('constants.' . $key);
+    }
 }

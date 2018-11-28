@@ -33,59 +33,31 @@
                 </h4>
                 <div class="custom-dropdown-menu">
                     <ul>
-                        <li>
-                            <a href="">Laptop</a>
-                            <i class="fa fa-chevron-right color-common"></i>
-                            <div class="custom-child-dropdown-menu">
-                                <ul>
-                                    <li>
-                                        <a href="">Gaming</a>
-                                    </li>
-                                    <li>
-                                        <a href="">Mac</a>
-                                    </li>
-                                    <li>
-                                        <a href="">Alienware</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li>
-                            <a href="">Mobile</a>
-                            <i class="fa fa-chevron-right color-common"></i>
-                            <div class="custom-child-dropdown-menu">
-                                <ul>
-                                    <li>
-                                        <a href="">Iphone</a>
-                                    </li>
-                                    <li>
-                                        <a href="">Asus</a>
-                                    </li>
-                                    <li>
-                                        <a href="">Xiaomi</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li>
-                            <a href="">Smart TV</a>
-                            <i class="fa fa-chevron-right color-common"></i>
-                        </li>
-                        <li>
-                            <a href="">PC</a>
-                            <i class="fa fa-chevron-right color-common"></i>
-                        </li>
-                        <li>
-                            <a href="">Stereo</a>
-                            <i class="fa fa-chevron-right color-common"></i>
-                        </li>
+                        @foreach($categories as $category)
+                            <li>
+                                <a href="{{route('list-products', $category->slug)}}">{{$category->name}}</a>
+                                @if($category->children()->count() > 0)
+                                    <i class="fa fa-chevron-right color-common"></i>
+                                    <div class="custom-child-dropdown-menu">
+                                        <ul>
+                                            @foreach($category->children as $child)
+                                            <li>
+                                                <a href="{{route('list-products', $child->slug)}}">{{$child->name}}</a>
+                                            </li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                @endif
+                            </li>
+                        @endforeach
                     </ul>
                 </div>
             </div>
             <div class="w-50">
                 <form action="" class="form-inline w-100">
                     <div class="input-group w-100 border-common-lg">
-                        <input type="text" class="form-control border-0 nav__input-search font-size-md" placeholder="What are you looking for ... ">
+                        <input type="text" class="form-control border-0 nav__input-search font-size-md"
+                               placeholder="What are you looking for ... ">
                         <div class="input-group-prepend">
                                 <span class="input-group-text bg-common text-white border-0">
                                     <i class="fa fa-search pr-2 text-white"></i>
@@ -99,16 +71,16 @@
             </div>
             <div class="d-flex">
                 @if(!Auth::check())
-                <div class="nav__button p-2">
-                    <i class="fa fa-user p-2 color-common"></i>
-                    <a href="" data-toggle="modal" data-target="#login-register-dialog" data-open="login">
-                        Login
-                    </a>
-                    <span style="color:#ccc">|</span>
-                    <a href="" data-toggle="modal" data-target="#login-register-dialog" data-open="signup">
-                        Signup for free
-                    </a>
-                </div>
+                    <div class="nav__button p-2">
+                        <i class="fa fa-user p-2 color-common"></i>
+                        <a href="" data-toggle="modal" data-target="#login-register-dialog" data-open="login">
+                            Login
+                        </a>
+                        <span style="color:#ccc">|</span>
+                        <a href="" data-toggle="modal" data-target="#login-register-dialog" data-open="signup">
+                            Signup for free
+                        </a>
+                    </div>
                 @else
                     <div class="nav__button position-relative custom-dropdown-block pt-2">
                         <i class="fa fa-user p-2 color-common"></i>
@@ -117,13 +89,14 @@
                         </a>
                         <div class="custom-dropdown-menu custom-dropdown-menu-right">
                             <ul>
-                                @role('admin')
+                                @role('admin', 'staff')
                                 <li class="border-bottom">
                                     <a href="{{route('admin')}}" class="text-white">{{__('Đến trang quản trị')}}</a>
                                 </li>
                                 @endrole
                                 <li class="border-bottom">
-                                    <a href="{{route('profile-user')}}" class="text-white">{{__('Tài khoản của tôi')}}</a>
+                                    <a href="{{route('profile-user')}}"
+                                       class="text-white">{{__('Tài khoản của tôi')}}</a>
                                 </li>
                                 <li>
                                     <a href="{{route('logout')}}" class="text-white">{{__('Đăng xuất')}}</a>

@@ -104,6 +104,9 @@
                 </table>
             </div>
         </div>
+        <div class="d-flex justify-content-center pb-4">
+            {{$categories->links()}}
+        </div>
         <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
     </div>
 

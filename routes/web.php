@@ -11,16 +11,11 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'Client\HomeController@index')->name('home');
 Route::get('/detail', function () {
     return view('detail');
 });
-Route::get('/list', function () {
-    return view('list_products');
-});
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/list/{category}', 'Client\HomeController@list')->name('list-products');
 
 Route::group([
     'middleware' => 'guest'

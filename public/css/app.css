@@ -203,3 +203,16 @@ input[type='number'] {
     text-align: right;
     min-width: 100px !important;
 }
+
+.w-20 {
+    width: 20% !important;
+}
+
+.summary-product {
+    height: 20px;
+}
+
+.product-img-list {
+    width: 100%;
+    height: 250px;
+}

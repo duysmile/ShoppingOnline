@@ -13,6 +13,7 @@ class UsersTableSeeder extends Seeder
     {
         $staff_role = \App\Model\Role::where('slug', 'staff')->first();
         $admin_role = \App\Model\Role::where('slug', 'admin')->first();
+        $user_role = \App\Model\Role::where('slug', 'user')->first();
         $staff_permission = App\Model\Permission::where('slug', 'create-posts')->first();
         $admin_permission = App\Model\Permission::where('slug', 'edit-users')->first();
 
@@ -33,5 +34,13 @@ class UsersTableSeeder extends Seeder
         $admin->save();
         $admin->roles()->attach($admin_role);
         $admin->permissions()->attach($admin_permission);
+
+        $user = new \App\Model\User();
+        $user->name = 'Di';
+        $user->email = 'duyn@rikkeisoft.com';
+        $user->password = bcrypt('12345678');
+        $user->email_verified_at = date("Y-m-d",time());
+        $user->save();
+        $user->roles()->attach($user_role);
     }
 }

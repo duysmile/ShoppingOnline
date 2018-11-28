@@ -17,6 +17,7 @@ class CreateCategoriesTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('parent_id')->nullable();
             $table->string('name')->unique();
+            $table->string('slug')->unique();
             $table->boolean('top')->default(false);
             $table->integer('created_user')->unsigned();
             $table->softDeletes();

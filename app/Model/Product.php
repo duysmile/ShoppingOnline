@@ -13,11 +13,13 @@ class Product extends Model
 
     protected $dates = ['deleted_at'];
     protected $fillable = ['name', 'summary', 'quantity', 'description', 'price', 'slug', 'created_user'];
+
     /**
      * attach categories to product
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function categories() {
+    public function categories()
+    {
         return $this->belongsToMany(Category::class, 'categories_products')->withTimestamps();
     }
 
@@ -25,7 +27,8 @@ class Product extends Model
      * attach images thumbnail product
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function images() {
+    public function images()
+    {
         return $this->hasMany(Image::class, 'product_id', 'id');
     }
 
@@ -33,8 +36,9 @@ class Product extends Model
      * attach author make product
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function author() {
-        return $this->belongsTo(User::class, 'created_user','id');
+    public function author()
+    {
+        return $this->belongsTo(User::class, 'created_user', 'id');
     }
 
     /**
@@ -42,10 +46,11 @@ class Product extends Model
      * @param $request
      * @return bool
      */
-    public static function saveProduct($request) {
+    public static function saveProduct($request)
+    {
         $data = $request->only(['product_name', 'sum', 'desc', 'qty', 'categories', 'price']);
         DB::beginTransaction();
-        try{
+        try {
             $product = Product::create([
                 'name' => $data['product_name'],
                 'slug' => str_slug($data['product_name'], '-'),
@@ -58,12 +63,12 @@ class Product extends Model
 
             foreach ($request->file('images') as $key => $image) {
                 $extension = $image->getClientOriginalExtension();
-                $name = 'thumbnail_' . $product->id . '_' . time() . $key  . '.' .$extension;
+                $name = 'thumbnail_' . $product->id . '_' . time() . $key . '.' . $extension;
 
                 $uploadPath = public_path('images\\' . $product->id);
 
                 Image::create([
-                    'url' =>  'images\\' . $product->id . '\\' . $name ,
+                    'url' => 'images\\' . $product->id . '\\' . $name,
                     'created_user' => Auth::user()->id,
                     'product_id' => $product->id
                 ]);
@@ -71,12 +76,12 @@ class Product extends Model
                 $image->move($uploadPath, $name);
             }
 
-            if(!empty($data['categories'])){
+            if (!empty($data['categories'])) {
                 $product->categories()->attach(Category::whereIn('id', $data['categories'])->get());
             }
             DB::commit();
             return true;
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             DB::rollBack();
             dd($e);
             return false;
@@ -90,10 +95,11 @@ class Product extends Model
      * @param $id
      * @return bool
      */
-    public static function updateProduct($request, $id) {
+    public static function updateProduct($request, $id)
+    {
         $data = $request->only(['product_name', 'sum', 'desc', 'qty', 'categories', 'price']);
         DB::beginTransaction();
-        try{
+        try {
             $product = Product::find($id);
 
             $product->name = $request['product_name'];
@@ -102,19 +108,19 @@ class Product extends Model
             $product->quantity = $request['qty'];
             $product->price = $request['price'];
 
-            if(!empty($request->file('images'))){
+            if (!empty($request->file('images'))) {
                 $imageProduct = $product->images;
-                foreach($imageProduct as $image) {
+                foreach ($imageProduct as $image) {
                     $image->delete();
                 }
                 foreach ($request->file('images') as $key => $image) {
                     $extension = $image->getClientOriginalExtension();
-                    $name = 'thumbnail_' . $product->id . '_' . time() . $key  . '.' .$extension;
+                    $name = 'thumbnail_' . $product->id . '_' . time() . $key . '.' . $extension;
 
                     $uploadPath = public_path('images\\' . $product->id);
 
                     Image::create([
-                        'url' =>  'images\\' . $product->id . '\\' . $name ,
+                        'url' => 'images\\' . $product->id . '\\' . $name,
                         'created_user' => Auth::user()->id,
                         'product_id' => $product->id
                     ]);
@@ -123,12 +129,12 @@ class Product extends Model
                 }
             }
             $product->categories()->detach();
-            if(!empty($data['categories'])){
+            if (!empty($data['categories'])) {
                 $product->categories()->attach(Category::whereIn('id', $data['categories'])->get());
             }
             DB::commit();
             return true;
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             DB::rollBack();
             dd($e);
             return false;
@@ -141,7 +147,8 @@ class Product extends Model
      * @param $id
      * @return mixed
      */
-    public static function getProduct($id) {
+    public static function getProduct($id)
+    {
         $product = Product::find($id);
         return $product;
     }
@@ -151,7 +158,8 @@ class Product extends Model
      * @param $id
      * @return bool
      */
-    public static function approveProduct($id) {
+    public static function approveProduct($id)
+    {
         $products = Product::where(['id' => $id, 'is_approved' => false])->get();
 
         if ($products->count() == 0) {
@@ -166,8 +174,9 @@ class Product extends Model
      * get all approved products
      * @return mixed
      */
-    public static function getApprovedProduct() {
-        $products = Product::where('is_approved', true)->get();
+    public static function getApprovedProduct()
+    {
+        $products = Product::where('is_approved', true)->paginate(constants('paginate.products'));
         return $products;
     }
 
@@ -175,10 +184,11 @@ class Product extends Model
      * get all unapproved products api
      * @return mixed
      */
-    public static function getUnapprovedProductApi() {
-        $products = Product::where('is_approved', false)->get();
+    public static function getUnapprovedProductApi()
+    {
+        $products = Product::where('is_approved', false)->paginate(constants('paginate.products'));
         $result = [];
-        foreach($products as $key => $product) {
+        foreach ($products as $key => $product) {
             $result[] = [
                 'id' => $product->id,
                 'name' => $product->name,
@@ -196,8 +206,29 @@ class Product extends Model
      * get all unapproved products
      * @return mixed
      */
-    public static function getUnapprovedProduct() {
-        $products = Product::where('is_approved', false)->get();
+    public static function getUnapprovedProduct()
+    {
+        $products = Product::where('is_approved', false)->paginate(constants('paginate.products'));
+        return $products;
+    }
+
+    public static function getTopProducts()
+    {
+        $products = Product::where('is_approved', true)
+            ->orderBy('star', 'desc')
+            ->orderBy('views', 'desc')
+            ->limit(6)
+            ->get();
+        return $products;
+    }
+
+    public static function getProductsHome($category)
+    {
+        $products = $category->products()
+            ->orderBy('star', 'desc')
+            ->orderBy('views', 'desc')
+            ->limit(7)
+            ->get();
         return $products;
     }
 }

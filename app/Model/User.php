@@ -2,10 +2,13 @@
 
 namespace App\Model;
 
+use App\Mail\VerifyEmail;
 use App\Permission\HasPermissionsTrait;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class User extends Authenticatable
 {
@@ -34,18 +37,98 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    /**
+     * attach social account
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
     public function socialAccount()
     {
         return $this->hasOne('App\Model\SocialAccount');
     }
 
+    /**
+     * attach verify attribute
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
     public function verifyUser()
     {
         return $this->hasOne('App\Model\VerifyUser');
     }
 
+    /**
+     * attach password reset attribute
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
     public function passwordReset()
     {
         return $this->hasOne('App\Model\PasswordReset');
+    }
+
+    /**
+     * Sign up user
+     * @param $request
+     */
+    public static function signUp($request)
+    {
+        DB::beginTransaction();
+        try {
+            $tmp = $request->only(['email', 'password', 'username', 'tel']);
+            $user = [
+                'name' => $tmp['username'],
+                'email' => $tmp['email'],
+                'password' => Hash::make($tmp['password'])
+            ];
+            $user_created = User::create($user);
+            VerifyUser::create([
+                "user_id" => $user_created->id,
+                "token" => $user_created->id . str_random(30) . time()
+            ]);
+            $user_role = Role::where('slug', 'user')->first();
+            $user_created->roles()->attach($user_role);
+
+            Mail::to($user_created->email)->send(new VerifyEmail($user_created));
+            DB::commit();
+            return [
+                "success" => true,
+                "message" => "Chúng tôi đã gửi email xác thực. Kiểm tra email và xác nhận."
+            ];
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return [
+                "success" => false,
+                "message" => [
+                    "server" => "Đăng kí thất bại. Vui lòng thử lại."
+                ],
+                "data" => $request->only(['email', 'username', 'tel'])
+            ];
+        }
+    }
+
+    /**
+     * verify email
+     * @param $token
+     * @return array
+     */
+    public static function verifyEmail($token)
+    {
+        $verifyUser = VerifyUser::where('token', $token)->first();
+        if (isset($verifyUser)) {
+            $user = $verifyUser->user;
+            if ($user->email_verified_at == null) {
+                $user->email_verified_at = date('Y-m-d H:i:s', time());
+                $user->save();
+                $status = "Bạn đã xác thực email thành công. Bây giờ bạn có thể đăng nhập.";
+            } else {
+                $status = "Bạn đã xác thực email rồi. Bây giờ bạn có thể đăng nhập.";
+            }
+            return [
+                'success' => true,
+                'status' => $status
+            ];
+        }
+        return [
+            'success' => false,
+            'status' => 'Xin lỗi không thể tìm thấy email tài khoản của bạn.'
+        ];
     }
 }
