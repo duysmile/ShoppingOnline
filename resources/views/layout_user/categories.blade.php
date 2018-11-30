@@ -9,7 +9,7 @@
             </div>
             <div class="d-flex mt-2 box-category">
                 <div class="left-box-category">
-                    <a href="">
+                    <a href="{{route('detail-product', $category->products[0]->slug)}}">
                         <h2>
                             {{$category->products[0]->name}}
                         </h2>
@@ -25,7 +25,7 @@
                         @endif">
                             @foreach($products as $product)
                                 <div class="right-box-item">
-                                    <a href="">
+                                    <a href="{{route('detail-product', $product->slug)}}">
                                         <h2>
                                             {{$product->name}}
                                         </h2>

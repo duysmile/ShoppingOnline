@@ -27,7 +27,9 @@
                     @if ($key == 0)
                         active
                     @endif ">
-                        <img src="{{$product->images[0]->url}}" alt="">
+                        <a href="{{route('detail-product', $product->slug)}}">
+                            <img src="{{$product->images[0]->url}}" alt="">
+                        </a>
                     </div>
                 @endforeach
             </div>
@@ -49,7 +51,7 @@
         </a>
         <div class="d-flex flex-column w-100 px-3 w-100">
             @foreach($topProducts->slice(3,3) as $product)
-            <a href="" class="d-flex flex-column w-100 border-bottom mt-1 pb-1">
+            <a href="{{route('detail-product', $product->slug)}}" class="d-flex flex-column w-100 border-bottom mt-1 pb-1">
                 <div class="pb-1 w-75 title-product text-truncate">
                     {{$product->name}}
                 </div>

@@ -11,7 +11,7 @@
                     @if(($key + 1) % 5 != 0)
                         pr-2
                     @endif">
-                    <a class="product-disp" href="/detail">
+                    <a class="product-disp" href="{{route('detail-product', $product->slug)}}">
                         <div class="border p-3 bg-white w-100">
                             <img class="img-fluid product-img-list" src="{{$product->images[0]->url}}" alt="">
                             <p class="text-justify pt-2 text-truncate">

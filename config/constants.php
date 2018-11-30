@@ -9,6 +9,7 @@ return [
     'paginate' => [
         'products' => 10,
         'products_client' => 20,
-        'categories' => 5
+        'categories' => 5,
+        'categories_client' => 5
     ]
 ];

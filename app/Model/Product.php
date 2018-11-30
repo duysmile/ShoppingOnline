@@ -212,6 +212,10 @@ class Product extends Model
         return $products;
     }
 
+    /**
+     * get all products to show in home page
+     * @return mixed
+     */
     public static function getTopProducts()
     {
         $products = Product::where('is_approved', true)
@@ -222,6 +226,11 @@ class Product extends Model
         return $products;
     }
 
+    /**
+     * get all products by category to show in home page
+     * @param $category
+     * @return mixed
+     */
     public static function getProductsHome($category)
     {
         $products = $category->products()
@@ -230,5 +239,19 @@ class Product extends Model
             ->limit(7)
             ->get();
         return $products;
+    }
+
+    /**
+     * get detail product according slug
+     * @param $slug
+     * @return mixed
+     */
+    public static function getDetailProduct($slug)
+    {
+        $product = Product::where([
+            'slug' => $slug,
+            'is_approved' => true
+        ])->first();
+        return $product;
     }
 }

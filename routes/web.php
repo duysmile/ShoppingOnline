@@ -12,9 +12,7 @@
 */
 
 Route::get('/', 'Client\HomeController@index')->name('home');
-Route::get('/detail', function () {
-    return view('detail');
-});
+Route::get('/detail/{slug}', 'Client\HomeController@detailProduct')->name('detail-product');
 Route::get('/list/{category}', 'Client\HomeController@list')->name('list-products');
 
 Route::group([

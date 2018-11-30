@@ -85,6 +85,26 @@ class Category extends Model
         return $categories;
     }
 
+    /**
+     * Get categories in client with format parent - child
+     * @return mixed
+     */
+    public static function getCategoriesClient()
+    {
+        $categories = Category::whereNull('parent_id')->with('children')->limit(constants('paginate.categories_client'))->get();
+        foreach ($categories as $category) {
+            $category['count_products'] = $category->products()->count();
+            foreach ($category->children as $child) {
+                $child['count_products'] = $child->products()->count();
+            }
+        }
+        return $categories;
+    }
+
+    /**
+     * Get top categories
+     * @return mixed
+     */
     public static function getTopCategories()
     {
         $categories = Category::where('top', true)

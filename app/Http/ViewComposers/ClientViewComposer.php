@@ -13,9 +13,13 @@ use Illuminate\View\View;
 
 class ClientViewComposer
 {
+    /**
+     * attach data to view
+     * @param View $view
+     */
     public function compose(View $view)
     {
-        $categories = Category::getCategories();
+        $categories = Category::getCategoriesClient();
         $view->with('categories', $categories);
     }
 }
