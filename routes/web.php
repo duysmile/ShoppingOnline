@@ -37,6 +37,8 @@ Route::group([
         return view('cart');
     });
 
+    Route::post('/add-cart', 'Client\CartController@addCartOneItem')->name('add-cart');
+
     Route::get('/profile', function () {
         return view('profile');
     })->name('profile-user');

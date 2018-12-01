@@ -131,4 +131,13 @@ class User extends Authenticatable
             'status' => 'Xin lỗi không thể tìm thấy email tài khoản của bạn.'
         ];
     }
+
+    /**
+     * attach cart to user
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function cart()
+    {
+        return $this->hasOne(Cart::class, 'user_id', 'id');
+    }
 }

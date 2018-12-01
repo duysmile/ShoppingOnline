@@ -38,18 +38,18 @@
                             <u>{{__('đ')}}</u> {{money($product->price . '000')}}
                         </span>
                     </p>
-                    <form class="w-100">
+                    <form class="w-100" action="{{route('add-cart')}}" method="post">
                         <div class="form-group mb-2">
                             <label class="mr-3">
                                 {{__('Số lượng')}}
                             </label>
                             <input type="number" class="form-control d-inline-block" value="1">
                         </div>
-                        <div class="form-group pt-3">
-                            <button class="btn mr-3 bg-white border-common color-common">
+                        <div class="form-group pt-3" data-id="{{$product->id}}">
+                            <button id="add-cart-button" class="btn mr-3 bg-white border-common color-common">
                                 {{__('Thêm vào giỏ hàng')}}
                             </button>
-                            <button class="btn mr-3 b-color-common border-common text-white">
+                            <button id="buy-button" class="btn mr-3 b-color-common border-common text-white">
                                 {{__('Mua ngay')}}
                             </button>
                         </div>
