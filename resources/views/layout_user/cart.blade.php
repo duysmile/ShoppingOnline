@@ -1,7 +1,7 @@
 <section id="cart" class="container my-3">
     <div class="b-color-common p-3">
         <h4 class="text-white ml-3">
-            GIỎ HÀNG
+            {{__('GIỎ HÀNG')}}
         </h4>
     </div>
     <div class="d-flex flex-column">
@@ -12,24 +12,25 @@
                     <div class="checkbox-box"></div>
                 </label>
                 <div class="h-100 d-flex ml-4 align-items-center">
-                    Sản phẩm
+                    {{__('Sản phẩm')}}
                 </div>
             </div>
             <div class="d-flex align-items-center w-50">
                 <p class="w-25">
-                    Đơn giá
+                    {{__('Đơn giá')}}
                 </p>
                 <p class="w-25">
-                    Số lượng
+                    {{__('Số lượng')}}
                 </p>
                 <p class="w-25">
-                    Số tiền
+                    {{__('Số tiền')}}
                 </p>
                 <p class="w-25">
-                    Thao tác
+                    {{__('Thao tác')}}
                 </p>
             </div>
         </div>
+        @foreach($cart->items as $product)
         <div class="d-flex justify-content-between item-card">
             <div class="h-100 d-flex align-items-center w-50">
                 <label class="custom-checkbox">
@@ -37,77 +38,29 @@
                     <div class="checkbox-box"></div>
                 </label>
                 <div class="h-100 d-flex ml-5">
-                    <img class="cart-img h-100 mr-3" src="{{asset('images/dell1.jpg')}}" alt="">
+                    <img class="cart-img h-100 mr-3" src="{{$product->images[0]->url}}" alt="">
                     <p>
-                        Dell Inspiron
+                        {{$product->name}}
                     </p>
                 </div>
             </div>
             <div class="d-flex align-items-center w-50">
                 <p class="w-25">
-                    <u>đ</u>10.000.000
+                    <u>{{__('đ')}}</u>{{money($product->price . '000')}}
                 </p>
-                <input type="number" class="form-control w-25" value="1">
+                <input type="number" class="form-control w-25" min="1" value="{{$product->pivot->quantity}}">
                 <p class="w-25">
-                    <u>đ</u>10.000.000
+                    <u>{{__('đ')}}</u>
+                    <span class=" price-products" data-price="{{$product->pivot->quantity * $product->price}}">
+                        {{money(($product->pivot->quantity * $product->price) . '000')}}
+                    </span>
                 </p>
                 <div class="w-25 text-center">
-                    <a href="">Xóa</a>
+                    <a href="">{{__('Xóa')}}</a>
                 </div>
             </div>
         </div>
-        <div class="d-flex justify-content-between item-card">
-            <div class="h-100 d-flex align-items-center w-50">
-                <label class="custom-checkbox">
-                    <input type="checkbox">
-                    <div class="checkbox-box"></div>
-                </label>
-                <div class="h-100 d-flex ml-5">
-                    <img class="cart-img h-100 mr-3" src="{{asset('images/dell1.jpg')}}" alt="">
-                    <p>
-                        Dell Inspiron
-                    </p>
-                </div>
-            </div>
-            <div class="d-flex align-items-center w-50">
-                <p class="w-25">
-                    <u>đ</u>10.000.000
-                </p>
-                <input type="number" class="form-control w-25" value="1">
-                <p class="w-25">
-                    <u>đ</u>10.000.000
-                </p>
-                <div class="w-25 text-center">
-                    <a href="">Xóa</a>
-                </div>
-            </div>
-        </div>
-        <div class="d-flex justify-content-between item-card">
-            <div class="h-100 d-flex align-items-center w-50">
-                <label class="custom-checkbox">
-                    <input type="checkbox">
-                    <div class="checkbox-box"></div>
-                </label>
-                <div class="h-100 d-flex ml-5">
-                    <img class="cart-img h-100 mr-3" src="{{asset('images/dell1.jpg')}}" alt="">
-                    <p>
-                        Dell Inspiron
-                    </p>
-                </div>
-            </div>
-            <div class="d-flex align-items-center w-50">
-                <p class="w-25">
-                    <u>đ</u>10.000.000
-                </p>
-                <input type="number" class="form-control w-25" value="1">
-                <p class="w-25">
-                    <u>đ</u>10.000.000
-                </p>
-                <div class="w-25 text-center">
-                    <a href="">Xóa</a>
-                </div>
-            </div>
-        </div>
+        @endforeach
     </div>
 </section>
 
@@ -119,18 +72,21 @@
                 <div class="checkbox-box"></div>
             </label>
             <div class="h-100 d-flex ml-5 align-items-center">
-                Chọn tất cả
+                {{__('Chọn tất cả')}}
             </div>
         </div>
         <div class="d-flex align-items-center w-50">
             <p>
-                Tổng số tiền (1 sản phẩm)
+                {{__('Tổng số tiền (' . $cart->items()->count() . ' sản phẩm)')}}
             </p>
             <p class="w-50 size-larger color-common text-right mr-3">
-                <u>đ</u>10.000.000
+                <u>đ</u>
+                <span class="totalPrice">
+
+                </span>
             </p>
             <div class="w-25 text-center mr-3">
-                <a href="" class="btn b-color-common text-white">Mua ngay</a>
+                <a href="" class="btn b-color-common text-white">{{__('Mua ngay')}}</a>
             </div>
         </div>
     </div>

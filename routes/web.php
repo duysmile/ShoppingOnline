@@ -33,9 +33,7 @@ Route::group([
 Route::group([
     'middleware' => 'auth'
 ], function () {
-    Route::get('/cart', function () {
-        return view('cart');
-    });
+    Route::get('/cart', 'Client\CartController@index')->name('cart');
 
     Route::post('/add-cart', 'Client\CartController@addCartOneItem')->name('add-cart');
 

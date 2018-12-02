@@ -113,6 +113,12 @@ class Product extends Model
                 foreach ($imageProduct as $image) {
                     $image->delete();
                 }
+
+                $product->categories()->detach();
+                if (!empty($data['categories'])) {
+                    $product->categories()->attach(Category::whereIn('id', $data['categories'])->get());
+                }
+
                 foreach ($request->file('images') as $key => $image) {
                     $extension = $image->getClientOriginalExtension();
                     $name = 'thumbnail_' . $product->id . '_' . time() . $key . '.' . $extension;
@@ -120,17 +126,13 @@ class Product extends Model
                     $uploadPath = public_path('images\\' . $product->id);
 
                     Image::create([
-                        'url' => 'images\\' . $product->id . '\\' . $name,
+                        'url' => $uploadPath,
                         'created_user' => Auth::user()->id,
                         'product_id' => $product->id
                     ]);
 
                     $image->move($uploadPath, $name);
                 }
-            }
-            $product->categories()->detach();
-            if (!empty($data['categories'])) {
-                $product->categories()->attach(Category::whereIn('id', $data['categories'])->get());
             }
             DB::commit();
             return true;

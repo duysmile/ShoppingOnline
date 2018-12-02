@@ -25,13 +25,15 @@ class AddCartRequest extends FormRequest
     public function rules()
     {
         return [
-            'id' => 'bail|required|min:1|numeric'
+            'id' => 'bail|required|min:1|numeric',
+            'qty' => 'min:1|numeric'
         ];
     }
     public function attributes()
     {
         return [
             'id' => 'Id',
+            'qty' => 'Số lượng'
         ];
     }
 }

@@ -106,9 +106,12 @@
                     </div>
                 @endif
                 <div class="nav__button p-2">
-                    <i class="fa fa-shopping-cart p-2 color-common"></i>
-                    <a href="/cart">
-                        Cart
+                    <div class="position-relative d-inline-block">
+                        <i class="fa fa-shopping-cart p-2 color-common"></i>
+                        <span class="badge badge-common" id="count-cart-items">{{$cartCount}}</span>
+                    </div>
+                    <a href="{{route('cart')}}">
+                        {{__('Cart')}}
                     </a>
                 </div>
             </div>

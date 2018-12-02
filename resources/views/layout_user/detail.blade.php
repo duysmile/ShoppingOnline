@@ -43,7 +43,7 @@
                             <label class="mr-3">
                                 {{__('Số lượng')}}
                             </label>
-                            <input type="number" class="form-control d-inline-block" value="1">
+                            <input name="qty" type="number" class="form-control d-inline-block" value="1">
                         </div>
                         <div class="form-group pt-3" data-id="{{$product->id}}">
                             <button id="add-cart-button" class="btn mr-3 bg-white border-common color-common">

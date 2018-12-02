@@ -36,6 +36,8 @@ class Cart extends Model
     public static function addToCart($request)
     {
         $id = $request->only('id')['id'];
+        $qty = empty($request->only('qty')) ? '1' : $request->only('qty')['qty'];
+
         $cart = Auth::user()->cart;
         DB::beginTransaction();
         try {
@@ -51,18 +53,48 @@ class Cart extends Model
                 //TODO: check quantity products
 
                 $cart->items()->updateExistingPivot($id, [
-                    'quantity' => $oldQty + 1
+                    'quantity' => $oldQty + $qty
                 ]);
             } else {
                 $product = Product::find($id);
-                $cart->items()->save($product, ['quantity' => 1]);
+                $cart->items()->save($product, ['quantity' => $qty]);
             }
             DB::commit();
-            return true;
+            return [
+                'success' => true,
+                'count' => $cart->items()->count()
+            ];
         } catch (\Exception $exception) {
             DB::rollBack();
-            return false;
+            return [
+                'success' => false,
+            ];
         }
+    }
 
+    /**
+     * get cart of current user
+     * @return array
+     */
+    public static function getCurrent()
+    {
+        $cart = Cart::where('user_id', Auth::user()->id)->first();
+        if($cart == null) {
+            return [];
+        }
+        return $cart;
+    }
+
+    /**
+     * get count items of cart of current user
+     * @return int
+     */
+    public static function getCountCurrent()
+    {
+        $cart = Cart::getCurrent();
+        if (empty($cart)) {
+            return 0;
+        }
+        return $cart->items()->count();
     }
 }

@@ -8,6 +8,7 @@
 
 namespace App\Http\ViewComposers;
 
+use App\Model\Cart;
 use App\Model\Category;
 use Illuminate\View\View;
 
@@ -20,6 +21,8 @@ class ClientViewComposer
     public function compose(View $view)
     {
         $categories = Category::getCategoriesClient();
+        $cartCount = Cart::getCountCurrent();
         $view->with('categories', $categories);
+        $view->with('cartCount', $cartCount);
     }
 }

@@ -221,3 +221,46 @@ input[type='number'] {
     min-width: 21em !important;
     max-height: 30em !important;
 }
+
+.notice-common {
+    background-color: rgba(0,0,0,.5);
+    box-shadow: 1px 1px 5px 1px #ccc;
+    animation: disappear 3s;
+    opacity: 0;
+    display: none;
+    position: fixed;
+    top: 45%;
+    left: 40%;
+    right: 40%;
+    padding: 8px;
+}
+
+.notice-common i {
+    padding: 5px;
+    border-radius: 50%;
+    background: #fff;
+}
+
+.notice-common span {
+    white-space: nowrap;
+}
+
+@keyframes disappear {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+.badge-common {
+    box-shadow: 1px 1px 5px 1px #ccc;
+    padding: 4px;
+    background-color: #fff;
+    color: #ff6a00;
+    position: absolute;
+    top: -5px;
+    right: -2px;
+    z-index: -1
+}
