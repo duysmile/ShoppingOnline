@@ -46,12 +46,15 @@
             </div>
             <div class="d-flex align-items-center w-50">
                 <p class="w-25">
-                    <u>{{__('đ')}}</u>{{money($product->price . '000')}}
-                </p>
-                <input type="number" class="form-control w-25" min="1" value="{{$product->pivot->quantity}}">
-                <p class="w-25">
                     <u>{{__('đ')}}</u>
-                    <span class=" price-products" data-price="{{$product->pivot->quantity * $product->price}}">
+                    <span data-price-one="{{$product->price}}" data-id="{{$product->id}}">
+                        {{money($product->price . '000')}}
+                    </span>
+                </p>
+                <input type="number" class="form-control w-25" data-items="{{$product->id}}" min="1" value="{{$product->pivot->quantity}}">
+                <p class="w-25 color-common">
+                    <u>{{__('đ')}}</u>
+                    <span class=" price-products" data-price="{{$product->pivot->quantity * $product->price}}" data-id="{{$product->id}}">
                         {{money(($product->pivot->quantity * $product->price) . '000')}}
                     </span>
                 </p>

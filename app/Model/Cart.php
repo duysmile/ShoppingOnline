@@ -97,4 +97,26 @@ class Cart extends Model
         }
         return $cart->items()->count();
     }
+
+    public static function updateQtyItem($request)
+    {
+        $data = $request->only(['id', 'qty']);
+        $cart = Auth::user()->cart;
+
+        $product = $cart->items()->find($data['id']);
+
+        $qty = empty($request->only('qty')) ? $product->pivot->quantity : $data['qty'];
+
+        if ($product == null) {
+            return [
+                'success' => false
+            ];
+        }
+
+        $cart->items()->updateExistingPivot($data['id'], [
+           'quantity' => $qty
+        ]);
+
+        return ['success' => true];
+    }
 }

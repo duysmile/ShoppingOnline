@@ -36,6 +36,7 @@ Route::group([
     Route::get('/cart', 'Client\CartController@index')->name('cart');
 
     Route::post('/add-cart', 'Client\CartController@addCartOneItem')->name('add-cart');
+    Route::patch('/update-cart-item', 'Client\CartController@updateQtyItem')->name('update-cart');
 
     Route::get('/profile', function () {
         return view('profile');
