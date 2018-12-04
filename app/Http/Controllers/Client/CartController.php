@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AddCartRequest;
+use App\Http\Requests\DeleteItemCartRequest;
 use App\Http\Requests\UpdateCartRequest;
 use App\Model\Cart;
 use Illuminate\Http\Request;
@@ -47,6 +48,19 @@ class CartController extends Controller
     public function updateQtyItem(UpdateCartRequest $request)
     {
         $data = Cart::updateQtyItem($request);
+        if ($data['success']) {
+            return response()->json($data);
+        } else {
+            return response()->json([
+                'success' => false,
+                'msg' => 'Đã xảy ra lỗi. Vui lòng thử lại.'
+            ]);
+        }
+    }
+
+    public function deleteItem(DeleteItemCartRequest $request)
+    {
+        $data = Cart::deleteItem ($request);
         if ($data['success']) {
             return response()->json($data);
         } else {

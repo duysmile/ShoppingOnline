@@ -39,11 +39,14 @@
                         </span>
                     </p>
                     <form class="w-100" action="{{route('add-cart')}}" method="post">
-                        <div class="form-group mb-2">
-                            <label class="mr-3">
+                        <div class="mb-2 d-flex align-items-center">
+                            <label class="mr-3 mt-1">
                                 {{__('Số lượng')}}
                             </label>
-                            <input name="qty" type="number" class="form-control d-inline-block" value="1">
+                            <input name="qty" type="number" class="form-control d-block" value="1" min="1" max="{{$product->quantity}}">
+                            <label class="ml-3 mt-1 text-secondary">
+                                {{__($product->quantity . ' sản phẩm có sẵn')}}
+                            </label>
                         </div>
                         <div class="form-group pt-3" data-id="{{$product->id}}">
                             <button id="add-cart-button" class="btn mr-3 bg-white border-common color-common">

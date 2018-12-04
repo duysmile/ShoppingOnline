@@ -236,6 +236,7 @@ class Product extends Model
     public static function getProductsHome($category)
     {
         $products = $category->products()
+            ->where('is_approved', true)
             ->orderBy('star', 'desc')
             ->orderBy('views', 'desc')
             ->limit(7)

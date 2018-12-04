@@ -47,7 +47,11 @@ class Cart extends Model
                 $cart->save();
             }
             $product = $cart->items->find($id);
-
+            if ($qty > $product->quantity) {
+                return [
+                    'success' => false
+                ];
+            }
             if ($product != null) {
                 $oldQty = $product->pivot->quantity;
                 //TODO: check quantity products
@@ -98,6 +102,11 @@ class Cart extends Model
         return $cart->items()->count();
     }
 
+    /**
+     * update quantity of item
+     * @param $request
+     * @return array
+     */
     public static function updateQtyItem($request)
     {
         $data = $request->only(['id', 'qty']);
@@ -107,7 +116,7 @@ class Cart extends Model
 
         $qty = empty($request->only('qty')) ? $product->pivot->quantity : $data['qty'];
 
-        if ($product == null) {
+        if ($product == null || $qty > $product->quantity) {
             return [
                 'success' => false
             ];
@@ -118,5 +127,31 @@ class Cart extends Model
         ]);
 
         return ['success' => true];
+    }
+
+    /**
+     * delete item in cart
+     * @param $request
+     * @return array
+     */
+    public static function deleteItem($request)
+    {
+        $data = $request->only('id');
+        $cart = Auth::user()->cart;
+
+        $product = Product::find($data['id']);
+
+        if (!$cart->items()->detach($product)) {
+            return [
+                'success' => false
+            ];
+        };
+
+        $view = view('layout_user.cart', compact('cart'))->render();
+        return [
+            'success' => true,
+            'data' => $view,
+            'count' => $cart->items()->count()
+        ];
     }
 }

@@ -59,7 +59,7 @@
                     </span>
                 </p>
                 <div class="w-25 text-center">
-                    <a href="">{{__('Xóa')}}</a>
+                    <a class="delete-item-card" data-toggle="modal" data-target="#dialog-delete" data-id="{{$product->id}}" href="javascript:void(0)">{{__('Xóa')}}</a>
                 </div>
             </div>
         </div>

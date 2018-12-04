@@ -228,6 +228,7 @@ input[type='number'] {
     animation: disappear 3s;
     opacity: 0;
     display: none;
+    min-width: 224px;
     position: fixed;
     top: 45%;
     left: 40%;
@@ -263,4 +264,8 @@ input[type='number'] {
     top: -5px;
     right: -2px;
     z-index: -1
+}
+
+.margin-dialog {
+    margin: 12.75rem auto !important;
 }

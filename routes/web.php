@@ -37,6 +37,7 @@ Route::group([
 
     Route::post('/add-cart', 'Client\CartController@addCartOneItem')->name('add-cart');
     Route::patch('/update-cart-item', 'Client\CartController@updateQtyItem')->name('update-cart');
+    Route::delete('/delete-cart-item', 'Client\CartController@deleteItem')->name('delete-item-card');
 
     Route::get('/profile', function () {
         return view('profile');
