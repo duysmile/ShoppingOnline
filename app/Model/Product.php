@@ -12,7 +12,7 @@ class Product extends Model
     use SoftDeletes;
 
     protected $dates = ['deleted_at'];
-    protected $fillable = ['name', 'summary', 'quantity', 'description', 'price', 'slug', 'created_user'];
+    protected $fillable = ['name', 'summary', 'quantity', 'description', 'price', 'slug', 'created_user', 'standard_price'];
 
     /**
      * attach categories to product
@@ -48,14 +48,21 @@ class Product extends Model
      */
     public static function saveProduct($request)
     {
-        $data = $request->only(['product_name', 'sum', 'desc', 'qty', 'categories', 'price']);
+        $data = $request->only(['product_name', 'sum', 'desc', 'qty', 'categories', 'price', 'discount']);
         DB::beginTransaction();
         try {
+            if ($data['discount'] != null) {
+                $price = $data['price'] - $data['price'] * $data['discount'] / 100;
+            } else {
+                $price = $data['price'];
+            }
+
             $product = Product::create([
                 'name' => $data['product_name'],
                 'slug' => str_slug($data['product_name'], '-'),
                 'summary' => $data['sum'],
-                'price' => $data['price'],
+                'price' => $price,
+                'standard_price' => $data['price'],
                 'description' => $data['desc'],
                 'quantity' => $data['qty'],
                 'created_user' => Auth::user()->id
@@ -97,16 +104,22 @@ class Product extends Model
      */
     public static function updateProduct($request, $id)
     {
-        $data = $request->only(['product_name', 'sum', 'desc', 'qty', 'categories', 'price']);
+        $data = $request->only(['product_name', 'sum', 'desc', 'qty', 'categories', 'price', 'discount']);
         DB::beginTransaction();
         try {
+            if ($data['discount'] != null) {
+                $price = $data['price'] - $data['price'] * $data['discount'] / 100;
+            } else {
+                $price = $data['price'];
+            }
             $product = Product::find($id);
 
-            $product->name = $request['product_name'];
-            $product->summary = $request['sum'];
-            $product->description = $request['desc'];
-            $product->quantity = $request['qty'];
-            $product->price = $request['price'];
+            $product->name = $data['product_name'];
+            $product->summary = $data['sum'];
+            $product->description = $data['desc'];
+            $product->quantity = $data['qty'];
+            $product->price = $price;
+            $product->standard_price = $data['price'];
 
             if (!empty($request->file('images'))) {
                 $imageProduct = $product->images;
@@ -152,6 +165,7 @@ class Product extends Model
     public static function getProduct($id)
     {
         $product = Product::find($id);
+        $product['discount'] = round(($product->standard_price - $product->price) / $product->standard_price, 0) * 100;
         return $product;
     }
 
@@ -255,6 +269,7 @@ class Product extends Model
             'slug' => $slug,
             'is_approved' => true
         ])->first();
+        $product['discount'] = round(($product->standard_price - $product->price) / $product->standard_price * 100, 0) ;
         return $product;
     }
 }

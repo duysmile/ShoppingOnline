@@ -14,7 +14,7 @@ class UpdateProductRequest extends FormRequest
      */
     public function authorize()
     {
-        return Auth::check() && Auth::user()->hasRole('admin');
+        return Auth::check() && (Auth::user()->hasRole('admin') || Auth::user()->hasRole('staff'));
     }
 
     /**

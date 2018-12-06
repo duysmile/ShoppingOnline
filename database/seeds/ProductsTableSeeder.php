@@ -17,15 +17,16 @@ class ProductsTableSeeder extends Seeder
         for ($i = 0; $i < $count; $i++) {
 //            try{
             $name = $faker->words('5', true);
+            $price = $faker->numberBetween(800, 5000);
             \App\Model\Product::create([
                 'name' => $name,
                 'slug' => str_slug($name),
-                'price' => $faker->numberBetween(800, 5000),
+                'price' => $price,
                 'quantity' => $faker->numberBetween(5, 50),
                 'description' => $faker->paragraph(20, true),
                 'summary' => $faker->sentence(10),
                 'views' => $faker->numberBetween(0, 1000),
-                'discount' => $faker->numberBetween(5, 50),
+                'standard_price' => $price + $faker->numberBetween(5, 50) * $price / 100,
                 'is_approved' => $faker->numberBetween(0, 1) == 1,
                 'created_user' => 2,
             ]);

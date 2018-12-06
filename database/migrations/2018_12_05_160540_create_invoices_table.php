@@ -18,7 +18,8 @@ class CreateInvoicesTable extends Migration
             $table->integer('user_id')->unsigned();
             $table->double('amount');
             $table->integer('status')->unsigned();
-            $table->string('address');
+            $table->string('address')->nullable();
+            $table->string('tel_no')->nullable();
 
             $table->foreign('user_id')->references('id')->on('users');
             $table->softDeletes();

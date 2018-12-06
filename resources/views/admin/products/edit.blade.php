@@ -51,6 +51,11 @@
                 </div>
             </div>
             <div class="form-group">
+                <label class="d-block">{{__('Giảm giá')}}</label>
+                <input type="number" min="0" name="discount" value="{{$product->discount}}"
+                       class="form-control d-inline-block input-number-long" required> %
+            </div>
+            <div class="form-group">
                 <label for="">
                     {{_('Phân loại')}}
                 </label>

@@ -33,9 +33,17 @@
                     <p class="text-justify">
                         {{$product->summary}}
                     </p>
-                    <p>
-                        <span class="bg-light d-block p-3 text-common mb-3">
+                    <p class="bg-light p-3 d-flex align-items-center">
+                        <span class="mr-2">
+                            <s class="text-secondary font-size-md">
+                                <u>{{__('đ')}}</u> {{money($product->standard_price . '000')}}
+                            </s>
+                        </span>
+                        <span class="text-common">
                             <u>{{__('đ')}}</u> {{money($product->price . '000')}}
+                        </span>
+                        <span class="bg-common text-white ml-2 font-super-sm px-1">
+                            {{__('Giảm ' . $product->discount . '%')}}
                         </span>
                     </p>
                     <form class="w-100" action="{{route('add-cart')}}" method="post">
@@ -43,7 +51,8 @@
                             <label class="mr-3 mt-1">
                                 {{__('Số lượng')}}
                             </label>
-                            <input name="qty" type="number" class="form-control d-block" value="1" min="1" max="{{$product->quantity}}">
+                            <input name="qty" type="number" class="form-control d-block" value="1" min="1"
+                                   max="{{$product->quantity}}">
                             <label class="ml-3 mt-1 text-secondary">
                                 {{__($product->quantity . ' sản phẩm có sẵn')}}
                             </label>

@@ -269,3 +269,7 @@ input[type='number'] {
 .margin-dialog {
     margin: 12.75rem auto !important;
 }
+
+.font-super-sm {
+    font-size: 13px !important;
+}

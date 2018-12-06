@@ -21,7 +21,8 @@
                                 {{$product->summary}}
                             </p>
                             <p>
-                                <span class="font-weight-bold">{{__('VNĐ ' . money($product->price . '000'))}} </span>
+                                <span class="mr-1"><s><u>{{__('đ')}}</u>&nbsp;{{money($product->standard_price . '000')}} </s></span>
+                                <span class="color-common"><u>{{__('đ')}}</u>&nbsp;{{money($product->price . '000')}} </span>
                             </p>
                         </div>
                     </a>

@@ -40,12 +40,16 @@
             <div class="d-flex">
                 <div class="form-group mr-2">
                     <label for="">{{__('Số lượng')}}</label>
-                    <input type="number" min="0" name="qty" value="{{old('qty')}}" class="form-control" required>
+                    <input type="number" min="0" name="qty" value="{{old('qty') == null ? 1 : old('qty')}}" class="form-control" required>
                 </div>
                 <div class="form-group">
                     <label class="d-block">{{__('Giá sản phẩm')}}</label>
                     <input type="number" min="0" name="price" value="{{old('price')}}" class="form-control d-inline-block input-number-long" required> .000
                 </div>
+            </div>
+            <div class="form-group">
+                <label class="d-block">{{__('Giảm giá')}}</label>
+                <input type="number" min="0" name="discount" value="{{old('discount') == null ? 0 : old('discount')}}" class="form-control d-inline-block"> %
             </div>
             <div class="form-group">
                 <label for="">
