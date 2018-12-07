@@ -15,6 +15,9 @@
 @endsection
 
 @section('script')
+    <script src="{{asset('js/user/login.js')}}"></script>
+    <script src="{{asset('js/user/signup.js')}}"></script>
+    <script src="{{asset('js/user/reset_password.js')}}"></script>
     <script>
         $(document).ready(function () {
             $('#add-cart-button').on('click', function (e) {

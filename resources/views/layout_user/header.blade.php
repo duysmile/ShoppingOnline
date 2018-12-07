@@ -41,9 +41,9 @@
                                     <div class="custom-child-dropdown-menu">
                                         <ul>
                                             @foreach($category->children as $child)
-                                            <li>
-                                                <a href="{{route('list-products', $child->slug)}}">{{$child->name}}</a>
-                                            </li>
+                                                <li>
+                                                    <a href="{{route('list-products', $child->slug)}}">{{$child->name}}</a>
+                                                </li>
                                             @endforeach
                                         </ul>
                                     </div>
@@ -108,11 +108,19 @@
                 <div class="nav__button p-2">
                     <div class="position-relative d-inline-block">
                         <i class="fa fa-shopping-cart p-2 color-common"></i>
-                        <span class="badge badge-common" id="count-cart-items">{{$cartCount}}</span>
+                        @if(Auth::check())
+                            <span class="badge badge-common" id="count-cart-items">{{$cartCount}}</span>
+                        @endif
                     </div>
-                    <a href="{{route('cart')}}">
-                        {{__('Cart')}}
-                    </a>
+                    @if(Auth::check())
+                        <a href="{{route('cart')}}">
+                            {{__('Cart')}}
+                        </a>
+                    @else
+                        <a href="" data-toggle="modal" data-target="#login-register-dialog" data-open="login">
+                            {{__('Cart')}}
+                        </a>
+                    @endif
                 </div>
             </div>
         </div>

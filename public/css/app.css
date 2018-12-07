@@ -223,9 +223,9 @@ input[type='number'] {
 }
 
 .notice-common {
-    background-color: rgba(0,0,0,.5);
+    background-color: rgba(0,0,0,.9);
     box-shadow: 1px 1px 5px 1px #ccc;
-    animation: disappear 3s;
+    animation: disappear 5s;
     opacity: 0;
     display: none;
     min-width: 224px;

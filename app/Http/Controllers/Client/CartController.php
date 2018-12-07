@@ -33,10 +33,7 @@ class CartController extends Controller
         if ($data['success']) {
             return response()->json($data);
         } else {
-            return response()->json([
-                'success' => false,
-                'msg' => 'Đã xảy ra lỗi. Vui lòng thử lại.'
-            ]);
+            return response()->json($data);
         }
     }
 

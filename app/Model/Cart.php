@@ -47,9 +47,10 @@ class Cart extends Model
                 $cart->save();
             }
             $product = $cart->items->find($id);
-            if ($qty > $product->quantity) {
+            if ($product != null && $qty > $product->quantity) {
                 return [
-                    'success' => false
+                    'success' => false,
+                    'message' => 'Sản phẩm không còn đủ số lượng.'
                 ];
             }
             if ($product != null) {
@@ -70,8 +71,10 @@ class Cart extends Model
             ];
         } catch (\Exception $exception) {
             DB::rollBack();
+            dd($exception);
             return [
                 'success' => false,
+                'message' => 'Đã xảy ra lỗi. Vui lòng thử lại.'
             ];
         }
     }
@@ -83,7 +86,7 @@ class Cart extends Model
     public static function getCurrent()
     {
         $cart = Cart::where('user_id', Auth::user()->id)->first();
-        if($cart == null) {
+        if ($cart == null) {
             return [];
         }
         return $cart;
@@ -95,11 +98,14 @@ class Cart extends Model
      */
     public static function getCountCurrent()
     {
-        $cart = Cart::getCurrent();
-        if (empty($cart)) {
-            return 0;
+        if (Auth::check()) {
+            $cart = Cart::getCurrent();
+            if (empty($cart)) {
+                return 0;
+            }
+            return $cart->items()->count();
         }
-        return $cart->items()->count();
+        return 0;
     }
 
     /**
@@ -123,7 +129,7 @@ class Cart extends Model
         }
 
         $cart->items()->updateExistingPivot($data['id'], [
-           'quantity' => $qty
+            'quantity' => $qty
         ]);
 
         return ['success' => true];

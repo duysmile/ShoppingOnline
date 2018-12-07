@@ -8,7 +8,7 @@
         <div class="d-flex justify-content-between item-card-header">
             <div class="h-100 d-flex align-items-center w-50">
                 <label class="custom-checkbox">
-                    <input type="checkbox">
+                    <input type="checkbox" name="check-all">
                     <div class="checkbox-box"></div>
                 </label>
                 <div class="h-100 d-flex ml-4 align-items-center">
@@ -34,7 +34,7 @@
         <div class="d-flex justify-content-between item-card">
             <div class="h-100 d-flex align-items-center w-50">
                 <label class="custom-checkbox">
-                    <input type="checkbox">
+                    <input type="checkbox" data-id="{{$product->id}}">
                     <div class="checkbox-box"></div>
                 </label>
                 <div class="h-100 d-flex ml-5">
@@ -71,7 +71,7 @@
     <div class="d-flex justify-content-between item-card">
         <div class="h-100 d-flex align-items-center w-50">
             <label class="custom-checkbox">
-                <input type="checkbox">
+                <input type="checkbox" name="check-all" value="true">
                 <div class="checkbox-box"></div>
             </label>
             <div class="h-100 d-flex ml-5 align-items-center">

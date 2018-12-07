@@ -36,7 +36,10 @@
 @section('script')
     <script src="{{asset('js/user/moneyConvert.js')}}"></script>
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
+            /**
+             * count price of all product
+             */
             function countTotalPrice() {
                 var totalPrice = 0;
                 $('.price-products').each(function (item) {
@@ -49,7 +52,10 @@
 
             countTotalPrice();
 
-            $(document).on('input', 'input[data-items]', function() {
+            /**
+             * update price when change quantity
+             */
+            $(document).on('input', 'input[data-items]', function () {
                 var id = $(this).attr('data-items');
                 var price = $('span[data-id="' + id + '"][data-price-one]').attr('data-price-one');
                 var qty = $(this).val();
@@ -60,7 +66,10 @@
                 countTotalPrice();
             });
 
-            $(document).on('change', 'input[data-items]', function() {
+            /**
+             * update quantity cart on server
+             */
+            $(document).on('change', 'input[data-items]', function () {
                 var id = $(this).attr('data-items');
                 var qty = $(this).val();
                 var token = $('meta[name="csrf-token"]').attr('content');
@@ -77,19 +86,25 @@
                         _token: token,
                         _method: method
                     }),
-                    success: function(response) {
+                    success: function (response) {
                     },
-                    error: function(err) {
+                    error: function (err) {
                     }
                 });
             });
 
+            /**
+             * show delete dialog to delete a item in cart
+             */
             $(document).on('click', 'a.delete-item-card', function (e) {
                 var id = $(this).attr('data-id');
                 $('#dialog-delete input[name="id"]').val(id);
             });
 
-            $(document).on('submit', '#dialog-delete form', function(e) {
+            /**
+             * delete cart dialog
+             */
+            $(document).on('submit', '#dialog-delete form', function (e) {
                 e.preventDefault();
                 var url = $(this).attr('action');
                 var id = $(this).find('input[name="id"]').val();
@@ -106,8 +121,8 @@
                         _token: token,
                         _method: method
                     }),
-                    success: function(response) {
-                        if(response.success) {
+                    success: function (response) {
+                        if (response.success) {
                             console.log('ok');
                             $('#dialog-delete').modal('toggle');
                             $('#content-cart').html(response.data);
@@ -115,10 +130,85 @@
                             countTotalPrice();
                         }
                     },
-                    error: function(err) {
+                    error: function (err) {
                     }
                 });
+            });
+
+            /**
+             * handle check item in cart
+             */
+
+            // list item is checked
+            var listItems = [];
+            // list item in cart
+            var listProducts = [];
+
+            /**
+             *  load data from localstorage to listItems
+             */
+            function loadItem() {
+                if (localStorage.getItem('listItems') !== null) {
+                    listItems = JSON.parse(localStorage.getItem('listItems'));
+                }
+
+                listItems.forEach(function (item) {
+                    $('input[type="checkbox"][data-id="' + item + '"]').prop('checked', true);
+                });
+
+                isCheckedAll();
+            }
+
+            /**
+             * check if all checkbox is checked
+             */
+            function isCheckedAll() {
+                $('input[type="checkbox"][data-id]').each(function (input, item) {
+                    listProducts.push($(item).attr('data-id'));
+                });
+
+                return listProducts.every(function (item) {
+                    return $('input[type="checkbox"][data-id="' + item + '"]').is(':checked');
+                });
+            }
+
+            loadItem();
+            /**
+             * get id of all checked checkbox
+             */
+            $(document).on('change', 'input[type="checkbox"][data-id]', function (e) {
+                var checked = $(this).is(':checked');
+                var id = $(this).attr('data-id');
+                var index = listItems.indexOf(id);
+
+                if (checked && index < 0) {
+                    listItems.push(id);
+                    localStorage.setItem('listItems', JSON.stringify(listItems));
+                } else if (!checked && index >= 0) {
+                    listItems.splice(index, 1);
+                    localStorage.setItem('listItems', JSON.stringify(listItems));
+                }
+                if (isCheckedAll()) {
+                    $('input[name="check-all"]').prop('checked', true);
+                } else {
+                    $('input[name="check-all"]').prop('checked', false);
+                }
             })
+
+            /**
+             * check all checkbox when click select all
+             */
+            $(document).on('change', 'input[name="check-all"]', function (e) {
+                var checked = $(this).is(':checked');
+                if (checked) {
+                    $('input[type="checkbox"]').prop('checked', true);
+                    localStorage.setItem('listItems', JSON.stringify(listProducts));
+                } else {
+                    $('input[type="checkbox"]').prop('checked', false);
+                    localStorage.setItem('listItems', '[]');
+                }
+            });
+
         })
     </script>
 @endsection

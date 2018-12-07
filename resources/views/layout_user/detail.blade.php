@@ -58,9 +58,16 @@
                             </label>
                         </div>
                         <div class="form-group pt-3" data-id="{{$product->id}}">
-                            <button id="add-cart-button" class="btn mr-3 bg-white border-common color-common">
-                                {{__('Thêm vào giỏ hàng')}}
-                            </button>
+                            @if(Auth::check())
+                                <button id="add-cart-button" class="btn mr-3 bg-white border-common color-common">
+                                    {{__('Thêm vào giỏ hàng')}}
+                                </button>
+                            @else
+                                <a href="javascript:void(0)" class="btn mr-3 bg-white border-common color-common"
+                                        data-toggle="modal" data-target="#login-register-dialog" data-open="login">
+                                    {{__('Thêm vào giỏ hàng')}}
+                                </a>
+                            @endif
                             <button id="buy-button" class="btn mr-3 b-color-common border-common text-white">
                                 {{__('Mua ngay')}}
                             </button>
