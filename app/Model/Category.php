@@ -75,7 +75,7 @@ class Category extends Model
      */
     public static function getCategories()
     {
-        $categories = Category::whereNull('parent_id')->with('children')->paginate(constants('paginate.categories'));
+        $categories = Category::whereNull('parent_id')->with('children')->paginate(constants('PAGINATE.CATEGORIES'));
         foreach ($categories as $category) {
             $category['count_products'] = $category->products()->count();
             foreach ($category->children as $child) {
@@ -91,7 +91,7 @@ class Category extends Model
      */
     public static function getCategoriesClient()
     {
-        $categories = Category::whereNull('parent_id')->with('children')->limit(constants('paginate.categories_client'))->get();
+        $categories = Category::whereNull('parent_id')->with('children')->limit(constants('PAGINATE.CATEGORIES_CLIENT'))->get();
         foreach ($categories as $category) {
             $category['count_products'] = $category->products()->count();
             foreach ($category->children as $child) {

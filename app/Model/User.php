@@ -38,6 +38,14 @@ class User extends Authenticatable
     ];
 
     /**
+     * attach info to user
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function info() {
+        return $this->hasOne(InfoUser::class, 'user_id', 'id');
+    }
+
+    /**
      * attach social account
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */

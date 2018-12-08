@@ -28,7 +28,7 @@ class HomeController extends Controller
     public function list($category)
     {
         $category = Category::where('slug', $category)->first();
-        $listProducts = $category->products()->where('is_approved', true)->paginate(constants('paginate.products_client'));
+        $listProducts = $category->products()->where('is_approved', true)->paginate(constants('PAGINATE.CATEGORIES_CLIENT'));
         return view('client.list_products', compact(['category', 'listProducts']));
     }
 

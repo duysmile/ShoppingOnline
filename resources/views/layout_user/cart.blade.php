@@ -80,7 +80,7 @@
         </div>
         <div class="d-flex align-items-center w-50">
             <p>
-                {{__('Tổng số tiền (' . $cart->items()->count() . ' sản phẩm)')}}
+                {{__('Tổng số tiền (')}} <span id="count-items"></span> {{__(' sản phẩm)')}}
             </p>
             <p class="w-50 size-larger color-common text-right mr-3">
                 <u>đ</u>
@@ -89,7 +89,12 @@
                 </span>
             </p>
             <div class="w-25 text-center mr-3">
-                <a href="" class="btn b-color-common text-white">{{__('Mua ngay')}}</a>
+                <form action="{{route('confirm-invoice')}}" method="post">
+                    @csrf
+                    <input type="hidden" name="items" required>
+                    <input type="hidden" name="amount" required>
+                    <input type="submit" id="buy-now" class="btn b-color-common rounded-0 text-white" value="{{__('Mua ngay')}}" />
+                </form>
             </div>
         </div>
     </div>

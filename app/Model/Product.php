@@ -192,7 +192,7 @@ class Product extends Model
      */
     public static function getApprovedProduct()
     {
-        $products = Product::where('is_approved', true)->paginate(constants('paginate.products'));
+        $products = Product::where('is_approved', true)->paginate(constants('PAGINATE.PRODUCTS'));
         return $products;
     }
 
@@ -202,7 +202,7 @@ class Product extends Model
      */
     public static function getUnapprovedProductApi()
     {
-        $products = Product::where('is_approved', false)->paginate(constants('paginate.products'));
+        $products = Product::where('is_approved', false)->paginate(constants('PAGINATE.PRODUCTS'));
         $result = [];
         foreach ($products as $key => $product) {
             $result[] = [
@@ -224,7 +224,7 @@ class Product extends Model
      */
     public static function getUnapprovedProduct()
     {
-        $products = Product::where('is_approved', false)->paginate(constants('paginate.products'));
+        $products = Product::where('is_approved', false)->paginate(constants('PAGINATE.PRODUCTS'));
         return $products;
     }
 

@@ -38,19 +38,125 @@
     <script>
         $(document).ready(function () {
             /**
+             * handle check item in cart
+             */
+
+            // list item is checked
+            var listItems = [];
+            // list item in cart
+            var listProducts = [];
+
+            var items = $('input[name="items"]');
+            var amount = $('input[name="amount"]');
+
+            /**
+             *  load data from localstorage to listItems
+             */
+            function loadItem() {
+                if (localStorage.getItem('listItems') !== null) {
+                    listItems = JSON.parse(localStorage.getItem('listItems'));
+                }
+
+                listItems.forEach(function (item) {
+                    $('input[type="checkbox"][data-id="' + item.id + '"]').prop('checked', true);
+                });
+
+                if (isCheckedAll()) {
+                    $('input[type="checkbox"][name="check-all"]').prop('checked', true);
+                };
+
+                countTotalPrice();
+            }
+
+            /**
+             * check if all checkbox is checked
+             */
+            function isCheckedAll() {
+                listProducts = [];
+                $('input[type="checkbox"][data-id]').each(function (input, item) {
+                    listProducts.push($(item).attr('data-id'));
+                });
+
+                return listProducts.every(function (item) {
+                    return $('input[type="checkbox"][data-id="' + item + '"]').is(':checked');
+                });
+            }
+
+            /**
+             * get id of all checked checkbox
+             */
+            $(document).on('change', 'input[type="checkbox"][data-id]', function (e) {
+                var checked = $(this).is(':checked');
+                var id = $(this).attr('data-id');
+                var qty = $('input[type="number"][data-items="' + id + '"]').val();
+                var index = listItems.map(function(item){
+                    return item.id;
+                }).indexOf(id);
+
+                if (checked && index < 0) {
+                    listItems.push({id: id, qty: qty});
+                    localStorage.setItem('listItems', JSON.stringify(listItems));
+                } else if (!checked && index >= 0) {
+                    listItems.splice(index, 1);
+                    localStorage.setItem('listItems', JSON.stringify(listItems));
+                }
+                if (isCheckedAll()) {
+                    $('input[name="check-all"]').prop('checked', true);
+                } else {
+                    $('input[name="check-all"]').prop('checked', false);
+                }
+                countTotalPrice();
+            })
+
+            /**
+             * check all checkbox when click select all
+             */
+            $(document).on('change', 'input[name="check-all"]', function (e) {
+                var checked = $(this).is(':checked');
+
+                if (checked) {
+                    var list = listProducts.map(function(item) {
+                        var id = item;
+                        var qty = $('input[type="number"][data-items="' + id + '"]').val();
+                        return {id: id, qty: qty};
+                    })
+                    listItems = list;
+                    $('input[type="checkbox"]').prop('checked', true);
+                    localStorage.setItem('listItems', JSON.stringify(list));
+                } else {
+                    $('input[type="checkbox"]').prop('checked', false);
+                    localStorage.setItem('listItems', '[]');
+                    listItems = [];
+                }
+                countTotalPrice();
+            });
+
+            /**
              * count price of all product
              */
             function countTotalPrice() {
                 var totalPrice = 0;
-                $('.price-products').each(function (item) {
-                    var price = $(this).attr('data-price');
+                listItems.forEach(function (item) {
+                    var price = $('.price-products[data-id="' + item.id + '"]').attr('data-price');
                     totalPrice += parseFloat(price);
+                })
+
+                if (totalPrice != 0) {
+                    console.log(money('1000' + '000'));
+                    $('.totalPrice').html(money(totalPrice + '000'));
+                } else {
+                    $('.totalPrice').html(money(totalPrice));
+                }
+
+                var count = 0;
+                listItems.forEach(function(item) {
+                    count += parseInt(item.qty);
                 });
 
-                $('.totalPrice').html(money(totalPrice + '000'));
+                $('#count-items').text(count);
+                items.val(JSON.stringify(listItems));
+                amount.val(JSON.stringify(totalPrice));
             }
-
-            countTotalPrice();
 
             /**
              * update price when change quantity
@@ -59,7 +165,18 @@
                 var id = $(this).attr('data-items');
                 var price = $('span[data-id="' + id + '"][data-price-one]').attr('data-price-one');
                 var qty = $(this).val();
+                if (qty <= 0) {
+                    $(this).val(1);
+                    return;
+                }
                 var total = Number(price) * qty;
+
+                listItems = listItems.map(function (item) {
+                    if (item.id == id) {
+                        item.qty = qty;
+                    }
+                    return item;
+                });
 
                 $('span[data-id="' + id + '"][data-price]').text(money(total + '000'));
                 $('span[data-id="' + id + '"][data-price]').attr('data-price', total);
@@ -123,7 +240,6 @@
                     }),
                     success: function (response) {
                         if (response.success) {
-                            console.log('ok');
                             $('#dialog-delete').modal('toggle');
                             $('#content-cart').html(response.data);
                             $('#count-cart-items').html(response.count);
@@ -135,80 +251,9 @@
                 });
             });
 
-            /**
-             * handle check item in cart
-             */
-
-            // list item is checked
-            var listItems = [];
-            // list item in cart
-            var listProducts = [];
-
-            /**
-             *  load data from localstorage to listItems
-             */
-            function loadItem() {
-                if (localStorage.getItem('listItems') !== null) {
-                    listItems = JSON.parse(localStorage.getItem('listItems'));
-                }
-
-                listItems.forEach(function (item) {
-                    $('input[type="checkbox"][data-id="' + item + '"]').prop('checked', true);
-                });
-
-                isCheckedAll();
-            }
-
-            /**
-             * check if all checkbox is checked
-             */
-            function isCheckedAll() {
-                $('input[type="checkbox"][data-id]').each(function (input, item) {
-                    listProducts.push($(item).attr('data-id'));
-                });
-
-                return listProducts.every(function (item) {
-                    return $('input[type="checkbox"][data-id="' + item + '"]').is(':checked');
-                });
-            }
-
+            //init
+            countTotalPrice();
             loadItem();
-            /**
-             * get id of all checked checkbox
-             */
-            $(document).on('change', 'input[type="checkbox"][data-id]', function (e) {
-                var checked = $(this).is(':checked');
-                var id = $(this).attr('data-id');
-                var index = listItems.indexOf(id);
-
-                if (checked && index < 0) {
-                    listItems.push(id);
-                    localStorage.setItem('listItems', JSON.stringify(listItems));
-                } else if (!checked && index >= 0) {
-                    listItems.splice(index, 1);
-                    localStorage.setItem('listItems', JSON.stringify(listItems));
-                }
-                if (isCheckedAll()) {
-                    $('input[name="check-all"]').prop('checked', true);
-                } else {
-                    $('input[name="check-all"]').prop('checked', false);
-                }
-            })
-
-            /**
-             * check all checkbox when click select all
-             */
-            $(document).on('change', 'input[name="check-all"]', function (e) {
-                var checked = $(this).is(':checked');
-                if (checked) {
-                    $('input[type="checkbox"]').prop('checked', true);
-                    localStorage.setItem('listItems', JSON.stringify(listProducts));
-                } else {
-                    $('input[type="checkbox"]').prop('checked', false);
-                    localStorage.setItem('listItems', '[]');
-                }
-            });
-
         })
     </script>
 @endsection

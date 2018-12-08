@@ -26,6 +26,15 @@ class UsersTableSeeder extends Seeder
         $staff->roles()->attach($staff_role);
         $staff->permissions()->attach($staff_permission);
 
+        $info = new \App\Model\InfoUser();
+        $info->user_id = $staff->id;
+        $info->name = 'Nguyễn Duy';
+        $info->address = 'K111/08 CMT8 Đà Nẵng';
+        $info->tel_no = '(+84)1268447315';
+        $info->gender = false;
+        $info->birth_date = \Carbon\Carbon::create('1997','06','21');
+        $info->save();
+
         $admin = new \App\Model\User();
         $admin->name = 'Bin';
         $admin->email = 'bin210697@gmail.com';

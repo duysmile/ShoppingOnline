@@ -6,10 +6,13 @@
  * Time: 9:43 PM
  */
 return [
-    'paginate' => [
-        'products' => 10,
-        'products_client' => 20,
-        'categories' => 5,
-        'categories_client' => 5
+    'PAGINATE' => [
+        'PRODUCTS' => 10,
+        'PRODUCTS_CLIENT' => 20,
+        'CATEGORIES' => 5,
+        'CATEGORIES_CLIENT' => 5
+    ],
+    'CART' => [
+        'TOTAL_ITEMS' => 20
     ]
 ];

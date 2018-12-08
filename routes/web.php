@@ -39,6 +39,9 @@ Route::group([
     Route::patch('/update-cart-item', 'Client\CartController@updateQtyItem')->name('update-cart');
     Route::delete('/delete-cart-item', 'Client\CartController@deleteItem')->name('delete-item-card');
 
+    Route::post('/checkout', 'Client\PaymentController@confirmInvoice')->name('confirm-invoice');
+    Route::post('/buy-product', 'Client\PaymentController@addInvoice')->name('buy-product');
+
     Route::get('/profile', function () {
         return view('profile');
     })->name('profile-user');

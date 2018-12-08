@@ -12,7 +12,7 @@ function money($price)
     $length = strlen($price);
     $tmpPrice = $price;
     while ($length - 3 > 0) {
-        $result[] = substr($tmpPrice, $length - 4, 3);
+        $result[] = substr($tmpPrice, $length - 3, 3);
         $tmpPrice = substr($tmpPrice, 0, $length - 3);
         $length -= 3;
     }
