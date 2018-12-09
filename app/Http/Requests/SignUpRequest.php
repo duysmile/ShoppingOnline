@@ -26,7 +26,7 @@ class SignUpRequest extends FormRequest
         return [
             "username" => 'bail|required|min:5|max:255|unique:users,name',
             "email" => 'bail|required|email|max:255|unique:users,email',
-            "tel" => 'bail|required|max:11',
+            "tel" => 'bail|required|max:15',
             "password" => 'bail|required|min:8|max:255|confirmed',
         ];
     }

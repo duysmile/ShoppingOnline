@@ -37,7 +37,7 @@
             <span>{{__('Quản lí user')}}</span></a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="tables.html">
+        <a class="nav-link" href="{{route('invoices.in-progress')}}">
             <i class="fas fa-shipping-fast"></i>
             <span>{{__('Quản lí đơn hàng')}}</span></a>
     </li>

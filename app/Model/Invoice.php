@@ -85,13 +85,18 @@ class Invoice extends Model
         $amount = session('amount');
         $address = $request->only('address')['address'];
         $tel_no = $request->only('tel_no')['tel_no'];
+        $user = Auth::user();
         DB::beginTransaction();
         try {
+            $countInvoices = $user->invoices()->count();
+            if ($countInvoices > constants('USER.MAX_INVOICES')) {
+                throw new \Exception('Bạn chỉ có thể đặt tối đa 5 đơn.');
+            }
             $totalItems = 0;
             $invoice = Invoice::create([
                 'user_id' => Auth::user()->id,
                 'amount' => $amount,
-                'status' => false,
+                'status' => constants('CART.STATUS.PENDING'),
                 'address' => $address,
                 'tel_no' => $tel_no
             ]);
@@ -111,7 +116,7 @@ class Invoice extends Model
                     'invoice_id' => $invoice->id,
                     'product_id' => $product->id,
                     'quantity' => $item->qty,
-                    'status' => false
+                    'status' => constants('CART.STATUS.PENDING')
                 ]);
 
                 $cart->items()->detach($product);
@@ -131,5 +136,48 @@ class Invoice extends Model
                 'message' => $e->getMessage()
             ];
         }
+    }
+
+    /**
+     * get all invoices according status
+     * @param $status
+     * @return mixed
+     */
+    public static function getAllInvoices($status)
+    {
+        $invoices = Invoice::where('status', $status)->paginate(constants('PAGINATE.INVOICES'));
+        foreach($invoices as $invoice) {
+            $invoice->quantity = $invoice->items()->sum('quantity');
+            $invoice->totalItems = $invoice->items()->sum('quantity');
+            $invoice->owner = $invoice->owner->name;
+            $invoice->status = constants('STATUS.' . $invoice->status);
+        }
+        return $invoices;
+    }
+
+    /**
+     * approve a invoice
+     * @param $id
+     * @return bool
+     */
+    public static function approveInvoice($id)
+    {
+        $invoice = Invoice::where(['id' => $id, 'status' => constants('CART.STATUS.PENDING')])->first();
+
+        if ($invoice == null) {
+            return false;
+        }
+        $invoice->status = constants('CART.STATUS.ON_THE_WAY');
+        return $invoice->save();
+    }
+
+    /**
+     * cancel invoice
+     * @return bool
+     */
+    public function cancel()
+    {
+        $this->status = constants('CART.STATUS.CANCELED');
+        return $this->save();
     }
 }

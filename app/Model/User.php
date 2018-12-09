@@ -4,10 +4,13 @@ namespace App\Model;
 
 use App\Mail\VerifyEmail;
 use App\Permission\HasPermissionsTrait;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 
 class User extends Authenticatable
@@ -41,7 +44,8 @@ class User extends Authenticatable
      * attach info to user
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function info() {
+    public function info()
+    {
         return $this->hasOne(InfoUser::class, 'user_id', 'id');
     }
 
@@ -61,6 +65,20 @@ class User extends Authenticatable
     public function verifyUser()
     {
         return $this->hasOne('App\Model\VerifyUser');
+    }
+
+    /**
+     * attach cart to user
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function cart()
+    {
+        return $this->hasOne(Cart::class, 'user_id', 'id');
+    }
+
+    public function invoices()
+    {
+        return $this->hasMany(Invoice::class, 'user_id', 'id');
     }
 
     /**
@@ -87,6 +105,10 @@ class User extends Authenticatable
                 'password' => Hash::make($tmp['password'])
             ];
             $user_created = User::create($user);
+            InfoUser::create([
+                'user_id' => $user_created->id,
+                'tel_no' => $tmp['tel']
+            ]);
             VerifyUser::create([
                 "user_id" => $user_created->id,
                 "token" => $user_created->id . str_random(30) . time()
@@ -141,11 +163,46 @@ class User extends Authenticatable
     }
 
     /**
-     * attach cart to user
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * update information of user
+     * @param $request
+     * @return array
      */
-    public function cart()
+    public static function updateProfile($request)
     {
-        return $this->hasOne(Cart::class, 'user_id', 'id');
+        $data = $request->only(['tel', 'address', 'gender', 'birth_date', 'name', 'email']);
+
+        $data['gender'] = $data['gender'] == 'true' ? true : false;
+        try {
+            $user = Auth::user();
+            if ($user->info == null) {
+                InfoUser::create([
+                    'user_id' => $user->id,
+                    'tel_no' => $data['tel'],
+                    'address' => $data['address'],
+                    'gender' => $data['gender'],
+                    'birth_date' => Carbon::createFromFormat('Y-m-d', $data['birth_date'])->toDateString(),
+                    'name' => $data['name']
+                ]);
+            } else {
+                $info = $user->info();
+                $info->update([
+                    'tel_no' => $data['tel'],
+                    'address' => $data['address'],
+                    'gender' => $data['gender'],
+                    'birth_date' => Carbon::createFromFormat('Y-m-d', $data['birth_date'])->toDateString(),
+                    'name' => $data['name']
+                ]);
+            }
+            return [
+                'success' => true,
+                'message' => 'Lưu thông tin thành công.'
+            ];
+        } catch (\Exception $e) {
+            dd($e);
+            return [
+                'success' => false,
+                'message' => 'Đã xảy ra lỗi. Vui lòng thử lại.' . $e
+            ];
+        }
     }
 }

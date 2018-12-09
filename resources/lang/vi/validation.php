@@ -21,4 +21,5 @@ return [
     'string' => ':attribute phải là chuỗi kí tự.',
     'numeric' => ':attribute phải là một số.',
     'mimes' => ':attribute phải có định dạng :values',
+    'date_format' => ':attribute không đúng định dạng'
 ];

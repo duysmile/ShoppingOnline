@@ -13,7 +13,7 @@
                 <span class="text-nowrap">
                     <b>{{Auth::user()->info->tel_no}}</b>
                 </span>
-                <span class="ml-4 address" style="max-width: 500px">
+                <span class="ml-4 address font-size-md" style="max-width: 450px">
                     {{Auth::user()->info->address}}
                 </span>
                 <span class="badge badge-secondary text-white rounded-0 ml-3">

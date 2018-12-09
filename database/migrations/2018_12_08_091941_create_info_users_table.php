@@ -15,11 +15,11 @@ class CreateInfoUsersTable extends Migration
     {
         Schema::create('info_users', function (Blueprint $table) {
             $table->integer('user_id')->unsigned();
-            $table->string('name');
-            $table->string('address');
+            $table->string('name')->nullable();
+            $table->string('address')->nullable();
             $table->string('tel_no', 15);
-            $table->boolean('gender'); //true: Female, false: Male
-            $table->date('birth_date');
+            $table->boolean('gender')->nullable(); //true: Female, false: Male
+            $table->date('birth_date')->nullable();
             $table->softDeletes();
 
             $table->primary('user_id');

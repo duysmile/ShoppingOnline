@@ -56,7 +56,7 @@
             <div class="w-50">
                 <form action="" class="form-inline w-100">
                     <div class="input-group w-100 border-common-lg">
-                        <input type="text" class="form-control border-0 nav__input-search font-size-md"
+                        <input name="search" type="text" class="form-control border-0 nav__input-search font-size-md"
                                placeholder="What are you looking for ... ">
                         <div class="input-group-prepend">
                                 <span class="input-group-text bg-common text-white border-0">

@@ -44,7 +44,8 @@ class PaymentController extends Controller
         if($data['success']) {
             session([
                 'cart_items' => [],
-                'amount' => ''
+                'amount' => '',
+                'active' => constants('PROFILE.INVOICES')
             ]);
             return redirect('profile')->with(['payment' => true, 'success' => 'Đặt hàng thành công.']);
         } else {

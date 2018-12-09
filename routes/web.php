@@ -42,11 +42,14 @@ Route::group([
     Route::post('/checkout', 'Client\PaymentController@confirmInvoice')->name('confirm-invoice');
     Route::post('/buy-product', 'Client\PaymentController@addInvoice')->name('buy-product');
 
-    Route::get('/profile', function () {
-        return view('profile');
-    })->name('profile-user');
+    Route::get('/profile', 'Client\ProfileController@index')->name('profile-user');
+    Route::post('/update-profile', 'Client\ProfileController@update')->name('update-profile');
 
     Route::get('/logout', 'Client\LoginController@logout')->name('logout');
+
+    Route::get('error', function() {
+        return view('client.error', ['message' => 'Hello']);
+    });
 });
 
 Route::group([
@@ -54,7 +57,9 @@ Route::group([
     'prefix' => 'admin'
 ], function () {
     Route::resource('products', 'Admin\ProductsController');
-//    Route::resource('invoices', 'InvoicesController');
+    Route::get('/invoices/in-progress', 'Admin\InvoicesController@inProgress')->name('invoices.in-progress');
+    Route::patch('/invoices/update-status', 'Admin\InvoicesController@updateStatus')->name('invoices.update-status');
+    Route::delete('/invoices/cancel', 'Admin\InvoicesController@cancel')->name('invoices.cancel');
 //    Route::resource('users', 'UsersController');
 
     Route::resource('categories', 'Admin\CategoryController')->middleware('role:admin');

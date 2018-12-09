@@ -1,7 +1,26 @@
 $(document).ready(function () {
+    /**
+     * clear error when input
+     */
     $(document).on('focus', 'form#signup-form input', function () {
         $(this).next('span').text("");
-    })
+    });
+
+    /**
+     * convert tel no when has change
+     */
+    $(document).on('change', 'input[name="tel"]', function () {
+        var tel = $(this).val().trim();
+
+        if(tel[0] == '0') {
+            tel = '(+84)' + tel.slice(1);
+        }
+        $(this).val(tel);
+    });
+
+    /**
+     * signup form
+     */
     $(document).on('submit', 'form#signup-form', function (e) {
         e.preventDefault();
         var username = $(this).find('input[name="username"]').val();
@@ -30,9 +49,9 @@ $(document).ready(function () {
             success: function (response) {
                 if (!response.success) {
                     var key = Object.keys(response.message)[0];
-                    $('span[data-bind="'+ key +'"]').text(response.message[key]);
-                    Object.keys(response.data).forEach(function(item) {
-                        $('input[name="'+ item +'"]').val(response.data[item]);
+                    $('span[data-bind="' + key + '"]').text(response.message[key]);
+                    Object.keys(response.data).forEach(function (item) {
+                        $('input[name="' + item + '"]').val(response.data[item]);
                     })
                 } else {
                     alert(response.message);
@@ -42,12 +61,12 @@ $(document).ready(function () {
             error: function (error) {
                 $("#login-register-dialog input").attr("disabled", false);
                 var errors = error.responseJSON;
-                if (errors.errors != null){
-                    Object.keys(errors.errors).forEach(function(item) {
-                        $('span[data-bind="'+ item +'"]').text(errors.errors[item]);
+                if (errors.errors != null) {
+                    Object.keys(errors.errors).forEach(function (item) {
+                        $('span[data-bind="' + item + '"]').text(errors.errors[item]);
                     })
                 }
             }
         })
     })
-})
+});

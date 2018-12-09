@@ -3,6 +3,5 @@ $(document).ready(function() {
         var id = $(this).attr('data-id');
         var dialog = $(this).attr('data-target');
         $(dialog).find('input[name="del-id"]').attr('value', id);
-        console.log('ok')
     })
 })

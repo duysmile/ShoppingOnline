@@ -87,7 +87,7 @@ class Cart extends Model
     {
         $cart = Cart::where('user_id', Auth::user()->id)->first();
         if ($cart == null) {
-            return [];
+            $cart = new Cart();
         }
         return $cart;
     }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Client;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\SignUpRequest;
 use App\Mail\VerifyEmail;
 use App\Model\Role;
@@ -22,9 +23,6 @@ class SignUpController extends Controller
     public function postSignup(SignUpRequest $request)
     {
         $result = User::signUp($request);
-        if ($result['success']) {
-            return response()->json($result);
-        }
         return response()->json($result);
         // TODO: add tel to infomation table
     }

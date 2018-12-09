@@ -1,5 +1,7 @@
 $(document).ready(function() {
-    //change dialog
+    /**
+     * change dialog
+     */
     $(document).on('click', '[data-open]', function (e) {
         e.preventDefault();
         var tab = $(this).attr('data-open');
@@ -28,11 +30,18 @@ $(document).ready(function() {
             $('#reset-dialog-content').show();
             $('#reset-confirm').hide();
         }
-    })
+    });
 
+    /**
+     * clear error when input
+     */
     $(document).on('focus', 'form#login-form input', function () {
         $('span[data-bind]').text("");
-    })
+    });
+
+    /**
+     * login form
+     */
     $(document).on('submit', 'form#login-form', function (e) {
         e.preventDefault();
         var url_current = window.location.pathname;
