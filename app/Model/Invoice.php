@@ -146,13 +146,77 @@ class Invoice extends Model
     public static function getAllInvoices($status)
     {
         $invoices = Invoice::where('status', $status)->paginate(constants('PAGINATE.INVOICES'));
-        foreach($invoices as $invoice) {
+        foreach ($invoices as $invoice) {
             $invoice->quantity = $invoice->items()->sum('quantity');
             $invoice->totalItems = $invoice->items()->sum('quantity');
             $invoice->owner = $invoice->owner->name;
             $invoice->status = constants('STATUS.' . $invoice->status);
         }
         return $invoices;
+    }
+
+    /**
+     * get all invoices according status off current user
+     * @param $status
+     * @return mixed
+     */
+    public static function getInvoicesCurrent($status)
+    {
+        $invoices = Invoice::where(['status' => $status, 'user_id' => Auth::user()->id])->paginate(constants('PAGINATE.INVOICES'));
+        foreach ($invoices as $invoice) {
+            $invoice->quantity = $invoice->items()->sum('quantity');
+            $invoice->totalItems = $invoice->items()->sum('quantity');
+            $invoice->owner = $invoice->owner->name;
+            $invoice->status = constants('STATUS.' . $invoice->status);
+        }
+        return $invoices;
+    }
+
+    /**
+     * count invoices with status
+     * @param $user_id
+     * @return array
+     */
+    public static function countInvoices($user_id = null)
+    {
+        if($user_id != null) {
+            $inProgress = Invoice::where([
+                'user_id' => $user_id,
+                'status' => constants('CART.STATUS.PENDING')
+            ])->count();
+            $onTheWay = Invoice::where([
+                'user_id' => $user_id,
+                'status' => constants('CART.STATUS.ON_THE_WAY')
+            ])->count();
+            $success = Invoice::where([
+                'user_id' => $user_id,
+                'status' => constants('CART.STATUS.PAID')
+            ])->count();
+            $canceled = Invoice::where([
+                'user_id' => $user_id,
+                'status' => constants('CART.STATUS.CANCELED')
+            ])->count();
+        } else {
+            $inProgress = Invoice::where([
+                'status' => constants('CART.STATUS.PENDING')
+            ])->count();
+            $onTheWay = Invoice::where([
+                'status' => constants('CART.STATUS.ON_THE_WAY')
+            ])->count();
+            $success = Invoice::where([
+                'status' => constants('CART.STATUS.PAID')
+            ])->count();
+            $canceled = Invoice::where([
+                'status' => constants('CART.STATUS.CANCELED')
+            ])->count();
+        }
+
+        return [
+            'countInProgress' => $inProgress,
+            'countOnTheWay' => $onTheWay,
+            'countSuccess' => $success,
+            'countCanceled' => $canceled,
+        ];
     }
 
     /**
@@ -179,5 +243,56 @@ class Invoice extends Model
     {
         $this->status = constants('CART.STATUS.CANCELED');
         return $this->save();
+    }
+
+    /**
+     * confirm is received
+     * @param $id
+     * @return array
+     */
+    public static function confirm($id)
+    {
+        $invoice = Invoice::where([
+            'id' => $id,
+            'status' => constants('CART.STATUS.ON_THE_WAY')
+         ])->first();
+
+        if($invoice != null) {
+            $invoice->update([
+                'status' => constants('CART.STATUS.PAID')
+            ]);
+            $invoices = Invoice::getAllInvoices(constants('CART.STATUS.ON_THE_WAY'));
+            return [
+                'success' => true,
+                'data' => $invoices
+            ];
+        }
+
+        return [
+            'success' => false,
+            'message' => 'Đã xảy ra lỗi. Vui lòng thử lại.'
+        ];
+    }
+
+    public static function cancelInvoice($id)
+    {
+        $invoice = Invoice::where([
+            'id' => $id,
+            'status' => constants('CART.STATUS.PENDING')
+        ])->first();
+
+        if($invoice != null) {
+            $invoice->cancel();
+            $invoices = Invoice::getAllInvoices(constants('CART.STATUS.PENDING'));
+            return [
+                'success' => true,
+                'data' => $invoices
+            ];
+        }
+
+        return [
+            'success' => false,
+            'message' => 'Sản phẩm đang được giao, bạn không thể hủy.'
+        ];
     }
 }

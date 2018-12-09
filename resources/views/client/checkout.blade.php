@@ -139,7 +139,7 @@
                         </div>
                         <div class="d-flex justify-content-end pt-5">
                             <a href="" class="btn bg-light mr-2 rounded-0 font-size-md border" data-dismiss="modal">
-                                Trở lại
+                                {{__('Trở lại')}}
                             </a>
                             <input type="submit" value="{{__('Hoàn thành')}}" href=""
                                    class="b-color-common btn text-white rounded-0 font-size-md"/>

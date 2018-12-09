@@ -20,16 +20,6 @@
             <i class="fas fa-shopping-bag"></i>
             <span>{{__('Quản lí sản phẩm')}}</span>
         </a>
-        {{--<div class="collapse bg-light" id="pagesDropdown">--}}
-            {{--<h6 class="dropdown-header">Login Screens:</h6>--}}
-            {{--<a class="dropdown-item" href="login.html">Login</a>--}}
-            {{--<a class="dropdown-item" href="register.html">Register</a>--}}
-            {{--<a class="dropdown-item" href="forgot-password.html">Forgot Password</a>--}}
-            {{--<div class="dropdown-divider"></div>--}}
-            {{--<h6 class="dropdown-header">Other Pages:</h6>--}}
-            {{--<a class="dropdown-item" href="404.html">404 Page</a>--}}
-            {{--<a class="dropdown-item" href="blank.html">Blank Page</a>--}}
-        {{--</div>--}}
     </li>
     <li class="nav-item">
         <a class="nav-link" href="charts.html">
@@ -37,8 +27,36 @@
             <span>{{__('Quản lí user')}}</span></a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="{{route('invoices.in-progress')}}">
+        <a class="nav-link" href=""
+           data-toggle="collapse" data-target="#invoices-status">
             <i class="fas fa-shipping-fast"></i>
-            <span>{{__('Quản lí đơn hàng')}}</span></a>
+            <span>
+                {{__('Quản lí đơn hàng')}}
+            </span>
+        </a>
+        <div class="collapse bg-light" id="invoices-status">
+            <a class="dropdown-item" href="{{route('invoices.in-progress')}}">
+                <i class="fa fa-spinner font-size-md"></i>
+                {{__('Chờ xét duyệt')}}
+                @if($countInvoices['countInProgress'] > 0)
+                    <span class="badge badge-danger font-size-sm text-white">{{$countInvoices['countInProgress']}}</span>
+                @endif
+            </a>
+            <a class="dropdown-item" href="{{route('invoices.in-transport')}}">
+                <i class="fa fa-truck font-size-md"></i>
+                {{__('Đang giao')}}
+                @if($countInvoices['countOnTheWay'] > 0)
+                    <span class="badge badge-success font-size-sm text-white">{{$countInvoices['countOnTheWay']}}</span>
+                @endif
+            </a>
+            <a class="dropdown-item" href="{{route('invoices.in-success')}}">
+                <i class="fa fa-check-circle font-size-md"></i>
+                {{__('Đã giao')}}
+            </a>
+            <a class="dropdown-item" href="{{route('invoices.in-canceled')}}">
+                <i class="fa fa-trash font-size-md"></i>
+                {{__('Bị hủy')}}
+            </a>
+        </div>
     </li>
 </ul>

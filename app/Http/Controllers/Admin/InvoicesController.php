@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ApproveInvoiceRequest;
 use App\Model\Invoice;
+use Illuminate\Http\Request;
 
 class InvoicesController extends Controller
 {
@@ -15,8 +16,45 @@ class InvoicesController extends Controller
      */
     public function inProgress()
     {
+        $status = constants('CART.STATUS.PENDING');
         $invoices = Invoice::getAllInvoices(constants('CART.STATUS.PENDING'));
-        return view('admin.invoices.in_progress', compact('invoices'));
+        return view('admin.invoices.index', compact(['status', 'invoices']));
+    }
+
+    /**
+     * Display a listing of the invoices in transport.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function inTransport()
+    {
+        $status = constants('CART.STATUS.ON_THE_WAY');
+        $invoices = Invoice::getAllInvoices(constants('CART.STATUS.ON_THE_WAY'));
+        return view('admin.invoices.index', compact(['status', 'invoices']));
+    }
+
+    /**
+     * Display a listing of the invoices in success.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function inSuccess()
+    {
+        $status = constants('CART.STATUS.PAID');
+        $invoices = Invoice::getAllInvoices(constants('CART.STATUS.PAID'));
+        return view('admin.invoices.index', compact(['status', 'invoices']));
+    }
+
+    /**
+     * Display a listing of the invoices in canceled.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function inCanceled()
+    {
+        $status = constants('CART.STATUS.CANCELED');
+        $invoices = Invoice::getAllInvoices(constants('CART.STATUS.CANCELED'));
+        return view('admin.invoices.index', compact(['status', 'invoices']));
     }
 
     /**
@@ -43,7 +81,12 @@ class InvoicesController extends Controller
         throw new \Error('Đã xảy ra lỗi. Vui lòng thử lại.');
     }
 
-    public function cancel(\Illuminate\Http\Request $request)
+    /**
+     * cancel a invoice
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function cancel(Request $request)
     {
         $id = $request->only('del-id')['del-id'];
         $invoice = Invoice::find($id);

@@ -4,10 +4,41 @@
     @include('layout_user.profile')
 @endsection
 
+@section('dialog')
+    <div class="modal fade" id="delete-dialog" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog rounded-0" role="document">
+            <div class="modal-content rounded-0">
+                <div class="modal-header rounded-0">
+                    <div id="info-dialog-header" class="w-100">
+                        <div class="d-flex align-items-center justify-content-between w-100">
+                            <h5 class="modal-title color-common" id="exampleModalLabel">{{__('Bạn có chắc chắn muốn hủy đơn hàng?')}}</h5>
+                        </div>
+                    </div>
+                </div>
+                <div id="info-dialog-content">
+                    <div class="modal-body">
+                        <form id="cancel-invoice" action="{{route('invoices-client.cancel')}}" method="post">
+                            @csrf
+                            <input type="hidden" name="id">
+                            <div class="d-flex justify-content-end pt-1">
+                                <input type="submit" value="{{__('Có')}}" href="{{route('invoices-client.cancel')}}"
+                                       class="b-color-common btn text-white rounded-0 font-size-md"/>
+                                <a href="" class="btn bg-light mr-2 rounded-0 font-size-md border" data-dismiss="modal">
+                                    {{__('Không')}}
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection
+
 @section('script')
     @if(session('payment'))
         <script>
-            $(document).ready(function() {
+            $(document).ready(function () {
                 localStorage.clear();
             })
         </script>
@@ -22,7 +53,7 @@
             $(document).on('change', 'input[name="tel"]', function () {
                 var tel = $(this).val().trim();
 
-                if(tel[0] == '0') {
+                if (tel[0] == '0') {
                     tel = '(+84)' + tel.slice(1);
                 }
                 $(this).val(tel);
@@ -111,6 +142,157 @@
                 })
             })
         });
+    </script>
+    <script>
+        $(document).ready(function () {
+            /**
+             * init if redirect from payment
+             */
+            function init() {
+                var tab = $('a[data-toggle="tab"]');
+                if(tab.attr('active')) {
+                    loadInvoices('#in-progress');
+                }
+            }
 
+            init();
+
+            /**
+             * load invoices by status
+             * @param tab
+             */
+            function loadInvoices(tab) {
+                var status = 0;
+                var token = $('meta[name="csrf-token"]').attr('content');
+                switch (tab) {
+                    case '#in-progress':
+                        status = 0;
+                        break;
+                    case '#in-transport':
+                        status = 1;
+                        break;
+                    case '#in-success':
+                        status = 2;
+                        break;
+                    case '#in-delete':
+                        status = 3;
+                        break;
+                }
+
+                $.ajax({
+                    url: '/invoices/load',
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    method: 'post',
+                    data: JSON.stringify({
+                        status: status,
+                        _token: token
+                    }),
+                    success: function (response) {
+                        $(tab).html(response.view);
+                        $('span[data-bind="in-progress"]').text('(' + response.countInProgress + ')');
+                        $('span[data-bind="in-transport"]').text('(' + response.countOnTheWay + ')');
+                        $('span[data-bind="in-success"]').text('(' + response.countSuccess + ')');
+                        $('span[data-bind="in-delete"]').text('(' + response.countCanceled + ')');
+                    },
+                    error: function (err) {
+                        console.log(err);
+                    }
+                });
+            }
+
+            /**
+             * event on click tab in invoices
+             */
+            $(document).on('click', 'a[data-toggle="pill"]', function (e) {
+                var tab = $(this).attr('href');
+
+                loadInvoices(tab);
+            });
+
+            /**
+             * event on click in tab invoice
+             */
+            $(document).on('click', 'a[href="#invoice"]', function (e) {
+                var tab = '#in-progress';
+
+                loadInvoices(tab);
+            });
+
+            /**
+             * event on click confirm received
+             */
+            $(document).on('click', 'a#confirm-invoice', function(e){
+                e.preventDefault();
+                var tab = '#in-transport';
+                var id = $(this).attr('data-bind');
+                var url = $(this).attr('href');
+                var token = $('meta[name="csrf-token"]').attr('content');
+
+                $.ajax({
+                    url: url,
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    method: 'post',
+                    data: JSON.stringify({
+                        id: id,
+                        _token: token
+                    }),
+                    success: function (response) {
+                        $(tab).html(response.view);
+                        $('span[data-bind="in-progress"]').text('(' + response.countInProgress + ')');
+                        $('span[data-bind="in-transport"]').text('(' + response.countOnTheWay + ')');
+                        $('span[data-bind="in-success"]').text('(' + response.countSuccess + ')');
+                        $('span[data-bind="in-delete"]').text('(' + response.countCanceled + ')');
+                    },
+                    error: function (err) {
+                        console.log(err);
+                    }
+                });
+            });
+
+            /**
+             * attach id to cancel dialog
+             */
+            $(document).on('click', 'a[data-target="#delete-dialog"]', function(e) {
+                var id = $(this).attr('data-bind');
+                $('form#cancel-invoice input[name="id"]').val(id);
+            });
+
+            /**
+             * cancel invoice
+             */
+            $(document).on('submit', 'form#cancel-invoice', function (e) {
+                e.preventDefault();
+                var tab = '#in-progress';
+                var id = $(this).find('input[name="id"]').val();
+                var url = $(this).attr('action');
+                var method = $(this).attr('method');
+                var token = $('meta[name="csrf-token"]').attr('content');
+
+                $.ajax({
+                    url: url,
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    method: method,
+                    data: JSON.stringify({
+                        id: id,
+                        _token: token,
+                        _method: 'delete'
+                    }),
+                    success: function (response) {
+                        $('#delete-dialog').modal('hide');
+                        $(tab).html(response.view);
+                        $('span[data-bind="in-progress"]').text('(' + response.countInProgress + ')');
+                        $('span[data-bind="in-transport"]').text('(' + response.countOnTheWay + ')');
+                        $('span[data-bind="in-success"]').text('(' + response.countSuccess + ')');
+                        $('span[data-bind="in-delete"]').text('(' + response.countCanceled + ')');
+                    },
+                    error: function (err) {
+                        console.log(err);
+                    }
+                });
+            });
+        })
     </script>
 @endsection

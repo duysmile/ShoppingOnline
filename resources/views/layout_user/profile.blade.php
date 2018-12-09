@@ -133,162 +133,35 @@
             <div class="body">
                 <ul class="nav nav-pills d-flex justify-content-between">
                     <li class="nav-item">
-                        <a class="nav-link active" data-toggle="pill" href="#in-progress">{{__('Đang xử lí')}}</a>
+                        <a class="nav-link active" data-toggle="pill" href="#in-progress">
+                            {{__('Đang xử lí')}}
+                            <span data-bind="in-progress"></span>
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" data-toggle="pill" href="#in-transport">{{__('Đang giao')}}</a>
+                        <a class="nav-link" data-toggle="pill" href="#in-transport">
+                            {{__('Đang giao')}}
+                            <span data-bind="in-transport"></span>
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" data-toggle="pill" href="#in-success">{{__('Đã giao')}}</a>
+                        <a class="nav-link" data-toggle="pill" href="#in-success">
+                            {{__('Đã giao')}}
+                            <span data-bind="in-success"></span>
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" data-toggle="pill" href="#in-delete">{{__('Đã hủy')}}</a>
+                        <a class="nav-link" data-toggle="pill" href="#in-delete">
+                            {{__('Đã hủy')}}
+                            <span data-bind="in-delete"></span>
+                        </a>
                     </li>
                 </ul>
                 <div class="tab-content border-top">
-                    <div class="tab-pane container active" id="in-progress">
-                        <div class="d-flex flex-column">
-                            @foreach($invoiceInProgress as $invoice)
-                                <div class="mt-3 bg-common text-white p-3">
-                                    <a class="text-white" href="" data-toggle="collapse"
-                                       data-target="{{'#invoice' . $invoice->id}}">
-                                        {{__('Thời gian đặt: ') . date('d-m-Y', $invoice->created_at->timestamp)}}
-                                    </a>
-                                </div>
-
-                                <div class="collapse" id="{{'invoice' . $invoice->id}}">
-
-                                    <div class="d-flex justify-content-between mt-1 item-card-header-pr">
-                                        <div class="h-100 d-flex align-items-center w-50">
-                                            <div class="h-100 d-flex ml-4 align-items-center">
-                                                {{__('Sản phẩm')}}
-                                            </div>
-                                        </div>
-                                        <div class="d-flex align-items-center w-50 justify-content-end">
-                                            <p class="w-25">
-                                                {{__('Đơn giá')}}
-                                            </p>
-                                            <p class="w-25">
-                                                {{__('Số lượng')}}
-                                            </p>
-                                            <p class="w-25">
-                                                {{__('Số tiền')}}
-                                            </p>
-                                        </div>
-                                    </div>
-                                    @foreach($invoice->items as $item)
-                                        <div class="d-flex justify-content-between item-card-pr">
-                                            <div
-                                                class="h-100 d-flex align-items-center w-50 justify-content-start py-2">
-                                                <div class="h-100 d-flex">
-                                                    <img class="cart-img h-100 mr-3"
-                                                         src="{{$item->product->images[0]->url}}"
-                                                         alt="">
-                                                    <p>
-                                                        {{$item->product->name}}
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <div class="d-flex align-items-center w-50 justify-content-end">
-                                                <p class="w-25">
-                                                    <u>đ</u>{{money($item->product->price . '000')}}
-                                                </p>
-                                                <p class="w-25 text-center">1</p>
-                                                <p class="w-25">
-                                                    <u>đ</u>{{money(($item->product->price * $item->quantity) . '000')}}
-                                                </p>
-                                            </div>
-                                        </div>
-                                    @endforeach
-                                </div>
-                                <div class="d-flex justify-content-end item-card-pr">
-                                    <div class="d-flex align-items-center w-50">
-                                        <p>
-                                            {{__('Tổng số tiền (' . $invoice->totalItems . ' sản phẩm)')}}
-                                        </p>
-                                        <p class="w-50 size-larger color-common text-right mr-3">
-                                            <u>đ</u>{{money($invoice->amount . '000')}}
-                                        </p>
-                                    </div>
-                                </div>
-                                <div class="d-flex justify-content-end my-2">
-                                    <a href="" class="b-color-common p-2 text-white">
-                                        Hủy đơn hàng
-                                    </a>
-                                </div>
-                            @endforeach
-                        </div>
-                    </div>
-                    <div class="tab-pane container fade" id="in-transport">
-                        <div class="d-flex flex-column">
-                            @foreach($invoiceOnWay as $invoice)
-                                <div class="mt-3 bg-common text-white p-3">
-                                    <a class="text-white" href="" data-toggle="collapse"
-                                       data-target="{{'#invoice' . $invoice->id}}">
-                                        {{__('Thời gian đặt: ') . date('d-m-Y', $invoice->created_at->timestamp)}}
-                                    </a>
-                                </div>
-
-                                <div class="collapse" id="{{'invoice' . $invoice->id}}">
-
-                                    <div class="d-flex justify-content-between mt-1 item-card-header-pr">
-                                        <div class="h-100 d-flex align-items-center w-50">
-                                            <div class="h-100 d-flex ml-4 align-items-center">
-                                                {{__('Sản phẩm')}}
-                                            </div>
-                                        </div>
-                                        <div class="d-flex align-items-center w-50 justify-content-end">
-                                            <p class="w-25">
-                                                {{__('Đơn giá')}}
-                                            </p>
-                                            <p class="w-25">
-                                                {{__('Số lượng')}}
-                                            </p>
-                                            <p class="w-25">
-                                                {{__('Số tiền')}}
-                                            </p>
-                                        </div>
-                                    </div>
-                                    @foreach($invoice->items as $item)
-                                        <div class="d-flex justify-content-between item-card-pr">
-                                            <div
-                                                class="h-100 d-flex align-items-center w-50 justify-content-start py-2">
-                                                <div class="h-100 d-flex">
-                                                    <img class="cart-img h-100 mr-3"
-                                                         src="{{$item->product->images[0]->url}}"
-                                                         alt="">
-                                                    <p>
-                                                        {{$item->product->name}}
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <div class="d-flex align-items-center w-50 justify-content-end">
-                                                <p class="w-25">
-                                                    <u>đ</u>{{money($item->product->price . '000')}}
-                                                </p>
-                                                <p class="w-25 text-center">1</p>
-                                                <p class="w-25">
-                                                    <u>đ</u>{{money(($item->product->price * $item->quantity) . '000')}}
-                                                </p>
-                                            </div>
-                                        </div>
-                                    @endforeach
-                                </div>
-                                <div class="d-flex justify-content-end item-card-pr">
-                                    <div class="d-flex align-items-center w-50">
-                                        <p>
-                                            {{__('Tổng số tiền (' . $invoice->totalItems . ' sản phẩm)')}}
-                                        </p>
-                                        <p class="w-50 size-larger color-common text-right mr-3">
-                                            <u>đ</u>{{money($invoice->amount . '000')}}
-                                        </p>
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
-                    </div>
-                    <div class="tab-pane container fade" id="in-success">...</div>
-                    <div class="tab-pane container fade" id="in-delete">...</div>
+                    <div class="tab-pane container active" id="in-progress"></div>
+                    <div class="tab-pane container fade" id="in-transport"></div>
+                    <div class="tab-pane container fade" id="in-success"></div>
+                    <div class="tab-pane container fade" id="in-delete"></div>
                 </div>
             </div>
         </div>

@@ -44,6 +44,9 @@ Route::group([
 
     Route::get('/profile', 'Client\ProfileController@index')->name('profile-user');
     Route::post('/update-profile', 'Client\ProfileController@update')->name('update-profile');
+    Route::post('/invoices/load', 'Client\ProfileController@loadInvoices')->name('load-invoices');
+    Route::post('/invoices/confirm', 'Client\ProfileController@confirm')->name('invoices-client.confirm');
+    Route::delete('/invoices/cancel', 'Client\ProfileController@cancel')->name('invoices-client.cancel');
 
     Route::get('/logout', 'Client\LoginController@logout')->name('logout');
 
@@ -58,6 +61,10 @@ Route::group([
 ], function () {
     Route::resource('products', 'Admin\ProductsController');
     Route::get('/invoices/in-progress', 'Admin\InvoicesController@inProgress')->name('invoices.in-progress');
+    Route::get('/invoices/in-transport', 'Admin\InvoicesController@inTransport')->name('invoices.in-transport');
+    Route::get('/invoices/in-success', 'Admin\InvoicesController@inSuccess')->name('invoices.in-success');
+    Route::get('/invoices/in-canceled', 'Admin\InvoicesController@inCanceled')->name('invoices.in-canceled');
+
     Route::patch('/invoices/update-status', 'Admin\InvoicesController@updateStatus')->name('invoices.update-status');
     Route::delete('/invoices/cancel', 'Admin\InvoicesController@cancel')->name('invoices.cancel');
 //    Route::resource('users', 'UsersController');
