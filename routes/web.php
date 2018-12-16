@@ -14,6 +14,7 @@
 Route::get('/', 'Client\HomeController@index')->name('home');
 Route::get('/detail/{slug}', 'Client\HomeController@detailProduct')->name('detail-product');
 Route::get('/list/{category}', 'Client\HomeController@list')->name('list-products');
+Route::get('/product/search', 'Client\HomeController@searchProduct')->name('product.search');
 
 Route::group([
     'middleware' => 'guest'

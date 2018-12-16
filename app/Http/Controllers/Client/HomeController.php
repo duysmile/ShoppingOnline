@@ -42,4 +42,16 @@ class HomeController extends Controller
         $product = Product::getDetailProduct($slug);
         return view('client.detail', compact('product'));
     }
+
+    /**
+     * search products by key word
+     * @param Request $query
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function searchProduct(Request $query) {
+        $category = new Category();
+        $category->name = "Kết quả tìm kiếm cho: " . $query->only('query')['query'];
+        $listProducts = Product::searchProduct($query);
+        return view('client.search', compact(['listProducts', 'category']));
+    }
 }

@@ -272,4 +272,27 @@ class Product extends Model
         $product['discount'] = round(($product->standard_price - $product->price) / $product->standard_price * 100, 0) ;
         return $product;
     }
+
+    /**
+     * search product with key word
+     * @param $query
+     * @return mixed
+     */
+    public static function searchProduct($query)
+    {
+        $search = $query->only('query')['query'];
+        if ($search == null) {
+            return Product::getApprovedProduct();
+        }
+
+        $products = Product::where([
+            ['is_approved', true],
+            ['name', 'like', '%' . $search . '%'],
+        ])->orWhere([
+            ['is_approved', true],
+            ['description', 'like', '%' . $search . '%'],
+        ])->paginate(constants('PAGINATE.PRODUCTS'));
+
+        return $products;
+    }
 }
