@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Http\ViewComposers\AdminViewComposer;
 use App\Http\ViewComposers\ClientViewComposer;
 use Illuminate\Support\ServiceProvider;
 
@@ -15,6 +16,7 @@ class ViewComposerServiceProvider extends ServiceProvider
     public function boot()
     {
         view()->composer(['layout_user.menu_top', 'layout_user.header'], ClientViewComposer::class);
+        view()->composer(['layout_admin.sidebar'], AdminViewComposer::class);
     }
 
     /**
