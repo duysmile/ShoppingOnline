@@ -21,6 +21,7 @@
     <!-- Custom styles for this template-->
     <link href="{{asset('css/admin/sb-admin.min.css')}}" rel="stylesheet">
     <link href="{{asset('css/app.css')}}" rel="stylesheet">
+    @yield('style')
 
     <!-- Bootstrap core JavaScript-->
     <script src="{{asset('js/jquery/jquery.min.js')}}"></script>

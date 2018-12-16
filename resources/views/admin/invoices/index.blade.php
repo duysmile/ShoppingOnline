@@ -61,9 +61,7 @@
                         <th>{{__('Trạng thái')}}</th>
                         <th>{{__('Ngày mua')}}</th>
                         <th>{{__('Người mua')}}</th>
-                        @if ($status == constants('CART.STATUS.PENDING'))
-                            <th>{{__('Thao tác')}}</th>
-                        @endif
+                        <th>{{__('Thao tác')}}</th>
                     </tr>
                     </thead>
                     <tfoot>
@@ -75,9 +73,7 @@
                         <th>{{__('Trạng thái')}}</th>
                         <th>{{__('Ngày mua')}}</th>
                         <th>{{__('Người mua')}}</th>
-                        @if ($status == constants('CART.STATUS.PENDING'))
-                            <th>{{__('Thao tác')}}</th>
-                        @endif
+                        <th>{{__('Thao tác')}}</th>
                     </tr>
                     </tfoot>
                     <tbody id="data-table">
@@ -102,8 +98,12 @@
                             </td>
                             <td>{{$invoice->created_at}}</td>
                             <td>{{$invoice->owner}}</td>
-                            @if ($status == constants('CART.STATUS.PENDING'))
+
                                 <td>
+                                    <a href="{{route('invoices.detail', $invoice->id)}}" class="btn btn-primary">
+                                        <i class="fa fa-eye text-white"></i>
+                                    </a>
+                                    @if ($status == constants('CART.STATUS.PENDING'))
                                     <a href="{{route('invoices.update-status')}}" data-approve="invoice"
                                        data-id="{{$invoice->id}}" class="btn btn-success">
                                         <i class="fa fa-check text-white"></i>
@@ -113,8 +113,8 @@
                                        data-target="#dialog-del">
                                         <i class="fa fa-trash text-white"></i>
                                     </a>
+                                    @endif
                                 </td>
-                            @endif
                         </tr>
                     @endforeach
                     </tbody>

@@ -67,7 +67,9 @@ Route::group([
     Route::get('/invoices/in-canceled', 'Admin\InvoicesController@inCanceled')->name('invoices.in-canceled');
 
     Route::patch('/invoices/update-status', 'Admin\InvoicesController@updateStatus')->name('invoices.update-status');
+    Route::patch('/invoices/update-status/{id}', 'Admin\InvoicesController@updateStatusDetail')->name('invoices.update-status-detail');
     Route::delete('/invoices/cancel', 'Admin\InvoicesController@cancel')->name('invoices.cancel');
+    Route::get('/invoices/{id}', 'Admin\InvoicesController@showDetail')->name('invoices.detail');
 //    Route::resource('users', 'UsersController');
 
     Route::resource('categories', 'Admin\CategoryController')->middleware('role:admin');

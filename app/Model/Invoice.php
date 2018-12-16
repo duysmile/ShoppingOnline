@@ -156,7 +156,7 @@ class Invoice extends Model
     }
 
     /**
-     * get all invoices according status off current user
+     * get all invoices according status of current user
      * @param $status
      * @return mixed
      */
@@ -179,7 +179,7 @@ class Invoice extends Model
      */
     public static function countInvoices($user_id = null)
     {
-        if($user_id != null) {
+        if ($user_id != null) {
             $inProgress = Invoice::where([
                 'user_id' => $user_id,
                 'status' => constants('CART.STATUS.PENDING')
@@ -255,9 +255,9 @@ class Invoice extends Model
         $invoice = Invoice::where([
             'id' => $id,
             'status' => constants('CART.STATUS.ON_THE_WAY')
-         ])->first();
+        ])->first();
 
-        if($invoice != null) {
+        if ($invoice != null) {
             $invoice->update([
                 'status' => constants('CART.STATUS.PAID')
             ]);
@@ -281,7 +281,7 @@ class Invoice extends Model
             'status' => constants('CART.STATUS.PENDING')
         ])->first();
 
-        if($invoice != null) {
+        if ($invoice != null) {
             $invoice->cancel();
             $invoices = Invoice::getAllInvoices(constants('CART.STATUS.PENDING'));
             return [
@@ -294,5 +294,11 @@ class Invoice extends Model
             'success' => false,
             'message' => 'Sản phẩm đang được giao, bạn không thể hủy.'
         ];
+    }
+
+    public static function showDetail($id)
+    {
+        $items = Invoice::find($id);
+        return $items;
     }
 }

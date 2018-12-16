@@ -82,6 +82,26 @@ class InvoicesController extends Controller
     }
 
     /**
+     * Approve a invoice
+     * @param ApproveInvoiceRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Error
+     */
+    public function updateStatusDetail(ApproveInvoiceRequest $request)
+    {
+        $data = $request->only(['id', 'type']);
+        $check = false;
+        if ($data['type'] == 'invoice') {
+            $check = Invoice::approveInvoice($data['id']);
+        }
+
+        if($check) {
+            return redirect('admin/invoices/in-progress')->with('success', 'Đã duyệt đơn hàng thành công.');
+        }
+        return redirect('/admin/invoices/in-progress')->with('error', 'Đã xảy ra lỗi. Vui lòng thử lại');
+    }
+
+    /**
      * cancel a invoice
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
@@ -94,5 +114,16 @@ class InvoicesController extends Controller
             return redirect('admin/invoices/in-progress')->with('success', 'Đã hủy đơn hàng thành công');
         }
         return redirect('admin/invoices/in-progress')->with('error', 'Đã xảy ra lỗi. Vui lòng thử lại.');
+    }
+
+    /**
+     * show detail of a invoice
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function showDetail($id)
+    {
+        $invoice = Invoice::showDetail($id);
+        return view('admin.invoices.detail', compact('invoice'));
     }
 }
