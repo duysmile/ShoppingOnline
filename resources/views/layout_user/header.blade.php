@@ -54,16 +54,14 @@
                 </div>
             </div>
             <div class="w-50">
-                <form action="{{route('product.search')}}" class="form-inline w-100" method="get">
+                <form id="form-search" action="{{route('product.search')}}" class="form-inline w-100" method="get">
                     <div class="input-group w-100 border-common-lg">
                         <input name="query" type="text" class="form-control border-0 nav__input-search font-size-md"
                                placeholder="{{__('Nhập từ khóa bạn muốn tìm kiếm ... ')}}">
                         <div class="input-group-prepend">
                                 <span class="input-group-text bg-common text-white border-0">
                                     <i class="fa fa-search pr-2 text-white"></i>
-                                    <a href="" class="text-white">
-                                        {{__('Search')}}
-                                    </a>
+                                    <input type="submit" class="text-white border-0 bg-common" value="{{__('Search')}}"/>
                                 </span>
                         </div>
                     </div>

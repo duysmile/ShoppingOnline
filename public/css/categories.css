@@ -53,11 +53,11 @@
 }
 
 .right-box-item {
-    width: 50%;
+    width: calc(100% / 3);
     position: relative;
 }
 
-.right-box-item:last-child {
+.right-box-item:nth-child(3) {
     border-right: none;
 }
 

@@ -237,7 +237,7 @@ class Product extends Model
         $products = Product::where('is_approved', true)
             ->orderBy('star', 'desc')
             ->orderBy('views', 'desc')
-            ->limit(6)
+            ->limit(constants('TOP_PRODUCTS'))
             ->get();
         return $products;
     }
@@ -253,7 +253,7 @@ class Product extends Model
             ->where('is_approved', true)
             ->orderBy('star', 'desc')
             ->orderBy('views', 'desc')
-            ->limit(7)
+            ->limit(constants('HOME_PRODUCTS'))
             ->get();
         return $products;
     }
@@ -293,6 +293,16 @@ class Product extends Model
             ['description', 'like', '%' . $search . '%'],
         ])->paginate(constants('PAGINATE.PRODUCTS'));
 
+        return $products;
+    }
+
+    public static function recommendProduct()
+    {
+        $products = Product::where('is_approved', true)
+            ->orderBy('star', 'desc')
+            ->orderBy('views', 'desc')
+            ->limit(constants('RECOMMEND_PRODUCTS'))
+            ->get();
         return $products;
     }
 }

@@ -80,7 +80,6 @@
         $(document).ready(function () {
             $(document).on('change', 'select[name="is_parent"]', function () {
                 var selection = $(this).val();
-                console.log(selection)
                 if (selection == 'child') {
                     $('#parentCate').collapse('show');
                     $('select[name="parent_id"]').prop('required', true);

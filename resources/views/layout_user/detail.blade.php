@@ -62,15 +62,19 @@
                                 <button id="add-cart-button" class="btn mr-3 bg-white border-common color-common">
                                     {{__('Thêm vào giỏ hàng')}}
                                 </button>
+                                <button id="buy-button" class="btn mr-3 b-color-common border-common text-white">
+                                    {{__('Mua ngay')}}
+                                </button>
                             @else
                                 <a href="javascript:void(0)" class="btn mr-3 bg-white border-common color-common"
                                         data-toggle="modal" data-target="#login-register-dialog" data-open="login">
                                     {{__('Thêm vào giỏ hàng')}}
                                 </a>
+                                <button id="buy-button" class="btn mr-3 b-color-common border-common text-white"
+                                        data-toggle="modal" data-target="#login-register-dialog" data-open="login">
+                                    {{__('Mua ngay')}}
+                                </button>
                             @endif
-                            <button id="buy-button" class="btn mr-3 b-color-common border-common text-white">
-                                {{__('Mua ngay')}}
-                            </button>
                         </div>
                     </form>
                 </div>

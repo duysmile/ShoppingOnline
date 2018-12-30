@@ -70,9 +70,10 @@ Route::group([
     Route::patch('/invoices/update-status/{id}', 'Admin\InvoicesController@updateStatusDetail')->name('invoices.update-status-detail');
     Route::delete('/invoices/cancel', 'Admin\InvoicesController@cancel')->name('invoices.cancel');
     Route::get('/invoices/{id}', 'Admin\InvoicesController@showDetail')->name('invoices.detail');
-//    Route::resource('users', 'UsersController');
 
     Route::resource('categories', 'Admin\CategoryController')->middleware('role:admin');
+    Route::resource('users', 'Admin\UserController')->middleware('role:admin');
+    Route::get('/staff', 'Admin\UserController@getStaff')->name('users.staff')->middleware('role:admin');
 
     Route::group([
         'prefix' => 'approve',

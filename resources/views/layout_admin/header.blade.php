@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand navbar-dark bg-dark static-top d-flex justify-content-between">
     <div>
-        <a class="navbar-brand mr-1" href="index.html">Shopping Online</a>
+        <a class="navbar-brand mr-1" href="{{route('admin')}}">Shopping Online</a>
     </div>
 
     <!-- Navbar -->

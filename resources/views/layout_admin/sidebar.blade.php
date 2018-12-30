@@ -21,11 +21,25 @@
             <span>{{__('Quản lí sản phẩm')}}</span>
         </a>
     </li>
+    @role('admin')
     <li class="nav-item">
-        <a class="nav-link" href="charts.html">
+        <a class="nav-link" href=""
+           data-toggle="collapse" data-target="#user-type">
             <i class="fas fa-users"></i>
-            <span>{{__('Quản lí user')}}</span></a>
+            <span>{{__('Quản lí user')}}</span>
+        </a>
+        <div class="collapse bg-light" id="user-type">
+            <a class="dropdown-item" href="{{route('users.index')}}">
+                <i class="fa fa-user font-size-md"></i>
+                {{__('Customer')}}
+            </a>
+            <a class="dropdown-item" href="{{route('users.staff')}}">
+                <i class="fa fa-user-tie font-size-md"></i>
+                {{__('Staff')}}
+            </a>
+        </div>
     </li>
+    @endrole
     <li class="nav-item">
         <a class="nav-link" href=""
            data-toggle="collapse" data-target="#invoices-status">

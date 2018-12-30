@@ -11,7 +11,8 @@ return [
         'PRODUCTS_CLIENT' => 20,
         'CATEGORIES' => 5,
         'CATEGORIES_CLIENT' => 5,
-        'INVOICES' => 10
+        'INVOICES' => 10,
+        'USERS' => 20
     ],
     'CART' => [
         'TOTAL_ITEMS' => 20,
@@ -34,5 +35,8 @@ return [
         '1' => 'Đang giao',
         '2' => 'Đã nhận',
         '3' => 'Đã hủy'
-    ]
+    ],
+    'RECOMMEND_PRODUCTS' => 5,
+    'TOP_PRODUCTS' => 6,
+    'HOME_PRODUCTS' => 7
 ];

@@ -10,6 +10,7 @@ namespace App\Http\ViewComposers;
 
 use App\Model\Cart;
 use App\Model\Category;
+use App\Model\Product;
 use Illuminate\View\View;
 
 class ClientViewComposer
@@ -22,7 +23,9 @@ class ClientViewComposer
     {
         $categories = Category::getCategoriesClient();
         $cartCount = Cart::getCountCurrent();
+        $recommendProducts = Product::recommendProduct();
         $view->with('categories', $categories);
         $view->with('cartCount', $cartCount);
+        $view->with('recommendProducts', $recommendProducts);
     }
 }

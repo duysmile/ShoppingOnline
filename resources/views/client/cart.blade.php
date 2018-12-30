@@ -142,7 +142,6 @@
                 })
 
                 if (totalPrice != 0) {
-                    console.log(money('1000' + '000'));
                     $('.totalPrice').html(money(totalPrice + '000'));
                 } else {
                     $('.totalPrice').html(money(totalPrice));
@@ -177,6 +176,8 @@
                     }
                     return item;
                 });
+
+                localStorage.setItem('listItems', JSON.stringify(listItems));
 
                 $('span[data-id="' + id + '"][data-price]').text(money(total + '000'));
                 $('span[data-id="' + id + '"][data-price]').attr('data-price', total);

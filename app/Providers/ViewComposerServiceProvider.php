@@ -15,7 +15,7 @@ class ViewComposerServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        view()->composer(['layout_user.menu_top', 'layout_user.header'], ClientViewComposer::class);
+        view()->composer(['layout_user.menu_top', 'layout_user.header', 'layout_user.recommend'], ClientViewComposer::class);
         view()->composer(['layout_admin.sidebar'], AdminViewComposer::class);
     }
 

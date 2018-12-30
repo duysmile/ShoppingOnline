@@ -22,7 +22,7 @@ class SignUpController extends Controller
 
     public function postSignup(SignUpRequest $request)
     {
-        $result = User::signUp($request);
+        $result = User::signUp($request, 'user');
         return response()->json($result);
         // TODO: add tel to infomation table
     }

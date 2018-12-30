@@ -94,7 +94,7 @@ class User extends Authenticatable
      * Sign up user
      * @param $request
      */
-    public static function signUp($request)
+    public static function signUp($request, $role)
     {
         DB::beginTransaction();
         try {
@@ -113,7 +113,7 @@ class User extends Authenticatable
                 "user_id" => $user_created->id,
                 "token" => $user_created->id . str_random(30) . time()
             ]);
-            $user_role = Role::where('slug', 'user')->first();
+            $user_role = Role::where('slug', $role)->first();
             $user_created->roles()->attach($user_role);
 
             Mail::to($user_created->email)->send(new VerifyEmail($user_created));
@@ -124,6 +124,7 @@ class User extends Authenticatable
             ];
         } catch (\Exception $e) {
             DB::rollBack();
+            dd($e);
             return [
                 "success" => false,
                 "message" => [
@@ -204,5 +205,21 @@ class User extends Authenticatable
                 'message' => 'Đã xảy ra lỗi. Vui lòng thử lại.' . $e
             ];
         }
+    }
+
+    /**
+     * get all user according role
+     * @param $role
+     * @return mixed
+     */
+    public static function getUserByRole($role)
+    {
+        $users = User::whereHas('roles', function ($query) use ($role) {
+            $query->where('slug', $role);
+        })
+            ->whereNotNull('email_verified_at')
+            ->orderBy('created_at')
+            ->paginate(constants('PAGINATE.USERS'));
+        return $users;
     }
 }

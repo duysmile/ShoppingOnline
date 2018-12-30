@@ -277,3 +277,16 @@ input[type='number'] {
 .font-size-lg {
     font-size: 16px !important;
 }
+
+.img-recommend {
+    height: 10em !important;
+    width: 100% !important;
+}
+
+#form-search input[type="submit"] {
+    cursor: pointer;
+}
+
+#form-search input[type="submit"]:focus {
+    outline: none;
+}
