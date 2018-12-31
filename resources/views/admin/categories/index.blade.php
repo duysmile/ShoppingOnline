@@ -74,12 +74,14 @@
                             <td>{{ $category->created_at }}</td>
                             <td>{{ $category->user->name }}</td>
                             <td>
-                                <a href="{{route('categories.edit', $category->id)}}" class="btn btn-success">
-                                    <i class="fa fa-edit text-white"></i>
-                                </a>
-                                <a href="" data-id="{{$category->id}}" class="btn btn-del btn-danger" data-toggle="modal" data-target="#dialog-del">
-                                    <i class="fa fa-trash text-white"></i>
-                                </a>
+                                <div class="d-flex">
+                                    <a href="{{route('categories.edit', $category->id)}}" class="btn btn-success rounded-0">
+                                        <i class="fa fa-edit text-white"></i>
+                                    </a>
+                                    <a href="" data-id="{{$category->id}}" class="btn btn-del btn-danger rounded-0" data-toggle="modal" data-target="#dialog-del">
+                                        <i class="fa fa-trash text-white"></i>
+                                    </a>
+                                </div>
                             </td>
                         </tr>
                         @foreach($category->children as $child)

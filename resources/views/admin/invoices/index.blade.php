@@ -93,27 +93,31 @@
                                 @else
                                     <span class="badge badge-danger">
                                 @endif
-                                {{$invoice->status}}
-                                </span>
+                                    {{$invoice->status}}
+                                    </span>
                             </td>
                             <td>{{$invoice->created_at}}</td>
                             <td>{{$invoice->owner}}</td>
 
                                 <td>
-                                    <a href="{{route('invoices.detail', $invoice->id)}}" class="btn btn-primary">
-                                        <i class="fa fa-eye text-white"></i>
-                                    </a>
-                                    @if ($status == constants('CART.STATUS.PENDING'))
-                                    <a href="{{route('invoices.update-status')}}" data-approve="invoice"
-                                       data-id="{{$invoice->id}}" class="btn btn-success">
-                                        <i class="fa fa-check text-white"></i>
-                                    </a>
-                                    <a href="" data-id="{{$invoice->id}}" class="btn btn-del btn-danger"
-                                       data-toggle="modal"
-                                       data-target="#dialog-del">
-                                        <i class="fa fa-trash text-white"></i>
-                                    </a>
-                                    @endif
+                                    <div class="d-flex">
+                                        <a href="{{route('invoices.detail', $invoice->id)}}" class="btn btn-primary show-detail rounded-0">
+                                            <i class="fa fa-eye text-white"></i>
+                                        </a>
+                                        @if ($status == constants('CART.STATUS.PENDING'))
+                                            <a href="{{route('invoices.update-status')}}" data-approve="invoice"
+                                               data-id="{{$invoice->id}}" class="btn btn-success rounded-0">
+                                                <i class="fa fa-check text-white"></i>
+                                            </a>
+                                        @endif
+                                        @if ($status == constants('CART.STATUS.PENDING') || $status == constants('CART.STATUS.ON_THE_WAY'))
+                                            <a href="" data-id="{{$invoice->id}}" class="btn btn-del btn-danger rounded-0"
+                                               data-toggle="modal"
+                                               data-target="#dialog-del">
+                                                <i class="fa fa-trash text-white"></i>
+                                            </a>
+                                        @endif
+                                    </div>
                                 </td>
                         </tr>
                     @endforeach
@@ -172,6 +176,7 @@
             $(document).on('click', 'a[data-approve]', function (e) {
                 e.preventDefault();
                 var url = $(this).attr('href');
+                var urlDetail = $(this).parent().find('a.show-detail').attr('href');
                 var id = $(this).attr('data-id');
                 var type = $(this).attr('data-approve');
                 var CSRF_TOKEN = $('meta[name="csrf"]').attr('content');
@@ -192,7 +197,6 @@
                         $('#success_alert').show();
                         $('#success_alert span[data-bind="success"]').text(response.message);
                         var tmp_data = '';
-                        console.log(response);
                         response.data.data.forEach(function (item, index) {
                             var template = '<tr>' +
                                 '    <td>:index</td>' +
@@ -203,13 +207,18 @@
                                 '    <td>:created_at</td>' +
                                 '    <td>:owner</td>' +
                                 '    <td>' +
-                                '        <a href=":url" data-approve="product" data-id=":id" class="btn btn-success">' +
-                                '            <i class="fa fa-check text-white"></i>' +
-                                '        </a>' +
-                                '        <a href="" data-id=":id" class="btn btn-del btn-danger" data-toggle="modal"' +
-                                '           data-target="#dialog-del">' +
-                                '            <i class="fa fa-trash text-white"></i>' +
-                                '        </a>' +
+                                '       <div class="d-flex">' +
+                                '           <a href=":urlDetail" class="btn btn-primary rounded-0">' +
+                                '               <i class="fa fa-eye text-white"></i>' +
+                                '           </a>' +
+                                '           <a href=":url" data-approve="invoice" data-id=":id" class="btn btn-success rounded-0">' +
+                                '               <i class="fa fa-check text-white"></i>' +
+                                '           </a>' +
+                                '           <a href="" data-id=":id" class="btn btn-del btn-danger rounded-0" data-toggle="modal"' +
+                                '               data-target="#dialog-del">' +
+                                '               <i class="fa fa-trash text-white"></i>' +
+                                '           </a>' +
+                                '       </div>' +
                                 '    </td>' +
                                 '</tr>'
                             template = template.replace(':index', index + 1);
@@ -221,6 +230,7 @@
                             template = template.replace(':status', item.status);
                             template = template.replace(':created_at', item.created_at.substr(0, 10));
                             template = template.replace(':owner', item.owner.name);
+                            template = template.replace(':urlDetail', urlDetail);
                             template = template.replace(':url', url);
                             tmp_data += template;
                         });

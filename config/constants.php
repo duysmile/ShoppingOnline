@@ -38,5 +38,10 @@ return [
     ],
     'RECOMMEND_PRODUCTS' => 5,
     'TOP_PRODUCTS' => 6,
-    'HOME_PRODUCTS' => 7
+    'HOME_PRODUCTS' => 7,
+    'STATISTIC' => [
+        'DAY' => 30,
+        'MONTH' => 12,
+        'YEAR' => 5
+    ]
 ];

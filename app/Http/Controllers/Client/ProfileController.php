@@ -72,7 +72,7 @@ class ProfileController extends Controller
      */
     public function confirm(Request $request) {
         $id = $request->only('id')['id'];
-        $data = Invoice::confirm($id);
+        $data = Invoice::confirmReceived($id);
         if ($data['success']){
             $count = Invoice::countInvoices(Auth::user()->id);
             $invoices = $data['data'];

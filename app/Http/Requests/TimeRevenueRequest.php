@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
-class ApproveInvoiceRequest extends FormRequest
+class TimeRevenueRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -14,7 +14,7 @@ class ApproveInvoiceRequest extends FormRequest
      */
     public function authorize()
     {
-        return Auth::check() && (Auth::user()->hasRole('admin') || Auth::user()->hasRole('staff'));
+        return Auth::check() && (Auth::user()->hasRole('staff') || Auth::user()->hasRole('admin'));
     }
 
     /**
@@ -25,15 +25,14 @@ class ApproveInvoiceRequest extends FormRequest
     public function rules()
     {
         return [
-            'id' => 'bail|required|numeric|min:1',
-            'type' => 'bail|required|string|in:invoice'
+            'time' => 'bail|in:day,month,year'
         ];
     }
+
     public function attributes()
     {
         return [
-            'id' => 'Id',
-            'type' => 'Loại'
+            'time' => 'Thời gian'
         ];
     }
 }

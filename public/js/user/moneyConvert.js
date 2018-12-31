@@ -1,5 +1,11 @@
+/**
+ * helper to change money format
+ * @param price
+ * @returns {string}
+ */
 function money(price)
 {
+    price = price + "";
     var result = [];
     var length = price.length;
     var tmpPrice = price;

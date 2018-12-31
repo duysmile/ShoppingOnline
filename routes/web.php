@@ -75,6 +75,9 @@ Route::group([
     Route::resource('users', 'Admin\UserController')->middleware('role:admin');
     Route::get('/staff', 'Admin\UserController@getStaff')->name('users.staff')->middleware('role:admin');
 
+    Route::get('/revenue', 'Admin\DashboardController@getRevenue')->name('dashboard.revenue');
+    Route::get('/order', 'Admin\DashboardController@getOrder')->name('dashboard.order');
+
     Route::group([
         'prefix' => 'approve',
         'middleware' => 'role:admin'
@@ -82,7 +85,5 @@ Route::group([
         Route::get('/', 'Admin\ApproveController@index')->name('approve.index');
         Route::patch('/', 'Admin\ApproveController@approve')->name('approve.update');
     });
-    Route::get('/', function () {
-        return view('admin');
-    })->name('admin');
+    Route::get('/', 'Admin\DashboardController@index')->name('admin');
 });

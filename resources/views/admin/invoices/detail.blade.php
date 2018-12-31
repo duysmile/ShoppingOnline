@@ -11,17 +11,38 @@
             {{__('Trở lại')}}
         </a>
         @if ($invoice->status == constants('CART.STATUS.PENDING'))
-        <form action="{{route('invoices.update-status-detail', $invoice->id)}}" method="post">
-            @csrf
-            <input type="hidden" name="_method" value="patch">
-            <input type="hidden" name="type" value="invoice">
-            <input type="hidden" name="id" value="{{$invoice->id}}">
-            <button type="submit" class="btn btn-success rounded-0">
-                {{__('Duyệt đơn hàng')}}
-            </button>
-        </form>
+            <form action="{{route('invoices.update-status-detail', $invoice->id)}}" method="post">
+                @csrf
+                <input type="hidden" name="_method" value="patch">
+                <input type="hidden" name="type" value="invoice">
+                <input type="hidden" name="id" value="{{$invoice->id}}">
+                <button type="submit" class="btn btn-success rounded-0">
+                    {{__('Duyệt đơn hàng')}}
+                </button>
+            </form>
         @endif
     </div>
+
+    <div class="d-flex justify-content-between mt-1 bg-common py-2 text-white">
+        <div class="h-100 d-flex align-items-center w-50">
+            <div class="h-100 d-flex ml-4 align-items-center">
+                {{__('Thông tin giao hàng')}}
+            </div>
+        </div>
+    </div>
+    <div class="px-4 py-2 d-flex align-items-center font-size-lg">
+        <span class="text-nowrap">
+            <b>{{$invoice->owner->info->name}}</b>
+        </span>
+        &nbsp;
+        <span class="text-nowrap">
+            <b>{{$invoice->owner->info->tel_no}}</b>
+        </span>
+        <span class="ml-4 address font-size-md" style="max-width: 450px">
+            {{$invoice->owner->info->address}}
+        </span>
+    </div>
+
     <div class="d-flex justify-content-between mt-1 bg-common py-2 text-white">
         <div class="h-100 d-flex align-items-center w-50">
             <div class="h-100 d-flex ml-4 align-items-center">

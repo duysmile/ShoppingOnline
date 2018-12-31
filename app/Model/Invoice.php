@@ -19,7 +19,7 @@ class Invoice extends Model
      */
     public function owner()
     {
-        return $this->belongsTo(User::class, 'user_id', 'id');
+        return $this->belongsTo(User::class, 'user_id', 'id')->withTrashed();
     }
 
     /**
@@ -88,7 +88,14 @@ class Invoice extends Model
         $user = Auth::user();
         DB::beginTransaction();
         try {
-            $countInvoices = $user->invoices()->count();
+            $countInvoices = $user->invoices()->where([
+                'status' => constants('CART.STATUS.PENDING')
+            ])
+                ->orWhere([
+                    'status' => constants('CART.STATUS.ON_THE_WAY')
+                ])
+                ->whereDate('created_at', Carbon::now()->toDateString())
+                ->count();
             if ($countInvoices > constants('USER.MAX_INVOICES')) {
                 throw new \Exception('Bạn chỉ có thể đặt tối đa 5 đơn.');
             }
@@ -250,7 +257,7 @@ class Invoice extends Model
      * @param $id
      * @return array
      */
-    public static function confirm($id)
+    public static function confirmReceived($id)
     {
         $invoice = Invoice::where([
             'id' => $id,
@@ -261,7 +268,10 @@ class Invoice extends Model
             $invoice->update([
                 'status' => constants('CART.STATUS.PAID')
             ]);
-            $invoices = Invoice::getAllInvoices(constants('CART.STATUS.ON_THE_WAY'));
+            $invoices = Invoice::where([
+                'status' => constants('CART.STATUS.ON_THE_WAY'),
+                'user_id' => Auth::user()->id
+            ])->get();
             return [
                 'success' => true,
                 'data' => $invoices
@@ -274,12 +284,22 @@ class Invoice extends Model
         ];
     }
 
+    /**
+     * cancel an invoice
+     * @param $id
+     * @return array
+     */
     public static function cancelInvoice($id)
     {
         $invoice = Invoice::where([
             'id' => $id,
             'status' => constants('CART.STATUS.PENDING')
-        ])->first();
+        ])
+            ->orWhere([
+                'id' => $id,
+                'status' => constants('CART.STATUS.ON_THE_WAY')
+            ])
+            ->first();
 
         if ($invoice != null) {
             $invoice->cancel();
@@ -296,9 +316,128 @@ class Invoice extends Model
         ];
     }
 
+    /**
+     * show detail of an invoice
+     * @param $id
+     * @return mixed
+     */
     public static function showDetail($id)
     {
         $items = Invoice::find($id);
         return $items;
+    }
+
+    /**
+     * calculate revenue according time
+     * @param string $type
+     * @return \Illuminate\Support\Collection
+     */
+    public static function calRevenue($type = 'day')
+    {
+        switch ($type) {
+            case 'day':
+                $revenues = DB::table('invoices')
+                    ->select(DB::raw('
+                        SUM(amount) as revenue, 
+                        DATE_FORMAT(created_at, "%d-%m-%Y") as day, 
+                        count(*) as count
+                    '))->where([
+                        'status' => constants('CART.STATUS.PAID'),
+                        ['created_at', '<=', Carbon::now()->toDateTimeString()],
+                        ['created_at', '>=', Carbon::now()->subDay(30)->toDateTimeString()]
+                    ])
+                    ->orderBy('created_at')
+                    ->groupBy(DB::raw('day(created_at)'))
+                    ->get();
+                break;
+            case 'month':
+                $revenues = DB::table('invoices')
+                    ->select(DB::raw('
+                        SUM(amount) as revenue, 
+                        DATE_FORMAT(created_at, "%m-%Y") as day, 
+                        count(*) as count
+                    '))->where([
+                        'status' => constants('CART.STATUS.PAID'),
+                        ['created_at', '<=', Carbon::now()->toDateTimeString()],
+                        ['created_at', '>=', Carbon::now()->subMonth(12)->toDateTimeString()]
+                    ])
+                    ->orderBy('created_at')
+                    ->groupBy(DB::raw('month(created_at)'))
+                    ->get();
+                break;
+            case 'year':
+                $revenues = DB::table('invoices')
+                    ->select(DB::raw('
+                        SUM(amount) as revenue, 
+                        DATE_FORMAT(created_at, "%Y") as day, 
+                        count(*) as count
+                    '))->where([
+                        'status' => constants('CART.STATUS.PAID'),
+                        ['created_at', '<=', Carbon::now()->toDateTimeString()],
+                        ['created_at', '>=', Carbon::now()->subYear(5)->toDateTimeString()]
+                    ])
+                    ->orderBy('created_at')
+                    ->groupBy(DB::raw('year(created_at)'))
+                    ->get();
+                break;
+            default:
+                $revenues = Invoice::where([
+                    'status' => constants('CART.STATUS.PAID')
+                ])->sum('amount');
+        }
+        return $revenues;
+    }
+
+    /**
+     * calculate order according time
+     * @param string $type
+     * @return \Illuminate\Support\Collection
+     */
+    public static function calOrder($type = 'day')
+    {
+        switch ($type) {
+            case 'day':
+                $orders = DB::table('invoices')
+                    ->select(DB::raw('count(*) as count, status'))
+                    ->whereDay('created_at', Carbon::now()->day)
+                    ->groupBy('status')
+                    ->get();
+                break;
+            case 'month':
+                $orders = DB::table('invoices')
+                    ->select(DB::raw('count(*) as count, status'))
+                    ->whereMonth('created_at', Carbon::now()->month)
+                    ->groupBy('status')
+                    ->get();
+                break;
+            case 'year':
+                $orders = DB::table('invoices')
+                    ->select(DB::raw('count(*) as count, status'))
+                    ->whereYear('created_at', Carbon::now()->year)
+                    ->groupBy('status')
+                    ->get();
+                break;
+            default:
+                $orders = Invoice::where([
+                ])->count();
+        }
+        foreach($orders as $key => $order){
+            switch($order->status) {
+                case constants('CART.STATUS.PENDING'):
+                    $orders[$key]->status = 'Đang xử lí';
+                    break;
+                case constants('CART.STATUS.ON_THE_WAY'):
+                    $orders[$key]->status = 'Đang giao hàng';
+                    break;
+                case constants('CART.STATUS.PAID'):
+                    $orders[$key]->status = 'Đã giao';
+                    break;
+                case constants('CART.STATUS.CANCELED'):
+                    $orders[$key]->status = 'Bị hủy';
+                    break;
+            }
+        }
+
+        return $orders;
     }
 }

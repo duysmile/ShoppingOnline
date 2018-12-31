@@ -290,3 +290,7 @@ input[type='number'] {
 #form-search input[type="submit"]:focus {
     outline: none;
 }
+
+.active-link {
+    color: #ff6a00;
+}

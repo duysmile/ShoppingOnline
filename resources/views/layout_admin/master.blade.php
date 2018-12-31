@@ -82,6 +82,7 @@
 
 <!-- Custom scripts for all pages-->
 <script src="{{asset('js/admin/sb-admin.min.js')}}"></script>
+<script src="{{asset('js/admin/active-link.js')}}"></script>
 @yield('js')
 
 </body>

@@ -229,6 +229,16 @@ class Product extends Model
     }
 
     /**
+     * count all unapproved products
+     * @return mixed
+     */
+    public static function countUnapprovedProduct()
+    {
+        $products = Product::where('is_approved', false)->count();
+        return $products;
+    }
+
+    /**
      * get all products to show in home page
      * @return mixed
      */

@@ -44,6 +44,15 @@ class UsersTableSeeder extends Seeder
         $admin->roles()->attach($admin_role);
         $admin->permissions()->attach($admin_permission);
 
+        $info = new \App\Model\InfoUser();
+        $info->user_id = $admin->id;
+        $info->name = 'Nguyễn Duy';
+        $info->address = 'K111/08 CMT8 Đà Nẵng';
+        $info->tel_no = '(+84)1268447315';
+        $info->gender = false;
+        $info->birth_date = \Carbon\Carbon::create('1997','06','21');
+        $info->save();
+
         $user = new \App\Model\User();
         $user->name = 'Di';
         $user->email = 'duyn@rikkeisoft.com';
@@ -51,5 +60,14 @@ class UsersTableSeeder extends Seeder
         $user->email_verified_at = date("Y-m-d",time());
         $user->save();
         $user->roles()->attach($user_role);
+
+        $info = new \App\Model\InfoUser();
+        $info->user_id = $user->id;
+        $info->name = 'Nguyễn Duy';
+        $info->address = 'K111/08 CMT8 Đà Nẵng';
+        $info->tel_no = '(+84)1268447315';
+        $info->gender = false;
+        $info->birth_date = \Carbon\Carbon::create('1997','06','21');
+        $info->save();
     }
 }
