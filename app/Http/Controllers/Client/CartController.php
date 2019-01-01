@@ -30,11 +30,7 @@ class CartController extends Controller
     public function addCartOneItem(AddCartRequest $request)
     {
         $data = Cart::addToCart($request);
-        if ($data['success']) {
-            return response()->json($data);
-        } else {
-            return response()->json($data);
-        }
+        return response()->json($data);
     }
 
     /**

@@ -48,7 +48,7 @@ class Invoice extends Model
                     'id' => $item->id,
                     'is_approved' => true
                 ])->first();
-                if ($product->quantity < $item->qty || $item->qty < 0 || $product == null) {
+                if ((int)$product->quantity < (int)$item->qty || (int)$item->qty < 0 || $product == null) {
                     throw new \Exception('Danh sách sản phẩm không hợp lệ.');
                 }
                 $totalItems += $item->qty;
@@ -97,7 +97,7 @@ class Invoice extends Model
                 ->whereDate('created_at', Carbon::now()->toDateString())
                 ->count();
             if ($countInvoices > constants('USER.MAX_INVOICES')) {
-                throw new \Exception('Bạn chỉ có thể đặt tối đa 5 đơn.');
+                throw new \Exception('Bạn chỉ có thể đặt tối đa 5 đơn 1 ngày.');
             }
             $totalItems = 0;
             $invoice = Invoice::create([
@@ -118,6 +118,11 @@ class Invoice extends Model
                 if ($product->quantity < $item->qty || $item->qty < 0) {
                     throw new \Exception('Số lượng sản phẩm không hợp lệ.');
                 }
+
+                // subtract product according qty in invoice
+                $product->quantity -= $item->qty;
+                $product->save();
+
                 $totalItems += $item->qty;
                 InvoiceDetail::create([
                     'invoice_id' => $invoice->id,
@@ -248,6 +253,11 @@ class Invoice extends Model
      */
     public function cancel()
     {
+        foreach($this->items as $item) {
+            $product = $item->product;
+            $product->quantity += $item->quantity;
+            $product->save();
+        }
         $this->status = constants('CART.STATUS.CANCELED');
         return $this->save();
     }

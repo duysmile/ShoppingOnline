@@ -28,8 +28,7 @@ class PaymentController extends Controller
             ]);
             return view('client.checkout', compact(['products', 'amount']));
         } else {
-            dd($data['message']);
-            return redirect('cart');
+            return redirect('cart')->with('error', $data['message']);
         }
     }
 

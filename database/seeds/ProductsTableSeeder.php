@@ -26,14 +26,14 @@ class ProductsTableSeeder extends Seeder
                 'description' => $faker->paragraph(20, true),
                 'summary' => $faker->sentence(10),
                 'views' => $faker->numberBetween(0, 1000),
-                'standard_price' => $price + $faker->numberBetween(5, 50) * $price / 100,
+                'standard_price' => $price + $faker->numberBetween(0, 50) * $price / 100,
                 'is_approved' => $faker->numberBetween(0, 1) == 1,
                 'created_user' => 2,
             ]);
 
             $product = \App\Model\Product::orderBy('id', 'desc')->first();
             \App\Model\Image::create([
-                'url' => 'https://picsum.photos/200/300?image=' . $i,
+                'url' => asset('images/seed'). '/' . ($i % 20 + 1) . '.jpg',
                 'product_id' => $product->id,
                 'created_user' => 2
             ]);
@@ -42,9 +42,6 @@ class ProductsTableSeeder extends Seeder
             if ($category->parent_id != null) {
                 $product->categories()->attach(\App\Model\Category::find($category->parent_id));
             }
-//            } catch(Exception $e){
-
-//            }
         }
     }
 }

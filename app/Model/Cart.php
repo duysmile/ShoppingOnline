@@ -5,6 +5,7 @@ namespace App\Model;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use phpDocumentor\Reflection\Types\Integer;
 
 class Cart extends Model
 {
@@ -25,7 +26,7 @@ class Cart extends Model
      */
     public function items()
     {
-        return $this->belongsToMany(Product::class, 'carts_products')->withPivot('quantity');
+        return $this->belongsToMany(Product::class, 'carts_products')->withPivot('quantity')->orderBy('quantity', 'desc');
     }
 
     /**
@@ -47,7 +48,8 @@ class Cart extends Model
                 $cart->save();
             }
             $product = $cart->items->find($id);
-            if ($product != null && $qty > $product->quantity) {
+            //check if quantity is greater than product's quantity
+            if ($product != null && (int)$qty > (int)$product->quantity) {
                 return [
                     'success' => false,
                     'message' => 'Sản phẩm không còn đủ số lượng.'
@@ -71,7 +73,6 @@ class Cart extends Model
             ];
         } catch (\Exception $exception) {
             DB::rollBack();
-            dd($exception);
             return [
                 'success' => false,
                 'message' => 'Đã xảy ra lỗi. Vui lòng thử lại.'

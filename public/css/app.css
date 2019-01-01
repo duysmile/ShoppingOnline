@@ -294,3 +294,48 @@ input[type='number'] {
 .active-link {
     color: #ff6a00;
 }
+
+.img-slide {
+    width: 40em !important;
+}
+
+button:disabled,
+button[disabled] {
+    cursor: no-drop !important;
+}
+
+.sold-out-img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    text-transform: capitalize;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.sold-out-img div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: rgba(0,0,0,.5);
+    text-transform: uppercase;
+    font-size: 1em;
+    font-weight: bold;
+    color: white;
+}
+.sold-out-img div:before{
+    content: "";
+    display: block;
+    padding-top: 100%;
+}
+
+.item-not-active {
+    background-color: rgba(0,0,0, 0.1) !important;
+}
+
+.item-not-active img{
+    mix-blend-mode: multiply;
+}

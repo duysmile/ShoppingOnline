@@ -59,6 +59,7 @@
 
                 listItems.forEach(function (item) {
                     $('input[type="checkbox"][data-id="' + item.id + '"]').prop('checked', true);
+                    $('input[type="number"][data-items="' + item.id + '"]').val(item.qty);
                 });
 
                 if (isCheckedAll()) {
@@ -252,9 +253,20 @@
                 });
             });
 
+            //prevent input number greater than quantity
+            $('input[type="number"]').on('input', function(e) {
+                var max = $(this).attr('max');
+                if (parseInt($(this).val()) > parseInt(max)) {
+                    $(this).val(max);
+                    $(this).focus();
+                    return false;
+                }
+            });
+
             //init
             countTotalPrice();
             loadItem();
+
         })
     </script>
 @endsection

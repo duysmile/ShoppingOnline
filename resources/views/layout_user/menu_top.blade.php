@@ -28,7 +28,7 @@
                         active
                     @endif ">
                         <a href="{{route('detail-product', $product->slug)}}">
-                            <img src="{{$product->images[0]->url}}" alt="">
+                            <img src="{{$product->images[0]->url}}" alt="" class="img-slide">
                         </a>
                     </div>
                 @endforeach

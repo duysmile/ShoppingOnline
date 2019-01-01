@@ -10,8 +10,15 @@
     <div class="pb-3">
         <div class="d-flex">
             <div class="w-100 border bg-white d-flex py-3 px-4">
-                <div class="mr-3 pr-4 border-right d-flex justify-content-center align-items-center">
+                <div class="mr-3 pr-4 border-right d-flex justify-content-center align-items-center position-relative">
                     <img class="img-fluid detail-product-img" src="{{$product->images[0]->url}}" alt="">
+                    @if($product->quantity < 1)
+                        <div class="sold-out-img">
+                            <div>
+                                {{__('Hết hàng')}}
+                            </div>
+                        </div>
+                    @endif
                 </div>
                 <div class="w-100">
                     <div class="d-flex align-items-center">
@@ -52,26 +59,46 @@
                                 {{__('Số lượng')}}
                             </label>
                             <input name="qty" type="number" class="form-control d-block" value="1" min="1"
-                                   max="{{$product->quantity}}">
+                                   max="{{$product->quantity}}"
+                                   @if($product->quantity < 1)
+                                       disabled
+                                    @endif
+                            >
                             <label class="ml-3 mt-1 text-secondary">
                                 {{__($product->quantity . ' sản phẩm có sẵn')}}
                             </label>
                         </div>
+                        <div>
+                            <span data-bind="error" class="text-danger"></span>
+                        </div>
                         <div class="form-group pt-3" data-id="{{$product->id}}">
                             @if(Auth::check())
-                                <button id="add-cart-button" class="btn mr-3 bg-white border-common color-common">
+                                <button id="add-cart-button" class="btn mr-3 bg-white border-common color-common"
+                                        @if($product->quantity < 1)
+                                            disabled
+                                        @endif
+                                >
                                     {{__('Thêm vào giỏ hàng')}}
                                 </button>
-                                <button id="buy-button" class="btn mr-3 b-color-common border-common text-white">
+                                <button id="buy-button" class="btn mr-3 b-color-common border-common text-white"
+                                        @if($product->quantity < 1)
+                                            disabled
+                                        @endif
+                                >
                                     {{__('Mua ngay')}}
                                 </button>
                             @else
-                                <a href="javascript:void(0)" class="btn mr-3 bg-white border-common color-common"
-                                        data-toggle="modal" data-target="#login-register-dialog" data-open="login">
+                                <button href="javascript:void(0)" class="btn mr-3 bg-white border-common color-common"
+                                        data-toggle="modal" data-target="#login-register-dialog" data-open="login"
+                                >
                                     {{__('Thêm vào giỏ hàng')}}
-                                </a>
+                                </button>
                                 <button id="buy-button" class="btn mr-3 b-color-common border-common text-white"
-                                        data-toggle="modal" data-target="#login-register-dialog" data-open="login">
+                                        data-toggle="modal" data-target="#login-register-dialog" data-open="login"
+                                        @if($product->quantity == 0)
+                                            disabled
+                                        @endif
+                                >
                                     {{__('Mua ngay')}}
                                 </button>
                             @endif

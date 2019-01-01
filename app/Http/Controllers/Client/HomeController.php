@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Model\Category;
 use App\Model\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\URL;
 
 class HomeController extends Controller
 {
@@ -52,6 +53,7 @@ class HomeController extends Controller
         $category = new Category();
         $category->name = "Kết quả tìm kiếm cho: " . $query->only('query')['query'];
         $listProducts = Product::searchProduct($query);
+        $listProducts->withPath(url()->full());
         return view('client.search', compact(['listProducts', 'category']));
     }
 }
