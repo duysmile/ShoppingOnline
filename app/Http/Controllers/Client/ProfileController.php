@@ -57,6 +57,7 @@ class ProfileController extends Controller
         return response()->json([
             'countInProgress' => $count['countInProgress'],
             'countOnTheWay' => $count['countOnTheWay'],
+            'countTransported' => $count['countTransported'],
             'countSuccess' => $count['countSuccess'],
             'countCanceled' => $count['countCanceled'],
             'view' => view('layout_user.invoice-list', compact(['invoices', 'status']))->render()
@@ -76,10 +77,12 @@ class ProfileController extends Controller
         if ($data['success']){
             $count = Invoice::countInvoices(Auth::user()->id);
             $invoices = $data['data'];
-            $status = constants('CART.STATUS.ON_THE_WAY');
+
+            $status = constants('CART.STATUS.TRANSPORTED');
             return response()->json([
                 'countInProgress' => $count['countInProgress'],
                 'countOnTheWay' => $count['countOnTheWay'],
+                'countTransported' => $count['countTransported'],
                 'countSuccess' => $count['countSuccess'],
                 'countCanceled' => $count['countCanceled'],
                 'view' => view('layout_user.invoice-list', compact(['invoices', 'status']))->render()

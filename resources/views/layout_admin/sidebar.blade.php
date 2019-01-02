@@ -68,6 +68,13 @@
                     <span class="badge badge-success font-size-sm text-white">{{$countInvoices['countOnTheWay']}}</span>
                 @endif
             </a>
+            <a class="dropdown-item" href="{{route('invoices.in-transported')}}" id="transported-link">
+                <i class="fas fa-truck-loading font-size-md"></i>
+                {{__('Đã giao')}}
+                @if($countInvoices['countTransported'] > 0)
+                    <span class="badge badge-warning font-size-sm text-white">{{$countInvoices['countTransported']}}</span>
+                @endif
+            </a>
             <a class="dropdown-item" href="{{route('invoices.in-success')}}" id="success-link">
                 <i class="fa fa-check-circle font-size-md"></i>
                 {{__('Đã giao')}}

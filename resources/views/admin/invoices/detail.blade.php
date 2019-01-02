@@ -21,6 +21,18 @@
                 </button>
             </form>
         @endif
+
+        @if ($invoice->status == constants('CART.STATUS.ON_THE_WAY'))
+            <form action="{{route('invoices.update-status-detail', $invoice->id)}}" method="post">
+                @csrf
+                <input type="hidden" name="_method" value="patch">
+                <input type="hidden" name="type" value="invoice">
+                <input type="hidden" name="id" value="{{$invoice->id}}">
+                <button type="submit" class="btn btn-success rounded-0">
+                    {{__('Xác nhận đã giao')}}
+                </button>
+            </form>
+        @endif
     </div>
 
     <div class="d-flex justify-content-between mt-1 bg-common py-2 text-white">

@@ -145,9 +145,9 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" data-toggle="pill" href="#in-success">
+                        <a class="nav-link" data-toggle="pill" href="#in-transported">
                             {{__('Đã giao')}}
-                            <span data-bind="in-success"></span>
+                            <span data-bind="in-transported"></span>
                         </a>
                     </li>
                     <li class="nav-item">
@@ -160,7 +160,7 @@
                 <div class="tab-content border-top">
                     <div class="tab-pane container active" id="in-progress"></div>
                     <div class="tab-pane container fade" id="in-transport"></div>
-                    <div class="tab-pane container fade" id="in-success"></div>
+                    <div class="tab-pane container fade" id="in-transported"></div>
                     <div class="tab-pane container fade" id="in-delete"></div>
                 </div>
             </div>

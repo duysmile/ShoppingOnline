@@ -61,14 +61,16 @@
                     <u>đ</u>{{money($invoice->amount . '000')}}
                 </p>
             </div>
-            @if($status == 0)
+            @if($status == constants('CART.STATUS.PENDING'))
             <div class="d-flex justify-content-end align-items-center my-2">
                 <a data-toggle="modal" data-target="#delete-dialog" href=""
                    data-bind="{{$invoice->id}}" class="b-color-common p-2 text-white">
                     {{__('Hủy đơn hàng')}}
                 </a>
             </div>
-            @elseif ($status == 1)
+            @elseif ($status == constants('CART.STATUS.TRANSPORTED')
+                && $invoice->status == constants('STATUS.' . constants('CART.STATUS.TRANSPORTED'))
+            )
             <div class="d-flex justify-content-end align-items-center my-2">
                 <a id="confirm-invoice" href="{{route('invoices-client.confirm')}}"
                    data-bind="{{$invoice->id}}" class="b-color-common p-2 text-white">

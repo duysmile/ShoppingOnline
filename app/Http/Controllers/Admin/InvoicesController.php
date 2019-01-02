@@ -34,6 +34,18 @@ class InvoicesController extends Controller
     }
 
     /**
+     * Display a listing of the invoices in transported.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function inTransported()
+    {
+        $status = constants('CART.STATUS.TRANSPORTED');
+        $invoices = Invoice::getAllInvoices(constants('CART.STATUS.TRANSPORTED'));
+        return view('admin.invoices.index', compact(['status', 'invoices']));
+    }
+
+    /**
      * Display a listing of the invoices in success.
      *
      * @return \Illuminate\Http\Response
@@ -71,10 +83,10 @@ class InvoicesController extends Controller
             $check = Invoice::approveInvoice($data['id']);
         }
 
-        if($check) {
+        if($check['success']) {
             return response()->json([
                 'success' => true,
-                'data' => Invoice::getAllInvoices(constants('CART.STATUS.PENDING')),
+                'data' => Invoice::getAllInvoices($check['data']),
                 'message' => 'Đã xác nhận đơn hàng.'
             ]);
         }

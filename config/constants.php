@@ -19,8 +19,9 @@ return [
         'STATUS' => [
             'PENDING' => 0,
             'ON_THE_WAY' => 1,
-            'PAID' => 2,
-            'CANCELED' => 3
+            'TRANSPORTED' => 2,
+            'PAID' => 3,
+            'CANCELED' => 4
         ],
     ],
     'USER' => [
@@ -33,8 +34,9 @@ return [
     'STATUS' => [
         '0' => 'Đang xử lí',
         '1' => 'Đang giao',
-        '2' => 'Đã nhận',
-        '3' => 'Đã hủy'
+        '2' => 'Đã giao',
+        '3' => 'Đã nhận',
+        '4' => 'Đã hủy'
     ],
     'RECOMMEND_PRODUCTS' => 5,
     'TOP_PRODUCTS' => 6,

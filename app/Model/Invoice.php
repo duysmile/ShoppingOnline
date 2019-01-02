@@ -174,7 +174,19 @@ class Invoice extends Model
      */
     public static function getInvoicesCurrent($status)
     {
-        $invoices = Invoice::where(['status' => $status, 'user_id' => Auth::user()->id])->paginate(constants('PAGINATE.INVOICES'));
+        if ($status == constants('CART.STATUS.TRANSPORTED')) {
+            $invoices = Invoice::where([
+                'user_id' => Auth::user()->id
+            ])
+                ->whereIn('status' , [$status, constants('CART.STATUS.PAID')])
+                ->orderBy('status')
+                ->orderBy('created_at', 'desc')
+                ->paginate(constants('PAGINATE.INVOICES'));
+        } else {
+            $invoices = Invoice::where(['status' => $status, 'user_id' => Auth::user()->id])
+                ->orderBy('created_at', 'desc')
+                ->paginate(constants('PAGINATE.INVOICES'));
+        }
         foreach ($invoices as $invoice) {
             $invoice->quantity = $invoice->items()->sum('quantity');
             $invoice->totalItems = $invoice->items()->sum('quantity');
@@ -200,6 +212,10 @@ class Invoice extends Model
                 'user_id' => $user_id,
                 'status' => constants('CART.STATUS.ON_THE_WAY')
             ])->count();
+            $transported = Invoice::where([
+                'user_id' => $user_id,
+                'status' => constants('CART.STATUS.TRANSPORTED')
+            ])->count();
             $success = Invoice::where([
                 'user_id' => $user_id,
                 'status' => constants('CART.STATUS.PAID')
@@ -215,6 +231,9 @@ class Invoice extends Model
             $onTheWay = Invoice::where([
                 'status' => constants('CART.STATUS.ON_THE_WAY')
             ])->count();
+            $transported = Invoice::where([
+                'status' => constants('CART.STATUS.TRANSPORTED')
+            ])->count();
             $success = Invoice::where([
                 'status' => constants('CART.STATUS.PAID')
             ])->count();
@@ -226,6 +245,7 @@ class Invoice extends Model
         return [
             'countInProgress' => $inProgress,
             'countOnTheWay' => $onTheWay,
+            'countTransported' => $transported,
             'countSuccess' => $success,
             'countCanceled' => $canceled,
         ];
@@ -239,12 +259,27 @@ class Invoice extends Model
     public static function approveInvoice($id)
     {
         $invoice = Invoice::where(['id' => $id, 'status' => constants('CART.STATUS.PENDING')])->first();
-
-        if ($invoice == null) {
-            return false;
+        if ($invoice != null) {
+            $invoice->status = constants('CART.STATUS.ON_THE_WAY');
+            return [
+                'success' => $invoice->save(),
+                'data' => constants('CART.STATUS.PENDING')
+            ];
         }
-        $invoice->status = constants('CART.STATUS.ON_THE_WAY');
-        return $invoice->save();
+
+        $invoice = Invoice::where(['id' => $id, 'status' => constants('CART.STATUS.ON_THE_WAY')])->first();
+        if ($invoice != null) {
+            $invoice->status = constants('CART.STATUS.TRANSPORTED');
+            return [
+                'success' => $invoice->save(),
+                'data' => constants('CART.STATUS.ON_THE_WAY')
+            ];
+        }
+
+        return [
+            'success' => false,
+            'data' => ''
+        ];
     }
 
     /**
@@ -253,13 +288,45 @@ class Invoice extends Model
      */
     public function cancel()
     {
-        foreach($this->items as $item) {
+        foreach ($this->items as $item) {
             $product = $item->product;
             $product->quantity += $item->quantity;
             $product->save();
         }
         $this->status = constants('CART.STATUS.CANCELED');
         return $this->save();
+    }
+
+    /**
+     * confirm is transported
+     * @param $id
+     * @return array
+     */
+    public static function confirmTransported($id)
+    {
+        $invoice = Invoice::where([
+            'id' => $id,
+            'status' => constants('CART.STATUS.ON_THE_WAY')
+        ])->first();
+
+        if ($invoice != null) {
+            $invoice->update([
+                'status' => constants('CART.STATUS.TRANSPORTED')
+            ]);
+            $invoices = Invoice::where([
+                'status' => constants('CART.STATUS.ON_THE_WAY'),
+                'user_id' => Auth::user()->id
+            ])->get();
+            return [
+                'success' => true,
+                'data' => $invoices
+            ];
+        }
+
+        return [
+            'success' => false,
+            'message' => 'Đã xảy ra lỗi. Vui lòng thử lại.'
+        ];
     }
 
     /**
@@ -271,17 +338,29 @@ class Invoice extends Model
     {
         $invoice = Invoice::where([
             'id' => $id,
-            'status' => constants('CART.STATUS.ON_THE_WAY')
+            'status' => constants('CART.STATUS.TRANSPORTED')
         ])->first();
 
         if ($invoice != null) {
             $invoice->update([
                 'status' => constants('CART.STATUS.PAID')
             ]);
+
             $invoices = Invoice::where([
-                'status' => constants('CART.STATUS.ON_THE_WAY'),
                 'user_id' => Auth::user()->id
-            ])->get();
+            ])
+                ->whereIn('status', [constants('CART.STATUS.TRANSPORTED'), constants('CART.STATUS.PAID')])
+                ->orderBy('status')
+                ->orderBy('created_at', 'desc')
+                ->get();
+
+            foreach ($invoices as $key => $invoice) {
+                $invoices[$key]->quantity = $invoice->items()->sum('quantity');
+                $invoices[$key]->totalItems = $invoice->items()->sum('quantity');
+                $invoices[$key]->owner = $invoice->owner->name;
+                $invoices[$key]->status = constants('STATUS.' . $invoice->status);
+            }
+
             return [
                 'success' => true,
                 'data' => $invoices
@@ -431,8 +510,8 @@ class Invoice extends Model
                 $orders = Invoice::where([
                 ])->count();
         }
-        foreach($orders as $key => $order){
-            switch($order->status) {
+        foreach ($orders as $key => $order) {
+            switch ($order->status) {
                 case constants('CART.STATUS.PENDING'):
                     $orders[$key]->status = 'Đang xử lí';
                     break;

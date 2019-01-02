@@ -32,10 +32,13 @@ $(document).ready(function () {
         $('#invoices-status').show();
         var inProgress = new RegExp('^' + host + '/admin/invoices/in-progress');
         var inTransport = new RegExp('^' + host + '/admin/invoices/in-transport');
+        var inTransported = new RegExp('^' + host + '/admin/invoices/in-transported');
         var inSuccess = new RegExp('^' + host + '/admin/invoices/in-success');
         var inCancel = new RegExp('^' + host + '/admin/invoices/in-canceled');
         if (inProgress.test(href)) {
             $('#progress-link').addClass('active-link');
+        } else if (inTransported.test(href)) {
+            $('#transported-link').addClass('active-link');
         } else if (inTransport.test(href)) {
             $('#transport-link').addClass('active-link');
         } else if (inSuccess.test(href)) {

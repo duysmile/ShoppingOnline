@@ -171,11 +171,14 @@
                     case '#in-transport':
                         status = 1;
                         break;
-                    case '#in-success':
+                    case '#in-transported':
                         status = 2;
                         break;
-                    case '#in-delete':
+                    case '#in-success':
                         status = 3;
+                        break;
+                    case '#in-delete':
+                        status = 4;
                         break;
                 }
 
@@ -189,10 +192,11 @@
                         _token: token
                     }),
                     success: function (response) {
+                        console.log(response)
                         $(tab).html(response.view);
                         $('span[data-bind="in-progress"]').text('(' + response.countInProgress + ')');
                         $('span[data-bind="in-transport"]').text('(' + response.countOnTheWay + ')');
-                        $('span[data-bind="in-success"]').text('(' + response.countSuccess + ')');
+                        $('span[data-bind="in-transported"]').text('(' + response.countTransported + ')');
                         $('span[data-bind="in-delete"]').text('(' + response.countCanceled + ')');
                     },
                     error: function (err) {
@@ -224,7 +228,7 @@
              */
             $(document).on('click', 'a#confirm-invoice', function(e){
                 e.preventDefault();
-                var tab = '#in-transport';
+                var tab = '#in-transported';
                 var id = $(this).attr('data-bind');
                 var url = $(this).attr('href');
                 var token = $('meta[name="csrf-token"]').attr('content');
@@ -240,9 +244,10 @@
                     }),
                     success: function (response) {
                         $(tab).html(response.view);
+                        console.log(response.view);
                         $('span[data-bind="in-progress"]').text('(' + response.countInProgress + ')');
                         $('span[data-bind="in-transport"]').text('(' + response.countOnTheWay + ')');
-                        $('span[data-bind="in-success"]').text('(' + response.countSuccess + ')');
+                        $('span[data-bind="in-transported"]').text('(' + response.countTransported + ')');
                         $('span[data-bind="in-delete"]').text('(' + response.countCanceled + ')');
                     },
                     error: function (err) {
@@ -285,7 +290,7 @@
                         $(tab).html(response.view);
                         $('span[data-bind="in-progress"]').text('(' + response.countInProgress + ')');
                         $('span[data-bind="in-transport"]').text('(' + response.countOnTheWay + ')');
-                        $('span[data-bind="in-success"]').text('(' + response.countSuccess + ')');
+                        $('span[data-bind="in-transported"]').text('(' + response.countTransported + ')');
                         $('span[data-bind="in-delete"]').text('(' + response.countCanceled + ')');
                     },
                     error: function (err) {
